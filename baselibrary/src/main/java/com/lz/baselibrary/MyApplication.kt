@@ -11,8 +11,18 @@ import android.app.Application
  * version: 1.0
 </pre> *
  */
-object  MyApplication : Application(){
+class MyApplication : Application() {
 
-    val mInstance: MyApplication by lazy({this})
+    override fun onCreate() {
+        super.onCreate()
+        mInstance = this
+    }
+
+    companion object {
+
+        private lateinit var mInstance: MyApplication
+
+        fun getInstance() = mInstance
+    }
 
 }

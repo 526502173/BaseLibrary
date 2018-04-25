@@ -12,11 +12,11 @@ import me.drakeet.multitype.MultiTypeAdapter
  * version: 1.0
 </pre> *
  */
-class LibraryBaseListActivity : LibraryBaseActivity() {
+open class LibraryBaseListActivity : LibraryBaseActivity() {
 
-    protected val mItems: Items by lazy(LazyThreadSafetyMode.NONE) { Items() }
+    private val mItems: Items by lazy(LazyThreadSafetyMode.NONE) { Items() }
 
-    protected val mAdapter: MultiTypeAdapter by lazy(LazyThreadSafetyMode.NONE) {
+    private val mAdapter: MultiTypeAdapter by lazy(LazyThreadSafetyMode.NONE) {
         MultiTypeAdapter()
         mAdapter.items = mItems
         mAdapter

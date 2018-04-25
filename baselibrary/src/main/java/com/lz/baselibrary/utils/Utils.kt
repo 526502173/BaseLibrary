@@ -1,7 +1,6 @@
 package com.lz.baselibrary.utils
 
 import android.widget.EditText
-import android.widget.TextClock
 
 /**
  * <pre>
@@ -26,10 +25,6 @@ object Utils {
         return result
     }
 
-
-    inline fun getText(editText: EditText) = editText.text.trim()
-
-
-    inline fun getText(textView: TextClock) = textView.text.trim()
+    inline fun EditText.trimText() = text.trim()
 
 }

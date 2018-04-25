@@ -14,7 +14,7 @@ import android.support.v7.widget.RecyclerView
  *     version: 1.0
  * </pre>
  */
-open class BaseItemDecoration() : RecyclerView.ItemDecoration() {
+open class BaseItemDecoration : RecyclerView.ItemDecoration() {
 
     val mPaint: Paint by lazy(LazyThreadSafetyMode.NONE) {
         val paint = Paint()

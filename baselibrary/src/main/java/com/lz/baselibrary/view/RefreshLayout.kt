@@ -25,8 +25,6 @@ interface RefreshLayout {
      * 主动触发下拉刷新
      */
     fun refreshing()
-
-
     /**
      * 是否启用上拉加载
      */

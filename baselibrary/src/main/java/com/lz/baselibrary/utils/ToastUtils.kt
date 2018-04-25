@@ -15,15 +15,15 @@ import com.lz.baselibrary.MyApplication
 
 object ToastUtils {
 
-    private val mToast: Toast by lazy(LazyThreadSafetyMode.NONE) {
-        Toast.makeText(MyApplication.applicationContext, "", Toast.LENGTH_SHORT)
-    }
+    private lateinit var mToast: Toast
 
     fun showToast(msg: String) {
-        mToast.run {
-            setText(msg)
-            show()
+        if (mToast == null) {
+            mToast = Toast.makeText(MyApplication.getInstance(), msg, Toast.LENGTH_SHORT)
+        } else {
+            mToast.setText(msg)
         }
+        mToast.show()
     }
 
 }

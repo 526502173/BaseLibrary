@@ -1,1 +1,9 @@
-include ':app', ':baselibrary'
+include ':app', ':baselibrary', ':im-ui'
+
+gradle.ext.supportLibraryVersion = '27.1.1'
+gradle.ext.versionCode = 1
+gradle.ext.versionName = "1.0"
+gradle.ext.compileSdkVersion = 27
+gradle.ext.targetSdkVersion = 27
+gradle.ext.minSdkVersion = 14
+
