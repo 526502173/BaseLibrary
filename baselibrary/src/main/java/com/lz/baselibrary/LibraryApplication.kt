@@ -3,15 +3,9 @@ package com.lz.baselibrary
 import android.app.Application
 
 /**
- * <pre>
- * author : Think
- * e-mail : 1007687534@qq.com
- * time   : 2018/02/07
- * desc   : Application
- * version: 1.0
-</pre> *
+ * @author linzheng
  */
-class MyApplication : Application() {
+open class LibraryApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -20,7 +14,7 @@ class MyApplication : Application() {
 
     companion object {
 
-        private lateinit var mInstance: MyApplication
+        private lateinit var mInstance: LibraryApplication
 
         fun getInstance() = mInstance
     }

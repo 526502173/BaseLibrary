@@ -1,48 +1,62 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion gradle.ext.compileSdkVersion
     defaultConfig {
         minSdkVersion gradle.minSdkVersion
-//        targetSdkVersion gradle.targetSdkVersion
-//        versionCode gradle.versionCode
-//        versionName gradle.versionName
+    }
+    lintOptions {
+        abortOnError false
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+    libraryVariants.all {
+        it.generateBuildConfig.enabled = false
     }
-
 }
 
 dependencies {
     api 'com.android.support:appcompat-v7:' + gradle.supportLibraryVersion
     api 'com.android.support:design:' + gradle.supportLibraryVersion
-    api 'com.android.support.constraint:constraint-layout:1.0.2'
+    api 'com.android.support.constraint:constraint-layout:' + gradle.constraintLayoutVersion
     api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    api 'com.squareup.retrofit2:retrofit:2.3.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    api 'com.squareup.retrofit2:converter-gson:2.3.0'
-    api 'com.google.code.gson:gson:2.8.1'
-    api 'io.reactivex.rxjava2:rxjava:2.1.3'
-    api 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
+    api 'com.squareup.retrofit2:retrofit:' + gradle.retrofitVersion
+    api 'com.squareup.retrofit2:adapter-rxjava2:' + gradle.retrofitVersion
+    api 'com.squareup.retrofit2:converter-moshi:' + gradle.retrofitVersion
 
-    api('androidx.core:core-ktx:0.1') {
+    api 'io.reactivex.rxjava2:rxjava:' + gradle.rxJavaVersion
+    api 'io.reactivex.rxjava2:rxandroid:' + gradle.rxAndroidVersion
+    api 'com.uber.autodispose:autodispose-kotlin:' + gradle.autoDispose
+    api 'com.uber.autodispose:autodispose-android-kotlin:' + gradle.autoDispose
+    api 'com.uber.autodispose:autodispose-android-archcomponents-kotlin:' + gradle.autoDispose
+
+    api 'com.github.bumptech.glide:glide:' + gradle.glideVersion
+
+    api('androidx.core:core-ktx:' + gradle.ktxVersion) {
         exclude group: "com.android.support"
     }
 
-    api('me.drakeet.multitype:multitype-kotlin:3.4.4') {
+    api('me.drakeet.multitype:multitype-kotlin:' + gradle.multiTypeVersion) {
         exclude group: "com.android.support"
     }
-
-    testImplementation 'junit:junit:4.12'
 }
 repositories {
     mavenCentral()
 }
+tasks.withType(Javadoc).all {
+    enabled = false
+}
+
+publish {
+    artifactId = 'baselibrary'
+    userOrg = 'linzheng1998918'
+    groupId = 'com.lz'
+    uploadName = 'BaseLibrary'
+    publishVersion = '0.0.2'
+    desc = 'Android Dev Base Library'
+    website = 'https://github.com/linzhengloser/BaseLibrary'
+    licences = ['Apache-2.0']
+}
+

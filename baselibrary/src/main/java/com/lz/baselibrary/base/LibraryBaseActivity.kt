@@ -1,28 +1,22 @@
 package com.lz.baselibrary.base
 
-import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.lz.baselibrary.view.LoadingDialog
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 
 
 /**
- * <pre>
- * author : Think
- * e-mail : 1007687534@qq.com
- * time   : 2018/02/08
- * desc   : LibraryBaseActivity
- * version: 1.0
-</pre> *
+ * @author linzheng
  */
-open class LibraryBaseActivity : RxAppCompatActivity(), BaseView {
+open class LibraryBaseActivity : AppCompatActivity(), BaseView {
+
+    protected val mScopeProvider by lazy(LazyThreadSafetyMode.NONE) {
+        AndroidLifecycleScopeProvider.from(this)
+    }
 
     private val mDialog by lazy(LazyThreadSafetyMode.NONE) {
         LoadingDialog()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun showLoadingDialog() {

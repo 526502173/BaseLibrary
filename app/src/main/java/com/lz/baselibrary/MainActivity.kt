@@ -12,11 +12,9 @@ class MainActivity : LibraryBaseActivity() {
     }
 
     fun showLoadingDialog(view: View) {
-        showLoadingDialog()
     }
 
     fun hideLoadingDialog(View: View) {
-        hideLoadingDialog()
     }
 
 }

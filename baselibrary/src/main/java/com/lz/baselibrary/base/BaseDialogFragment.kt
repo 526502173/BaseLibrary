@@ -10,15 +10,9 @@ import com.lz.baselibrary.R
 
 
 /**
- * <pre>
- * author : linzheng
- * e-mail : 1007687534@qq.com
- * time   : 2017/09/10
- * desc   : BaseDialogFragment
- * version: 1.0
-</pre> *
+ * @author linzheng
  */
-abstract class BaseDialogFragment : DialogFragment() {
+open abstract class BaseDialogFragment : DialogFragment() {
 
     private var mWidth: Int = 0
 

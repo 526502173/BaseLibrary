@@ -3,13 +3,7 @@ package com.lz.baselibrary.utils
 import android.widget.EditText
 
 /**
- * <pre>
- * author : Think
- * e-mail : 1007687534@qq.com
- * time   : 2018/02/08
- * desc   : 普通的 Utils
- * version: 1.0
-</pre> *
+ * @author linzheng
  */
 object Utils {
 

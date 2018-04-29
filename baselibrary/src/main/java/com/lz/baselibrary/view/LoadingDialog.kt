@@ -4,13 +4,7 @@ import com.lz.baselibrary.R
 import com.lz.baselibrary.base.BaseDialogFragment
 
 /**
- * <pre>
- * author : Think
- * e-mail : 1007687534@qq.com
- * time   : 2018/04/24
- * desc   : LoadingDialog
- * version: 1.0
-</pre> *
+ * @author linzheng
  */
 class LoadingDialog : BaseDialogFragment(){
 

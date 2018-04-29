@@ -1,19 +1,13 @@
 package com.lz.baselibrary.base
 
 import android.content.Context
+import android.support.v4.app.Fragment
 import android.view.View
-import com.trello.rxlifecycle2.components.support.RxFragment
 
 /**
- * <pre>
- * author : Think
- * e-mail : 1007687534@qq.com
- * time   : 2018/02/08
- * desc   : LibraryBaseFragment
- * version: 1.0
-</pre> *
+ * @author linzheng
  */
-open abstract class LibraryBaseFragment : RxFragment(), BaseView {
+open abstract class LibraryBaseFragment : Fragment(), BaseView {
 
     /**
      *  Fragment 依附的 Activity

@@ -6,13 +6,7 @@ import android.graphics.Paint
 import android.support.v7.widget.RecyclerView
 
 /**
- * <pre>
- *     author : Think
- *     e-mail : 1007687534@qq.com
- *     time   : 2018/02/09
- *     desc   : BaseItemDecoration
- *     version: 1.0
- * </pre>
+ * @author linzheng
  */
 open class BaseItemDecoration : RecyclerView.ItemDecoration() {
 

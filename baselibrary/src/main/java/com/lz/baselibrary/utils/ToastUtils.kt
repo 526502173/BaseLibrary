@@ -1,29 +1,22 @@
 package com.lz.baselibrary.utils
 
 import android.widget.Toast
-import com.lz.baselibrary.MyApplication
+import com.lz.baselibrary.LibraryApplication
 
 /**
- * <pre>
- *     author : Think
- *     e-mail : 1007687534@qq.com
- *     time   : 2018/02/08
- *     desc   : ToastUtils
- *     version: 1.0
- * </pre>
+ * @author linzheng
  */
-
 object ToastUtils {
 
-    private lateinit var mToast: Toast
+    private var mToast: Toast? = null
 
     fun showToast(msg: String) {
         if (mToast == null) {
-            mToast = Toast.makeText(MyApplication.getInstance(), msg, Toast.LENGTH_SHORT)
+            mToast = Toast.makeText(LibraryApplication.getInstance(), msg, Toast.LENGTH_SHORT)
         } else {
-            mToast.setText(msg)
+            mToast?.setText(msg)
         }
-        mToast.show()
+        mToast?.show()
     }
 
 }
