@@ -20,7 +20,7 @@ dependencies {
     api 'com.android.support:appcompat-v7:' + gradle.supportLibraryVersion
     api 'com.android.support:design:' + gradle.supportLibraryVersion
     api 'com.android.support.constraint:constraint-layout:' + gradle.constraintLayoutVersion
-    api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
     api 'com.squareup.retrofit2:retrofit:' + gradle.retrofitVersion
     api 'com.squareup.retrofit2:adapter-rxjava2:' + gradle.retrofitVersion
@@ -33,6 +33,7 @@ dependencies {
     api 'com.uber.autodispose:autodispose-android-archcomponents-kotlin:' + gradle.autoDispose
 
     api 'com.github.bumptech.glide:glide:' + gradle.glideVersion
+    api 'org.greenrobot:eventbus:' + gradle.eventBusVersion
 
     api('androidx.core:core-ktx:' + gradle.ktxVersion) {
         exclude group: "com.android.support"
@@ -54,7 +55,7 @@ publish {
     userOrg = 'linzheng1998918'
     groupId = 'com.lz'
     uploadName = 'BaseLibrary'
-    publishVersion = '0.0.2'
+    publishVersion = '0.0.4'
     desc = 'Android Dev Base Library'
     website = 'https://github.com/linzhengloser/BaseLibrary'
     licences = ['Apache-2.0']

@@ -1,7 +1,5 @@
 package com.lz.baselibrary
 
-import android.app.Application
-
 /**
  * <pre>
  * author : Think
@@ -11,6 +9,10 @@ import android.app.Application
  * version: 1.0
 </pre> *
  */
-class MyApplication : Application() {
+class MyApplication : LibraryApplication() {
+
+    companion object {
+        fun getInstance() = LibraryApplication.getInstance()
+    }
 
 }

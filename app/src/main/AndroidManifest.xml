@@ -21,6 +21,8 @@
         <activity android:name=".Main2Activity">
         </activity>
         <activity android:name=".ListActivity">
+        </activity>
+        <activity android:name=".ExpandListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
