@@ -15,12 +15,12 @@ object Api {
 
     var baseUrl = ""
 
-    private val mOkHttpClient by lazy(LazyThreadSafetyMode.NONE) {
+    val mOkHttpClient by lazy(LazyThreadSafetyMode.NONE) {
         OkHttpClient.Builder()
                 .build()
     }
 
-    private val mMoshi by lazy(LazyThreadSafetyMode.NONE) {
+    val mMoshi by lazy(LazyThreadSafetyMode.NONE) {
         Moshi.Builder()
                 .build()
     }

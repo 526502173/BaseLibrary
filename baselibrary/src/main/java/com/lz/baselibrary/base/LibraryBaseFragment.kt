@@ -3,6 +3,7 @@ package com.lz.baselibrary.base
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.view.View
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 
 /**
  * @author linzheng
@@ -19,10 +20,16 @@ open abstract class LibraryBaseFragment : Fragment(), BaseView {
      */
     private var mIsInitial = false
 
+    /**
+     * AutoDispose
+     */
+    protected val mScopeProvider: AndroidLifecycleScopeProvider by lazy(LazyThreadSafetyMode.NONE) {
+        AndroidLifecycleScopeProvider.from(this)
+    }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser && !mIsInitial) {
+    override fun onStart() {
+        super.onStart()
+        if (userVisibleHint && !mIsInitial) {
             mIsInitial = !mIsInitial
             loadData()
         }

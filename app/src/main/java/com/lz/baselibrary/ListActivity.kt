@@ -20,9 +20,9 @@ import me.drakeet.multitype.register
  * version: 1.0
 </pre> *
  */
-class ListActivity : LibraryBaseListActivity(),RefreshListener {
+class ListActivity : LibraryBaseListActivity(), RefreshListener {
 
-    private val mHandler:Handler = object : Handler(){
+    private val mHandler: Handler = object : Handler() {
         override fun handleMessage(msg: Message?) {
             ToastUtils.showToast("刷新成功！")
             srl_list.refreshComplete()
@@ -45,7 +45,8 @@ class ListActivity : LibraryBaseListActivity(),RefreshListener {
     }
 
     override fun refresh(isRefresh: Boolean) {
-        mHandler.sendEmptyMessageDelayed(1,3000)
+        mHandler.sendEmptyMessageDelayed(1, 3000)
+        if (!isRefresh) srl_list.isLoadMoreEnable(false)
     }
 
 }

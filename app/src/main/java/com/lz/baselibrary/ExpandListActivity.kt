@@ -21,7 +21,7 @@ class ExpandListActivity : LibraryExpandListActivity<CustomParent>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expand_list)
-
+        LibraryApplication.getInstance()
         repeat(20) {
             val childList = mutableListOf<Child>()
             repeat(5) {

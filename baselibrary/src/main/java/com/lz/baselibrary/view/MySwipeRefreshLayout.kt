@@ -49,6 +49,7 @@ class MySwipeRefreshLayout : SwipeRefreshLayout, RefreshLayout {
 
         })
         setOnRefreshListener {
+            if (!mIsLoadMoreEnable) mIsLoadMoreEnable = !mIsLoadMoreEnable
             mRefreshListener.refresh(mIsRefresh)
         }
     }

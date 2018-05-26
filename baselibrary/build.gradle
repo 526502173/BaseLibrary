@@ -55,7 +55,7 @@ publish {
     userOrg = 'linzheng1998918'
     groupId = 'com.lz'
     uploadName = 'BaseLibrary'
-    publishVersion = '0.0.4'
+    publishVersion = '0.0.5'
     desc = 'Android Dev Base Library'
     website = 'https://github.com/linzhengloser/BaseLibrary'
     licences = ['Apache-2.0']
