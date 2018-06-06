@@ -1,5 +1,8 @@
 package com.lz.baselibrary
 
+import com.lz.baselibrary.api.interceptor.CustomInterceptor
+import okhttp3.Interceptor
+
 /**
  * <pre>
  * author : Think
@@ -10,6 +13,12 @@ package com.lz.baselibrary
 </pre> *
  */
 class MyApplication : LibraryApplication() {
+
+    override fun buildInterceptor(): List<Interceptor> {
+        return listOf(
+                CustomInterceptor()
+        )
+    }
 
     companion object {
         fun getInstance() = LibraryApplication.getInstance()

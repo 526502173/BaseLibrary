@@ -1,5 +1,6 @@
 package com.lz.baselibrary.network
 
+import com.lz.baselibrary.LibraryApplication
 import com.squareup.moshi.Moshi
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -13,27 +14,39 @@ import kotlin.reflect.KClass
  */
 object Api {
 
-    var baseUrl = ""
+    var BASE_URL = ""
 
-    val mOkHttpClient by lazy(LazyThreadSafetyMode.NONE) {
-        OkHttpClient.Builder()
-                .build()
+    private val mOkHttpClient by lazy(LazyThreadSafetyMode.NONE) {
+        val interceptorList = LibraryApplication.getInstance().buildInterceptor()
+        val networkInterceptor = LibraryApplication.getInstance().buildNetworkInterceptor()
+        val cache = LibraryApplication.getInstance().buildCache()
+        OkHttpClient.Builder().run {
+            interceptorList.forEach {
+                addInterceptor(it)
+            }
+            networkInterceptor.forEach {
+                addNetworkInterceptor(it)
+            }
+            cache(cache)
+            build()
+        }
+
     }
 
-    val mMoshi by lazy(LazyThreadSafetyMode.NONE) {
+    private val mMoshi by lazy(LazyThreadSafetyMode.NONE) {
         Moshi.Builder()
                 .build()
     }
 
     private val mRetrofit by lazy(LazyThreadSafetyMode.NONE) {
         Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(BASE_URL)
                 .client(mOkHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .addConverterFactory(MoshiConverterFactory.create(mMoshi))
                 .build()
     }
 
-    fun <T : Any> createApi(clazz: KClass<out T>) = mRetrofit.create(clazz.java)
+    fun <T : Any> createApi(clazz: KClass<out T>) = mRetrofit.create(clazz.java)!!
 
 }

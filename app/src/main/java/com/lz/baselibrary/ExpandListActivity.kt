@@ -29,8 +29,6 @@ class ExpandListActivity : LibraryExpandListActivity<CustomParent>() {
             }
             mExpandItems[CustomParent()] = childList
         }
-
-
         mExpandItems.keys.forEach {
             mItems.add(it)
         }

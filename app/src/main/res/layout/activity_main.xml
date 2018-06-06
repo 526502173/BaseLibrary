@@ -6,17 +6,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="API"
+            android:onClick="api"/>
 
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="showLoadingDialog"
-            android:onClick="showLoadingDialog"/>
-
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="hideLoadingDialog"/>
-
+            android:text="LazyLoadFragment"
+            android:onClick="viewPagerActivity"/>
 
 </LinearLayout>
