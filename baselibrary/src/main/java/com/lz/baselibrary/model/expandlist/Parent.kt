@@ -3,9 +3,11 @@ package com.lz.baselibrary.model.expandlist
 /**
  * @author linzheng
  */
-open class Parent{
+open abstract class Parent{
 
     var isExpend: Boolean = false
+
+    abstract fun getChildList(): List<Child>
 
     override fun hashCode(): Int {
         return super.hashCode()

@@ -10,17 +10,20 @@ android {
     lintOptions {
         abortOnError false
     }
-
     libraryVariants.all {
         it.generateBuildConfig.enabled = false
     }
 }
 
 dependencies {
-    api 'com.android.support:appcompat-v7:' + gradle.supportLibraryVersion
-    api 'com.android.support:design:' + gradle.supportLibraryVersion
+    api ('com.android.support:appcompat-v7:' + gradle.supportLibraryVersion){
+        exclude group: 'android.arch.lifecycle'
+    }
+    api ('com.android.support:design:' + gradle.supportLibraryVersion){
+        exclude group: 'android.arch.lifecycle'
+    }
     api 'com.android.support.constraint:constraint-layout:' + gradle.constraintLayoutVersion
-    api "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     api 'com.squareup.retrofit2:retrofit:' + gradle.retrofitVersion
     api 'com.squareup.retrofit2:adapter-rxjava2:' + gradle.retrofitVersion
@@ -35,17 +38,20 @@ dependencies {
     api 'com.github.bumptech.glide:glide:' + gradle.glideVersion
     api 'org.greenrobot:eventbus:' + gradle.eventBusVersion
 
+    api 'com.squareup.okhttp3:logging-interceptor:' + gradle.loggingInterceptorVersion
+    api 'com.jakewharton.timber:timber:' + gradle.timberVersion
+    api 'org.jetbrains.anko:anko-commons:' + gradle.ankoVersion
+
     api('androidx.core:core-ktx:' + gradle.ktxVersion) {
         exclude group: "com.android.support"
     }
-
     api('me.drakeet.multitype:multitype-kotlin:' + gradle.multiTypeVersion) {
         exclude group: "com.android.support"
     }
 }
-repositories {
-    mavenCentral()
-}
+//repositories {
+//    mavenCentral()
+//}
 tasks.withType(Javadoc).all {
     enabled = false
 }
@@ -55,7 +61,7 @@ publish {
     userOrg = 'linzheng1998918'
     groupId = 'com.lz'
     uploadName = 'BaseLibrary'
-    publishVersion = '0.0.5'
+    publishVersion = '0.0.7'
     desc = 'Android Dev Base Library'
     website = 'https://github.com/linzhengloser/BaseLibrary'
     licences = ['Apache-2.0']

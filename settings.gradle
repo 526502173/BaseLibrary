@@ -20,4 +20,7 @@ gradle.ext.autoDispose = '0.7.0'
 gradle.ext.eventBusVersion = '3.1.1'
 gradle.ext.ktxVersion = '0.3'
 gradle.ext.multiTypeVersion = '3.4.4'
+gradle.ext.loggingInterceptorVersion = '3.10.0'
+gradle.ext.timberVersion = '4.7.0'
+gradle.ext.ankoVersion = '0.10.5'
 

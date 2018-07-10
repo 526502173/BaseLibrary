@@ -19,6 +19,4 @@ object Utils {
         return result
     }
 
-    inline fun EditText.trimText() = text.trim()
-
 }

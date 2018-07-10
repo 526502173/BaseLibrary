@@ -11,7 +11,7 @@ import com.lz.baselibrary.base.LibraryBaseListFragment
  * author : Think
  * e-mail : 1007687534@qq.com
  * time   : 2018/03/22
- * desc   :
+ * desc   : 消息列表
  * version: 1.0
 </pre> *
  */

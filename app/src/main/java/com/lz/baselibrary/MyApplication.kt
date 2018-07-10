@@ -1,6 +1,7 @@
 package com.lz.baselibrary
 
 import com.lz.baselibrary.api.interceptor.CustomInterceptor
+import com.lz.baselibrary.network.Api
 import okhttp3.Interceptor
 
 /**
@@ -15,6 +16,7 @@ import okhttp3.Interceptor
 class MyApplication : LibraryApplication() {
 
     override fun buildInterceptor(): List<Interceptor> {
+        Api.BASE_URL = ""
         return listOf(
                 CustomInterceptor()
         )

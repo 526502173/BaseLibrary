@@ -1,5 +1,6 @@
 package com.lz.baselibrary
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -8,6 +9,7 @@ import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.multitype.ListItemViewBinder
 import com.lz.baselibrary.utils.ToastUtils
 import com.lz.baselibrary.view.RefreshListener
+import com.lz.baselibrary.view.VerticalItemDecoration
 import kotlinx.android.synthetic.main.activity_list.*
 import me.drakeet.multitype.register
 
@@ -34,6 +36,9 @@ class ListActivity : LibraryBaseListActivity(), RefreshListener {
         setContentView(R.layout.activity_list)
         mAdapter.register(String::class, ListItemViewBinder())
         rv_list.layoutManager = LinearLayoutManager(this)
+        rv_list.addItemDecoration(VerticalItemDecoration(10, Color.BLACK))
+
+        rv_list
         rv_list.adapter = mAdapter
 
         srl_list.setRefreshListener(this)

@@ -38,7 +38,7 @@ class MySwipeRefreshLayout : SwipeRefreshLayout, RefreshLayout {
                     if (!isRefreshing) {
                         mIsRefresh = false
                         isRefreshing = true
-                        mRefreshListener.refresh(mIsRefresh)
+                        if (this@MySwipeRefreshLayout::mRefreshListener.isInitialized) mRefreshListener.refresh(mIsRefresh)
                     }
                 }
             }
@@ -50,7 +50,7 @@ class MySwipeRefreshLayout : SwipeRefreshLayout, RefreshLayout {
         })
         setOnRefreshListener {
             if (!mIsLoadMoreEnable) mIsLoadMoreEnable = !mIsLoadMoreEnable
-            mRefreshListener.refresh(mIsRefresh)
+            if (this::mRefreshListener.isInitialized) mRefreshListener.refresh(mIsRefresh)
         }
     }
 
