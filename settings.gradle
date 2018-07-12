@@ -1,4 +1,4 @@
-include ':app', ':baselibrary', ':im-ui'
+include ':app', ':baselibrary', ':im-ui', ':im-data'
 
 gradle.ext.supportLibraryVersion = '27.1.1'
 gradle.ext.versionCode = 1

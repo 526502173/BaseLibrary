@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <include
+            android:id="@+id/iv_avatar_receive"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            layout="@layout/item_message_avatar"
+            />
+
+    <FrameLayout
+            android:id="@+id/fl_receive_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:visibility="gone"
+            android:background="@drawable/shape_message_bubble"
+            app:layout_constraintLeft_toRightOf="@id/iv_avatar"/>
+
+
+    <include
+            android:id="@+id/iv_avatar_send"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            layout="@layout/item_message_avatar"
+            />
+
+    <FrameLayout
+            android:id="@+id/fl_send_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:visibility="gone"
+            android:background="@drawable/shape_message_bubble"
+            app:layout_constraintLeft_toRightOf="@id/iv_avatar"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion gradle.compileSdkVersion
@@ -23,6 +24,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':baselibrary')
+    implementation project(':im-data')
     //环信 SDK
     implementation 'com.hyphenate:hyphenate-sdk:3.3.0'
 }
