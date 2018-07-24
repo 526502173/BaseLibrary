@@ -26,15 +26,19 @@ abstract class MessageItemViewBinder<in VH: MessageItemViewBinder.MessageContent
         holder.itemView.apply {
             fl_receive_content.removeAllViews()
             fl_send_content.removeAllViews()
-            when(item.type){
+            when(item.direct){
                 Message.Direct.RECEIVE -> {
                     fl_send_content.visibility = View.GONE
                     fl_receive_content.visibility = View.VISIBLE
+                    iv_avatar_receive.visibility = View.VISIBLE
+                    iv_avatar_send.visibility = View.GONE
                     fl_receive_content.addView(holder.messageContentViewHolder.itemView)
                 }
                 Message.Direct.SEND -> {
                     fl_send_content.visibility = View.VISIBLE
                     fl_receive_content.visibility = View.GONE
+                    iv_avatar_send.visibility = View.VISIBLE
+                    iv_avatar_receive.visibility = View.GONE
                     fl_send_content.addView(holder.messageContentViewHolder.itemView)
                 }
             }
@@ -47,6 +51,6 @@ abstract class MessageItemViewBinder<in VH: MessageItemViewBinder.MessageContent
 
     class MessageViewHolder(itemView: View, val messageContentViewHolder: MessageContentViewHolder) : BaseViewHolder(itemView)
 
-    class MessageContentViewHolder(itemView: View) : BaseViewHolder(itemView)
+    open class MessageContentViewHolder(itemView: View) : BaseViewHolder(itemView)
 
 }

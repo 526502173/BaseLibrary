@@ -28,6 +28,7 @@ object Api {
                 addNetworkInterceptor(it)
             }
             cache(cache)
+            cookieJar(LibraryApplication.getInstance().buildCookieJar())
             build()
         }
 
