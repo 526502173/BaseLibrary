@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.multitype.ListItemViewBinder
+import com.lz.baselibrary.multitype.LoadMoreDelegate
+import com.lz.baselibrary.multitype.LoadMoreListener
 import com.lz.baselibrary.utils.ToastUtils
 import com.lz.baselibrary.view.RefreshListener
 import com.lz.baselibrary.view.VerticalItemDecoration
@@ -22,12 +25,27 @@ import me.drakeet.multitype.register
  * version: 1.0
 </pre> *
  */
-class ListActivity : LibraryBaseListActivity(), RefreshListener {
+class ListActivity : LibraryBaseListActivity(), RefreshListener, LoadMoreListener {
+
+    private val mLoadMoreDelegate = LoadMoreDelegate(this)
+
+    override fun loadMore(view: View) {
+        ToastUtils.showToast("加载更多")
+        mHandler.sendEmptyMessageDelayed(1, 3000)
+    }
 
     private val mHandler: Handler = object : Handler() {
         override fun handleMessage(msg: Message?) {
-            ToastUtils.showToast("刷新成功！")
-            srl_list.refreshComplete()
+            if (mPage == 5) {
+                mLoadMoreDelegate.setLoading(true)
+                return
+            }
+            mPage++
+            repeat(10) {
+                mItems.add("123")
+            }
+            mAdapter.notifyDataSetChanged()
+            mLoadMoreDelegate.setLoading(false)
         }
     }
 
@@ -38,10 +56,8 @@ class ListActivity : LibraryBaseListActivity(), RefreshListener {
         rv_list.layoutManager = LinearLayoutManager(this)
         rv_list.addItemDecoration(VerticalItemDecoration(10, Color.BLACK))
 
-        rv_list
         rv_list.adapter = mAdapter
-
-        srl_list.setRefreshListener(this)
+        mLoadMoreDelegate.attach(rv_list)
 
         repeat(10) {
             mItems.add("123")
@@ -50,8 +66,7 @@ class ListActivity : LibraryBaseListActivity(), RefreshListener {
     }
 
     override fun refresh(isRefresh: Boolean) {
-        mHandler.sendEmptyMessageDelayed(1, 3000)
-        if (!isRefresh) srl_list.isLoadMoreEnable(false)
+
     }
 
 }

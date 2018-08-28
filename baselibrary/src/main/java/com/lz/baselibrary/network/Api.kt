@@ -1,12 +1,12 @@
 package com.lz.baselibrary.network
 
 import com.lz.baselibrary.LibraryApplication
-import com.squareup.moshi.Moshi
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
 /**
@@ -27,6 +27,10 @@ object Api {
             networkInterceptor.forEach {
                 addNetworkInterceptor(it)
             }
+            LibraryApplication.getInstance().buildOkHttpSSLSocketFactory(this)
+            connectTimeout(1, TimeUnit.MINUTES)
+            readTimeout(1, TimeUnit.MINUTES)
+            writeTimeout(1, TimeUnit.MINUTES)
             cache(cache)
             cookieJar(LibraryApplication.getInstance().buildCookieJar())
             build()
@@ -35,8 +39,7 @@ object Api {
     }
 
     private val mMoshi by lazy(LazyThreadSafetyMode.NONE) {
-        Moshi.Builder()
-                .build()
+        LibraryApplication.getInstance().buildMoshi()
     }
 
     private val mRetrofit by lazy(LazyThreadSafetyMode.NONE) {

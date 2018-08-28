@@ -1,9 +1,11 @@
 package com.lz.baselibrary
 
 import android.app.Application
+import com.squareup.moshi.Moshi
 import okhttp3.Cache
 import okhttp3.CookieJar
 import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 
 /**
  * @author linzheng
@@ -23,7 +25,6 @@ open class LibraryApplication : Application() {
     }
 
 
-
     /**
      * 构建 OkHttp 的 Interceptor
      */
@@ -37,7 +38,17 @@ open class LibraryApplication : Application() {
     /**
      * 构建 OkHttp 的 CookieJar 对象
      */
-    open fun buildCookieJar() : CookieJar = CookieJar.NO_COOKIES
+    open fun buildCookieJar(): CookieJar = CookieJar.NO_COOKIES
+
+    /**
+     * 构建 Moshi 对象
+     */
+    open fun buildMoshi(): Moshi = Moshi.Builder().build()
+
+    /**
+     * 㢟 OkHttp 的 HTTPS
+     */
+    open fun buildOkHttpSSLSocketFactory(okHttpClientBuilder: OkHttpClient.Builder) {}
 
     /**
      * 构建 OKHttp 的 Cache
