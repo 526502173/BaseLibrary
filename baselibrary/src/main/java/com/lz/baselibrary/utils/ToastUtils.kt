@@ -15,7 +15,7 @@ object ToastUtils {
     private var mToast: Toast? = null
 
     /**
-     * 显示 Toast，此方法必须在UI线程中调用。
+     * 显示 Toast
      */
     fun showToast(msg: String) {
         mMainHandler.post {
@@ -26,6 +26,10 @@ object ToastUtils {
             }
             mToast?.show()
         }
+    }
+
+    fun showToast(resId: Int) {
+        showToast(LibraryApplication.getInstance().getString(resId))
     }
 
 }

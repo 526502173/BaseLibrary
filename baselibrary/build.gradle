@@ -16,6 +16,7 @@ android {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     api ('com.android.support:appcompat-v7:' + gradle.supportLibraryVersion){
         exclude group: 'android.arch.lifecycle'
     }
@@ -23,7 +24,6 @@ dependencies {
         exclude group: 'android.arch.lifecycle'
     }
     api 'com.android.support.constraint:constraint-layout:' + gradle.constraintLayoutVersion
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     api 'com.squareup.retrofit2:retrofit:' + gradle.retrofitVersion
     api 'com.squareup.retrofit2:adapter-rxjava2:' + gradle.retrofitVersion
@@ -61,7 +61,7 @@ publish {
     userOrg = 'linzheng1998918'
     groupId = 'com.lz'
     uploadName = 'BaseLibrary'
-    publishVersion = '0.0.9'
+    publishVersion = '0.0.10'
     desc = 'Android Dev Base Library'
     website = 'https://github.com/linzhengloser/BaseLibrary'
     licences = ['Apache-2.0']

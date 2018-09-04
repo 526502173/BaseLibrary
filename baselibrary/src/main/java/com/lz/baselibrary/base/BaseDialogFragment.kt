@@ -37,8 +37,12 @@ open abstract class BaseDialogFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater!!.inflate(layoutResID, container, false)
-        initViewsAndEvents()
         return mView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViewsAndEvents()
     }
 
     override fun onStart() {

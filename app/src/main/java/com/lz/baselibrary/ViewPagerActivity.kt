@@ -3,7 +3,7 @@ package com.lz.baselibrary
 import android.os.Bundle
 import com.lz.baselibrary.base.LibraryBaseActivity
 import com.lz.baselibrary.fragment.LazyLoadFragment
-import com.lz.baselibrary.utils.LibraryFragmentPagerAdapter
+import com.lz.baselibrary.utils.viewpager.LibraryFragmentPagerAdapter
 import kotlinx.android.synthetic.main.activity_view_pager.*
 
 /**
@@ -24,7 +24,7 @@ class ViewPagerActivity : LibraryBaseActivity(){
         vp_view_pager.adapter = LibraryFragmentPagerAdapter(
                 supportFragmentManager,
                 mFragmentList,
-                listOf("Fragment 1","Fragment 2","Fragment 3")
+                listOf("Fragment 1", "Fragment 2", "Fragment 3")
         )
         tl_view_pager.setupWithViewPager(vp_view_pager)
     }

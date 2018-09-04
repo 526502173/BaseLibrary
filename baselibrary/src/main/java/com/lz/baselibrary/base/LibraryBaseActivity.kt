@@ -2,7 +2,6 @@ package com.lz.baselibrary.base
 
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.lz.baselibrary.view.LoadingDialog
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 
 
@@ -11,23 +10,17 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
  */
 open class LibraryBaseActivity : AppCompatActivity(), BaseView {
 
-    protected val mScopeProvider by lazy(LazyThreadSafetyMode.NONE) {
+    protected val mScopeProvider: AndroidLifecycleScopeProvider by lazy(LazyThreadSafetyMode.NONE) {
         AndroidLifecycleScopeProvider.from(this)
     }
 
-    private val mDialog by lazy(LazyThreadSafetyMode.NONE) {
-        LoadingDialog()
-    }
-
     override fun showLoadingDialog() {
-        mDialog.show(supportFragmentManager)
     }
 
     override fun showLoadingLayout() {
     }
 
     override fun hideLoadingDialog() {
-        mDialog.dismiss()
     }
 
     override fun showEmptyDataLayout() {

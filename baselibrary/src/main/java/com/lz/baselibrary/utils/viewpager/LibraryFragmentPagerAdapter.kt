@@ -1,4 +1,4 @@
-package com.lz.baselibrary.utils
+package com.lz.baselibrary.utils.viewpager
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
