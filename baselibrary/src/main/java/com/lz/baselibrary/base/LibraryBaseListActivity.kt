@@ -1,6 +1,5 @@
 package com.lz.baselibrary.base
 
-import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
 
 /**
@@ -8,11 +7,13 @@ import me.drakeet.multitype.MultiTypeAdapter
  */
 open class LibraryBaseListActivity : LibraryBaseActivity() {
 
-    protected val mItems: Items by lazy(LazyThreadSafetyMode.NONE) { Items() }
+    protected lateinit var mListViewModel: LibraryBaseListViewModel
+
+//    protected val mItems: Items by lazy(LazyThreadSafetyMode.NONE) { Items() }
 
     protected val mAdapter: MultiTypeAdapter by lazy(LazyThreadSafetyMode.NONE) {
         val adapter = MultiTypeAdapter()
-        adapter.items = mItems
+        adapter.items = mListViewModel.mItems
         adapter
     }
 

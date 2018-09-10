@@ -11,7 +11,8 @@ import com.lz.im.R
  */
 class ImageMessageItemViewBinder:MessageItemViewBinder<ImageMessageItemViewBinder.ImageMessageViewHolder>(){
     override fun onBindMessageContentViewHolder(holder: ImageMessageViewHolder, item: Message) {
-        holder.itemView.apply {
+        holder
+        holder.apply {
 
         }
     }

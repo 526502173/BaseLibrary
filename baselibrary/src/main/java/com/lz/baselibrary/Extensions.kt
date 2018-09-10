@@ -1,5 +1,6 @@
 package com.lz.baselibrary
 
+import android.view.View
 import me.drakeet.multitype.Items
 
 /**
@@ -25,3 +26,12 @@ inline fun <reified T> Items.getTypeItems(items: Items) = items.filter { it is T
  * 可以使用该方法
  */
 inline fun <reified T> Items.quickGetTypeItems(items: Items) = items.map { it as T }
+
+/**
+ * 通过 Boolean类型的值来设置 View 的 Visibility
+ * true 表示 [View.VISIBLE]
+ * false 表示 [View.GONEF]
+ */
+inline fun View.setViewVisibilityByBoolean(boolean: Boolean) {
+    visibility = if (boolean) View.VISIBLE else View.GONE
+}

@@ -19,7 +19,7 @@ import me.drakeet.multitype.register
 class ExpandListActivity : LibraryBaseListActivity() {
 
     private val mExpandAdapter: ExpandAdapter<CustomParent> by lazy {
-        ExpandAdapter<CustomParent>(mItems, mAdapter)
+        ExpandAdapter<CustomParent>(mListViewModel.mItems, mAdapter)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,9 @@ class ExpandListActivity : LibraryBaseListActivity() {
                 CustomParent("5", listOf(CustomChild("5-1"), CustomChild("5-2"), CustomChild("5-3")))
         )
 
-        mAdapter.register(CustomParent::class, CustomParentItemViewBinder(mExpandAdapter))
+        CustomParentItemViewBinder.onParentClickListener = mExpandAdapter
+
+        mAdapter.register(CustomParent::class, CustomParentItemViewBinder())
         mAdapter.register(CustomChild::class, CustomChildItemViewBinder())
 
         rv_expand_list.layoutManager = LinearLayoutManager(this)

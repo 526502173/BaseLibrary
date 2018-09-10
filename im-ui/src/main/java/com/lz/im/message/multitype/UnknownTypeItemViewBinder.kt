@@ -16,13 +16,17 @@ import me.drakeet.multitype.ItemViewBinder
 class UnknownTypeItemViewBinder : ItemViewBinder<Message, UnknownTypeItemViewBinder.UnknownTypeViewHolder>() {
 
 
-    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup)
-     = UnknownTypeViewHolder(inflater.inflate(R.layout.item_message_unknown_type,parent,false))
+    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup) = UnknownTypeViewHolder(inflater.inflate(R.layout.item_message_unknown_type, parent, false))
 
     override fun onBindViewHolder(holder: UnknownTypeViewHolder, item: Message) {
-
+        holder.bind(item)
     }
 
-    class UnknownTypeViewHolder(itemView: View) : BaseViewHolder(itemView)
+    class UnknownTypeViewHolder(itemView: View) : BaseViewHolder<Message>(itemView) {
+
+        override fun bind(item: Message) {
+
+        }
+    }
 
 }

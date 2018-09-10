@@ -13,6 +13,8 @@ import com.lz.baselibrary.multitype.LoadMoreListener
 import com.lz.baselibrary.utils.ToastUtils
 import com.lz.baselibrary.view.RefreshListener
 import com.lz.baselibrary.view.VerticalItemDecoration
+import com.lz.baselibrary.viewmodel.ListViewModel
+import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import kotlinx.android.synthetic.main.activity_list.*
 import me.drakeet.multitype.register
 
@@ -42,7 +44,7 @@ class ListActivity : LibraryBaseListActivity(), RefreshListener, LoadMoreListene
             }
             mPage++
             repeat(10) {
-                mItems.add("123")
+                mListViewModel.mItems.add("123")
             }
             mAdapter.notifyDataSetChanged()
             mLoadMoreDelegate.setLoading(false)
@@ -52,6 +54,7 @@ class ListActivity : LibraryBaseListActivity(), RefreshListener, LoadMoreListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
+        mListViewModel = ListViewModelFactory().create(ListViewModel::class.java)
         mAdapter.register(String::class, ListItemViewBinder())
         rv_list.layoutManager = LinearLayoutManager(this)
         rv_list.addItemDecoration(VerticalItemDecoration(10, Color.BLACK))
@@ -60,7 +63,7 @@ class ListActivity : LibraryBaseListActivity(), RefreshListener, LoadMoreListene
         mLoadMoreDelegate.attach(rv_list)
 
         repeat(10) {
-            mItems.add("123")
+            mListViewModel.mItems.add("123")
         }
         mAdapter.notifyDataSetChanged()
     }

@@ -16,6 +16,12 @@ object Api {
 
     var BASE_URL = ""
 
+    var TIMEOUT_CONNECT_MINUTES = 1L
+
+    var TIMEOUT_READ_MINUTES = 1L
+
+    var TIMEOUT_WRITE_MINUTES = 1L
+
     private val mOkHttpClient by lazy(LazyThreadSafetyMode.NONE) {
         val interceptorList = LibraryApplication.getInstance().buildInterceptor()
         val networkInterceptor = LibraryApplication.getInstance().buildNetworkInterceptor()
@@ -28,9 +34,9 @@ object Api {
                 addNetworkInterceptor(it)
             }
             LibraryApplication.getInstance().buildOkHttpSSLSocketFactory(this)
-            connectTimeout(1, TimeUnit.MINUTES)
-            readTimeout(1, TimeUnit.MINUTES)
-            writeTimeout(1, TimeUnit.MINUTES)
+            connectTimeout(TIMEOUT_CONNECT_MINUTES, TimeUnit.MINUTES)
+            readTimeout(TIMEOUT_READ_MINUTES, TimeUnit.MINUTES)
+            writeTimeout(TIMEOUT_WRITE_MINUTES, TimeUnit.MINUTES)
             cache(cache)
             cookieJar(LibraryApplication.getInstance().buildCookieJar())
             build()
