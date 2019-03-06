@@ -2,7 +2,6 @@ package com.lz.baselibrary
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.model.CustomChild
 import com.lz.baselibrary.model.CustomParent
@@ -39,7 +38,7 @@ class ExpandListActivity : LibraryBaseListActivity() {
         mAdapter.register(CustomParent::class, CustomParentItemViewBinder())
         mAdapter.register(CustomChild::class, CustomChildItemViewBinder())
 
-        rv_expand_list.layoutManager = LinearLayoutManager(this)
+        rv_expand_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         rv_expand_list.addItemDecoration(VerticalItemDecoration(2, Color.GRAY))
         rv_expand_list.adapter = mAdapter
 

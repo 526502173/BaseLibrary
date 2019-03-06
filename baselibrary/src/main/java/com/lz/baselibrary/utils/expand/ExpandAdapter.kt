@@ -1,6 +1,6 @@
 package com.lz.baselibrary.utils.expand
 
-import android.support.v4.util.ArrayMap
+import androidx.collection.ArrayMap
 import android.view.View
 import com.lz.baselibrary.model.expandlist.Child
 import com.lz.baselibrary.model.expandlist.Parent
@@ -15,8 +15,8 @@ class ExpandAdapter<T : Parent>(
         private val adapter: MultiTypeAdapter
 ) : OnParentClickListener<T> {
 
-    val mExpandItems: ArrayMap<Parent, List<Child>> by lazy(LazyThreadSafetyMode.NONE) {
-        ArrayMap<Parent, List<Child>>()
+    val mExpandItems: androidx.collection.ArrayMap<Parent, List<Child>> by lazy(LazyThreadSafetyMode.NONE) {
+        androidx.collection.ArrayMap<Parent, List<Child>>()
     }
 
     override fun onParentClick(v: View, parent: T) {

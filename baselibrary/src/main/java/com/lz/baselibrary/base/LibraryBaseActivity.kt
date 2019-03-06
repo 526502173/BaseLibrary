@@ -1,7 +1,7 @@
 package com.lz.baselibrary.base
 
-import android.support.v7.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 
 
@@ -10,7 +10,7 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
  */
 open class LibraryBaseActivity : AppCompatActivity(), BaseView {
 
-    protected val mScopeProvider: AndroidLifecycleScopeProvider by lazy(LazyThreadSafetyMode.NONE) {
+    protected val mScopeProvider: AndroidLifecycleScopeProvider by lazy {
         AndroidLifecycleScopeProvider.from(this)
     }
 

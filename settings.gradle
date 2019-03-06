@@ -1,24 +1,24 @@
 include ':app', ':baselibrary', ':im-ui', ':im-data'
 
-gradle.ext.supportLibraryVersion = '27.1.1'
+gradle.ext.kotlinVersion = '1.3.20'
 gradle.ext.versionCode = 1
 gradle.ext.versionName = "1.0"
-gradle.ext.compileSdkVersion = 27
-gradle.ext.targetSdkVersion = 27
+gradle.ext.compileSdkVersion = 28
+gradle.ext.targetSdkVersion = 28
 gradle.ext.minSdkVersion = 14
-gradle.ext.constraintLayoutVersion = '1.0.2'
+gradle.ext.androidXAppCompatVersion = '1.0.2'
+gradle.ext.androidXCoreKTXVersion = '1.0.1'
+gradle.ext.androidXConstraintLayoutVersion = '1.1.3'
 
 //第三方库
-
 gradle.ext.retrofitVersion = '2.4.0'
 gradle.ext.rxJavaVersion = '2.1.12'
 gradle.ext.rxAndroidVersion = '2.0.2'
 
 gradle.ext.glideVersion = '4.7.1'
-gradle.ext.autoDispose = '0.7.0'
+gradle.ext.autoDispose = '1.1.0'
 
 gradle.ext.eventBusVersion = '3.1.1'
-gradle.ext.ktxVersion = '0.3'
 gradle.ext.multiTypeVersion = '3.4.4'
 gradle.ext.loggingInterceptorVersion = '3.10.0'
 gradle.ext.timberVersion = '4.7.0'

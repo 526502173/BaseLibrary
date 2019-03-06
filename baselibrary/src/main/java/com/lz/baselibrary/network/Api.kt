@@ -14,12 +14,24 @@ import kotlin.reflect.KClass
  */
 object Api {
 
+    /**
+     * BASE URl
+     */
     var BASE_URL = ""
 
+    /**
+     * HTTP 连接超时时间
+     */
     var TIMEOUT_CONNECT_MINUTES = 1L
 
+    /**
+     * HTTP 读取超时时间
+     */
     var TIMEOUT_READ_MINUTES = 1L
 
+    /**
+     * HTTP 写入超时时间
+     */
     var TIMEOUT_WRITE_MINUTES = 1L
 
     private val mOkHttpClient by lazy(LazyThreadSafetyMode.NONE) {
@@ -57,6 +69,9 @@ object Api {
                 .build()
     }
 
+    /**
+     * 将 Retrofit 中的
+     */
     fun <T : Any> createApi(clazz: KClass<out T>) = mRetrofit.create(clazz.java)!!
 
 }

@@ -5,29 +5,14 @@ package com.example.im_data;
  */
 public class Message {
 
-    /**
-     * 消息的 ID
-     */
     private long id;
 
-    /**
-     * 消息是发送的 or 接收的
-     */
     private Direct direct;
 
-    /**
-     * 消息的类型
-     */
     private Type type;
 
-    /**
-     * 消息的内容
-     */
     private String content;
 
-    /**
-     * 消息的附带信息
-     */
     private String tag;
 
 

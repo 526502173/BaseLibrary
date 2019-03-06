@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.multitype.ListItemViewBinder
@@ -56,7 +56,7 @@ class ListActivity : LibraryBaseListActivity(), RefreshListener, LoadMoreListene
         setContentView(R.layout.activity_list)
         mListViewModel = ListViewModelFactory().create(ListViewModel::class.java)
         mAdapter.register(String::class, ListItemViewBinder())
-        rv_list.layoutManager = LinearLayoutManager(this)
+        rv_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         rv_list.addItemDecoration(VerticalItemDecoration(10, Color.BLACK))
 
         rv_list.adapter = mAdapter

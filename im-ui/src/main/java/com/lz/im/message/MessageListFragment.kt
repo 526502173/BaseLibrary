@@ -1,7 +1,7 @@
 package com.lz.im.message
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +45,7 @@ class MessageListFragment : LibraryBaseListFragment() {
                         }
                     }
         }
-        rv_message_list.layoutManager = LinearLayoutManager(context)
+        rv_message_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         rv_message_list.adapter = mAdapter
         btn_send.setOnClickListener {
             mItems.add(MessageFactory.createTextMessage(et_input_box.text.trim().toString()))

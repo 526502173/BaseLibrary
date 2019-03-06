@@ -1,22 +1,20 @@
 package com.lz.baselibrary.utils.viewpager
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 
 /**
+ * ViewPager 的 Fragment
  * @author linzheng
  */
 class LibraryFragmentPagerAdapter(
         fragmentManager: FragmentManager,
-        private val fragmentList:List<Fragment>,
-        private val mPageTitles:List<String> = listOf()
-) : FragmentPagerAdapter(fragmentManager) {
+        private val fragmentList: List<Fragment>,
+        private val mPageTitles: List<String> = listOf()
+) : androidx.fragment.app.FragmentPagerAdapter(fragmentManager) {
     override fun getItem(position: Int) = fragmentList[position]
 
     override fun getCount() = fragmentList.size
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        return if(!mPageTitles.isEmpty())mPageTitles[position] else null
-    }
+    override fun getPageTitle(position: Int) = if (mPageTitles.isNotEmpty()) mPageTitles[position] else ""
 }

@@ -1,7 +1,6 @@
 package com.lz.baselibrary.multitype
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * RecyclerVIew 的加载更多
@@ -16,8 +15,8 @@ class LoadMoreDelegate(
 
     private var mIsLoading = false
 
-    fun attach(recyclerView: RecyclerView) {
-        val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
+    fun attach(recyclerView: androidx.recyclerview.widget.RecyclerView) {
+        val linearLayoutManager = recyclerView.layoutManager as androidx.recyclerview.widget.LinearLayoutManager
         recyclerView.addOnScrollListener(LoadMoreScrollListener(linearLayoutManager, loadMoreListener))
     }
 
@@ -27,11 +26,11 @@ class LoadMoreDelegate(
 
 
     inner class LoadMoreScrollListener(
-            private val layoutManager: LinearLayoutManager,
+            private val layoutManager: androidx.recyclerview.widget.LinearLayoutManager,
             private val loadMoreListener: LoadMoreListener
-    ) : RecyclerView.OnScrollListener() {
+    ) : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
 
-        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             if (dy < 0 || mIsLoading) return
             val itemCount = layoutManager.itemCount;
             val lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition()

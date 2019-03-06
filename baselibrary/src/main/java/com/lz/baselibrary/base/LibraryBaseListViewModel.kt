@@ -1,6 +1,6 @@
 package com.lz.baselibrary.base
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import me.drakeet.multitype.Items
 
 /**

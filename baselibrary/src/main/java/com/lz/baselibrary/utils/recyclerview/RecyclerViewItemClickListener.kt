@@ -1,21 +1,22 @@
 package com.lz.baselibrary.utils.recyclerview
 
-import android.support.v7.widget.RecyclerView
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * RecyclerView Item 的点击事件
+ * 建议使用该类来替换在 RecyclerView 的 onBinderViewHolder() 方法中直接使用 setOnClickListener() 方法
  * @author linzheng
  */
 class RecyclerViewItemClickListener(
-        private val recyclerView: RecyclerView,
+        private val recyclerView: androidx.recyclerview.widget.RecyclerView,
         private val listener: OnItemClickListener
-) : RecyclerView.OnItemTouchListener {
+) : androidx.recyclerview.widget.RecyclerView.OnItemTouchListener {
 
-    protected val mGestureDetector by lazy {
+    private val mGestureDetector by lazy {
         GestureDetector(recyclerView.context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onSingleTapUp(e: MotionEvent?): Boolean {
                 val child = recyclerView.findChildViewUnder(e?.x!!, e.y!!)
@@ -43,16 +44,17 @@ class RecyclerViewItemClickListener(
         touchSlop.set(mGestureDetector, ts)
     }
 
-    override fun onInterceptTouchEvent(rv: RecyclerView?, e: MotionEvent?): Boolean {
-        return mGestureDetector.onTouchEvent(e)
-    }
 
     override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
     }
 
-
-    override fun onTouchEvent(rv: RecyclerView?, e: MotionEvent?) {
+    override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+        return mGestureDetector.onTouchEvent(e)
     }
+
+    override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+    }
+
 
 }
 

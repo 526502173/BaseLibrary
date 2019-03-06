@@ -1,8 +1,7 @@
 package com.lz.baselibrary
 
-import com.lz.baselibrary.api.interceptor.CustomInterceptor
-import com.lz.baselibrary.network.Api
-import okhttp3.Interceptor
+import android.app.Application
+import android.util.Log
 
 /**
  * <pre>
@@ -13,14 +12,19 @@ import okhttp3.Interceptor
  * version: 1.0
 </pre> *
  */
-class MyApplication : LibraryApplication() {
+class MyApplication : Application() {
 
-    override fun buildInterceptor(): List<Interceptor> {
-        Api.BASE_URL = ""
-        return listOf(
-                CustomInterceptor()
-        )
+    override fun onCreate() {
+        super.onCreate()
+        Log.d("MyApplication", "onCreate()")
     }
+
+//    override fun buildInterceptor(): List<Interceptor> {
+//        Api.BASE_URL = ""
+//        return listOf(
+//                CustomInterceptor()
+//        )
+//    }
 
     companion object {
         fun getInstance() = LibraryApplication.getInstance()

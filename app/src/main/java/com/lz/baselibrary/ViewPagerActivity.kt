@@ -5,6 +5,7 @@ import com.lz.baselibrary.base.LibraryBaseActivity
 import com.lz.baselibrary.fragment.LazyLoadFragment
 import com.lz.baselibrary.utils.viewpager.LibraryFragmentPagerAdapter
 import kotlinx.android.synthetic.main.activity_view_pager.*
+import kotlinx.android.synthetic.main.activity_view_pager.view.*
 
 /**
  * @author linzheng
