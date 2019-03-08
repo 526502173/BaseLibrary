@@ -6,21 +6,28 @@ import android.widget.Toast
 import com.lz.baselibrary.LibraryApplication
 
 /**
+ * ToastUtils
  * @author linzheng
  */
 object ToastUtils {
 
+    /**
+     * 主线程的 Handler
+     */
     private val mMainHandler = Handler(Looper.getMainLooper())
 
+    /**
+     * 静态 Toast 对象
+     */
     private var mToast: Toast? = null
 
     /**
-     * 显示 Toast
+     * 弹出 Toast
      */
     fun showToast(msg: String) {
         mMainHandler.post {
             if (mToast == null) {
-                mToast = Toast.makeText(LibraryApplication.getInstance(), msg, Toast.LENGTH_SHORT)
+                mToast = Toast.makeText(LibraryApplication.app(), msg, Toast.LENGTH_SHORT)
             } else {
                 mToast?.setText(msg)
             }
@@ -28,8 +35,11 @@ object ToastUtils {
         }
     }
 
+    /**
+     * 弹出 Toast
+     */
     fun showToast(resId: Int) {
-        showToast(LibraryApplication.getInstance().getString(resId))
+        showToast(LibraryApplication.app().getString(resId))
     }
 
 }

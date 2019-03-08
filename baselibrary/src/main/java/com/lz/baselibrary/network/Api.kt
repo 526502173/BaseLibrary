@@ -1,11 +1,8 @@
 package com.lz.baselibrary.network
 
-import com.lz.baselibrary.LibraryApplication
-import io.reactivex.schedulers.Schedulers
+import com.lz.baselibrary.utils.exception.ApiConfigNotInitException
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
@@ -15,62 +12,49 @@ import kotlin.reflect.KClass
 object Api {
 
     /**
-     * BASE URl
+     * Api 的配置信息对象
      */
-    var BASE_URL = ""
+    lateinit var mApiConfig: ApiConfig
 
     /**
-     * HTTP 连接超时时间
+     * OkHttp 对象
      */
-    var TIMEOUT_CONNECT_MINUTES = 1L
-
-    /**
-     * HTTP 读取超时时间
-     */
-    var TIMEOUT_READ_MINUTES = 1L
-
-    /**
-     * HTTP 写入超时时间
-     */
-    var TIMEOUT_WRITE_MINUTES = 1L
-
     private val mOkHttpClient by lazy(LazyThreadSafetyMode.NONE) {
-        val interceptorList = LibraryApplication.getInstance().buildInterceptor()
-        val networkInterceptor = LibraryApplication.getInstance().buildNetworkInterceptor()
-        val cache = LibraryApplication.getInstance().buildCache()
         OkHttpClient.Builder().run {
-            interceptorList.forEach {
-                addInterceptor(it)
+            mApiConfig.okHttpConfig.apply {
+                interceptorList.forEach { addInterceptor(it) }
+                networkInterceptorList.forEach { addNetworkInterceptor(it) }
+                connectTimeout(timeoutConnectMinutes, TimeUnit.MINUTES)
+                readTimeout(timeoutReadMinutes, TimeUnit.MINUTES)
+                writeTimeout(timeoutWriteMinutes, TimeUnit.MINUTES)
+                if (cache != null) cache(cache)
+                if (cookieJar != null) cookieJar(cookieJar)
+                if (sslSocketFactory != null && trustManager != null)
+                    sslSocketFactory(sslSocketFactory, trustManager)
             }
-            networkInterceptor.forEach {
-                addNetworkInterceptor(it)
-            }
-            LibraryApplication.getInstance().buildOkHttpSSLSocketFactory(this)
-            connectTimeout(TIMEOUT_CONNECT_MINUTES, TimeUnit.MINUTES)
-            readTimeout(TIMEOUT_READ_MINUTES, TimeUnit.MINUTES)
-            writeTimeout(TIMEOUT_WRITE_MINUTES, TimeUnit.MINUTES)
-            cache(cache)
-            cookieJar(LibraryApplication.getInstance().buildCookieJar())
             build()
         }
-
-    }
-
-    private val mMoshi by lazy(LazyThreadSafetyMode.NONE) {
-        LibraryApplication.getInstance().buildMoshi()
-    }
-
-    private val mRetrofit by lazy(LazyThreadSafetyMode.NONE) {
-        Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(mOkHttpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-                .addConverterFactory(MoshiConverterFactory.create(mMoshi))
-                .build()
     }
 
     /**
-     * 将 Retrofit 中的
+     * Retrofit 对象
+     */
+    private val mRetrofit by lazy(LazyThreadSafetyMode.NONE) {
+        if(!this::mApiConfig.isInitialized)
+            throw ApiConfigNotInitException()
+        mApiConfig.retrofitConfig.run {
+            Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .client(mOkHttpClient)
+                    .addCallAdapterFactory(callAdapterFactory)
+                    .addConverterFactory(converterFactory)
+                    .build()
+        }
+    }
+
+    /**
+     * 将 Retrofit 中的 create() 转换到 Kotlin 中
+     * 方便我们调用
      */
     fun <T : Any> createApi(clazz: KClass<out T>) = mRetrofit.create(clazz.java)!!
 

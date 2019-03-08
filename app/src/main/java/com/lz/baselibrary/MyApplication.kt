@@ -1,7 +1,7 @@
 package com.lz.baselibrary
 
-import android.app.Application
-import android.util.Log
+import com.heyooo.heymail.utils.initializer.Initializer
+import com.lz.baselibrary.utils.initializer.LibraryApiInitialize
 
 /**
  * <pre>
@@ -12,11 +12,11 @@ import android.util.Log
  * version: 1.0
 </pre> *
  */
-class MyApplication : Application() {
+class MyApplication : LibraryApplication() {
 
     override fun onCreate() {
+        Initializer.init(listOf(LibraryApiInitialize()))
         super.onCreate()
-        Log.d("MyApplication", "onCreate()")
     }
 
 //    override fun buildInterceptor(): List<Interceptor> {
@@ -25,9 +25,5 @@ class MyApplication : Application() {
 //                CustomInterceptor()
 //        )
 //    }
-
-    companion object {
-        fun getInstance() = LibraryApplication.getInstance()
-    }
 
 }

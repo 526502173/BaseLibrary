@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
  */
 open abstract class BaseViewHolder<T>(itemView:View): RecyclerView.ViewHolder(itemView){
 
-    inline fun  getContext(): Context = itemView.context
+    inline fun getContext(): Context = itemView.context
 
     abstract fun bind(item: T)
 

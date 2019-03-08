@@ -1,16 +1,18 @@
 package com.lz.baselibrary
 
+import android.app.Application
 import android.view.View
 import me.drakeet.multitype.Items
 
 /**
+ * 扩展方法
  * @author linzheng
  */
 
 /**
  * 计算 dp 值
  */
-inline fun Int.dp(): Int = (LibraryApplication.getInstance().resources.displayMetrics.density * this).toInt()
+inline fun Int.dp(app: Application): Int = (app.resources.displayMetrics.density * this).toInt()
 
 /**
  * 给 MultiType 中的 Items 设计的方法

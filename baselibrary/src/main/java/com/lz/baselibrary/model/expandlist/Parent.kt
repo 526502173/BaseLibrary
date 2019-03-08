@@ -9,12 +9,4 @@ open abstract class Parent{
 
     abstract fun getChildList(): List<Child>
 
-    override fun hashCode(): Int {
-        return super.hashCode()
-    }
-
-    override fun equals(other: Any?): Boolean {
-        return super.equals(other)
-    }
-
 }
