@@ -2,6 +2,8 @@ package com.lz.baselibrary
 
 import android.graphics.Color
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.model.CustomChild
 import com.lz.baselibrary.model.CustomParent
@@ -9,40 +11,48 @@ import com.lz.baselibrary.multitype.CustomChildItemViewBinder
 import com.lz.baselibrary.multitype.CustomParentItemViewBinder
 import com.lz.baselibrary.utils.expand.ExpandAdapter
 import com.lz.baselibrary.view.VerticalItemDecoration
+import com.lz.baselibrary.viewmodel.ListViewModel
+import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import kotlinx.android.synthetic.main.activity_expand_list.*
 import me.drakeet.multitype.register
+import timber.log.Timber
 
 /**
  * @author linzheng
  */
-class ExpandListActivity : LibraryBaseListActivity() {
+class ExpandListActivity : LibraryBaseListActivity<ListViewModel>() {
+
+    override val mViewModel: ListViewModel
+        get() = ViewModelProviders.of(this, ListViewModelFactory()).get(ListViewModel::class.java)
 
     private val mExpandAdapter: ExpandAdapter<CustomParent> by lazy {
-        ExpandAdapter<CustomParent>(mListViewModel.mItems, mAdapter)
+        ExpandAdapter<CustomParent>(mViewModel.mItems, mAdapter)
     }
+
+    private val mTestList  = listOf(
+            CustomParent("1", listOf(CustomChild("1-1"), CustomChild("1-2"), CustomChild("1-3"))),
+            CustomParent("2", listOf(CustomChild("2-1"), CustomChild("2-2"), CustomChild("2-3"))),
+            CustomParent("3", listOf(CustomChild("4-1"), CustomChild("3-2"), CustomChild("3-3"))),
+            CustomParent("4", listOf(CustomChild("5-1"), CustomChild("4-2"), CustomChild("4-3"))),
+            CustomParent("5", listOf(CustomChild("5-1"), CustomChild("5-2"), CustomChild("5-3")))
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.d("ExpandListActivity->onCreate()")
         setContentView(R.layout.activity_expand_list)
 
-        val list = listOf(
-                CustomParent("1", listOf(CustomChild("1-1"), CustomChild("1-2"), CustomChild("1-3"))),
-                CustomParent("2", listOf(CustomChild("2-1"), CustomChild("2-2"), CustomChild("2-3"))),
-                CustomParent("3", listOf(CustomChild("4-1"), CustomChild("3-2"), CustomChild("3-3"))),
-                CustomParent("4", listOf(CustomChild("5-1"), CustomChild("4-2"), CustomChild("4-3"))),
-                CustomParent("5", listOf(CustomChild("5-1"), CustomChild("5-2"), CustomChild("5-3")))
-        )
 
         CustomParentItemViewBinder.onParentClickListener = mExpandAdapter
 
         mAdapter.register(CustomParent::class, CustomParentItemViewBinder())
         mAdapter.register(CustomChild::class, CustomChildItemViewBinder())
 
-        rv_expand_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        rv_expand_list.layoutManager = LinearLayoutManager(this)
         rv_expand_list.addItemDecoration(VerticalItemDecoration(2, Color.GRAY))
         rv_expand_list.adapter = mAdapter
 
-        mExpandAdapter.init(list)
+        mExpandAdapter.init(mTestList)
         mAdapter.notifyDataSetChanged()
 
     }

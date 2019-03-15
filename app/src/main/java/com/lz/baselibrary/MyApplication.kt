@@ -2,6 +2,7 @@ package com.lz.baselibrary
 
 import com.heyooo.heymail.utils.initializer.Initializer
 import com.lz.baselibrary.utils.initializer.LibraryApiInitialize
+import com.lz.baselibrary.utils.initializer.LibraryTimberInitialize
 
 /**
  * <pre>
@@ -15,7 +16,7 @@ import com.lz.baselibrary.utils.initializer.LibraryApiInitialize
 class MyApplication : LibraryApplication() {
 
     override fun onCreate() {
-        Initializer.init(listOf(LibraryApiInitialize()))
+        Initializer.init(listOf(LibraryApiInitialize(), LibraryTimberInitialize()))
         super.onCreate()
     }
 

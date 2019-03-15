@@ -4,8 +4,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.multitype.ListItemViewBinder
 import com.lz.baselibrary.multitype.LoadMoreDelegate
@@ -27,7 +28,10 @@ import me.drakeet.multitype.register
  * version: 1.0
 </pre> *
  */
-class ListActivity : LibraryBaseListActivity(), RefreshListener, LoadMoreListener {
+class ListActivity : LibraryBaseListActivity<ListViewModel>(), RefreshListener, LoadMoreListener {
+
+    override val mViewModel: ListViewModel
+        get() = ViewModelProviders.of(this,ListViewModelFactory()).get(ListViewModel::class.java)
 
     private val mLoadMoreDelegate = LoadMoreDelegate(this)
 
@@ -38,13 +42,13 @@ class ListActivity : LibraryBaseListActivity(), RefreshListener, LoadMoreListene
 
     private val mHandler: Handler = object : Handler() {
         override fun handleMessage(msg: Message?) {
-            if (mPage == 5) {
+            if (mViewModel.mPage == 5) {
                 mLoadMoreDelegate.setLoading(true)
                 return
             }
-            mPage++
+            mViewModel.mPage++
             repeat(10) {
-                mListViewModel.mItems.add("123")
+                mViewModel.mItems.add("123")
             }
             mAdapter.notifyDataSetChanged()
             mLoadMoreDelegate.setLoading(false)
@@ -54,16 +58,15 @@ class ListActivity : LibraryBaseListActivity(), RefreshListener, LoadMoreListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
-        mListViewModel = ListViewModelFactory().create(ListViewModel::class.java)
         mAdapter.register(String::class, ListItemViewBinder())
-        rv_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        rv_list.layoutManager = LinearLayoutManager(this)
         rv_list.addItemDecoration(VerticalItemDecoration(10, Color.BLACK))
 
         rv_list.adapter = mAdapter
         mLoadMoreDelegate.attach(rv_list)
 
         repeat(10) {
-            mListViewModel.mItems.add("123")
+            mViewModel.mItems.add("123")
         }
         mAdapter.notifyDataSetChanged()
     }

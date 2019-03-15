@@ -1,13 +1,14 @@
 package com.lz.im.message
 
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.im_data.Message
 import com.example.im_data.MessageFactory
 import com.lz.baselibrary.base.LibraryBaseListFragment
+import com.lz.baselibrary.base.viewmodel.LibraryBaseListViewModel
+import com.lz.baselibrary.base.viewmodel.LibraryBaseListViewModelFactory
 import com.lz.im.R
 import com.lz.im.message.multitype.ImageMessageItemViewBinder
 import com.lz.im.message.multitype.TextMessageItemViewBinder
@@ -24,10 +25,10 @@ import me.drakeet.multitype.register
  * version: 1.0
 </pre> *
  */
-class MessageListFragment : LibraryBaseListFragment() {
+class MessageListFragment : LibraryBaseListFragment<LibraryBaseListViewModel>() {
+    override val mViewModel: LibraryBaseListViewModel
+        get() = LibraryBaseListViewModelFactory().create(LibraryBaseListViewModel::class.java)
 
-    override fun loadData() {
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_message_list, container, false)
@@ -48,8 +49,8 @@ class MessageListFragment : LibraryBaseListFragment() {
         rv_message_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         rv_message_list.adapter = mAdapter
         btn_send.setOnClickListener {
-            mItems.add(MessageFactory.createTextMessage(et_input_box.text.trim().toString()))
-            mAdapter.notifyItemInserted(mItems.size)
+            mViewModel.mItems.add(MessageFactory.createTextMessage(et_input_box.text.trim().toString()))
+            mAdapter.notifyItemInserted(mViewModel.mItems.size)
         }
     }
 

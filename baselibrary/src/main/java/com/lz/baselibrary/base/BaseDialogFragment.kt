@@ -9,6 +9,7 @@ import com.lz.baselibrary.R
 
 
 /**
+ * BaseDialogFragment
  * @author linzheng
  */
 open abstract class BaseDialogFragment : DialogFragment() {

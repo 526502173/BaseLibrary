@@ -32,7 +32,7 @@ inline fun <reified T> Items.quickGetTypeItems(items: Items) = items.map { it as
 /**
  * 通过 Boolean类型的值来设置 View 的 Visibility
  * true 表示 [View.VISIBLE]
- * false 表示 [View.GONEF]
+ * false 表示 [View.GONE]
  */
 inline fun View.setViewVisibilityByBoolean(boolean: Boolean) {
     visibility = if (boolean) View.VISIBLE else View.GONE

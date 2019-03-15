@@ -7,4 +7,4 @@ import me.drakeet.multitype.ItemViewBinder
 /**
  * @author linzheng
  */
-abstract class ChildItemViewBinder<T : Child, VH : androidx.recyclerview.widget.RecyclerView.ViewHolder?> : ItemViewBinder<T, VH>()
+abstract class ChildItemViewBinder<T : Child, VH : RecyclerView.ViewHolder> : ItemViewBinder<T, VH>()

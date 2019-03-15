@@ -5,7 +5,6 @@ import com.lz.baselibrary.base.LibraryBaseActivity
 import com.lz.baselibrary.fragment.LazyLoadFragment
 import com.lz.baselibrary.utils.viewpager.LibraryFragmentPagerAdapter
 import kotlinx.android.synthetic.main.activity_view_pager.*
-import kotlinx.android.synthetic.main.activity_view_pager.view.*
 
 /**
  * @author linzheng
@@ -22,6 +21,7 @@ class ViewPagerActivity : LibraryBaseActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_pager)
 
+        vp_view_pager.offscreenPageLimit = 3
         vp_view_pager.adapter = LibraryFragmentPagerAdapter(
                 supportFragmentManager,
                 mFragmentList,

@@ -3,7 +3,6 @@ package com.lz.baselibrary.utils.recyclerview
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewConfiguration
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 class RecyclerViewItemClickListener(
         private val recyclerView: androidx.recyclerview.widget.RecyclerView,
         private val listener: OnItemClickListener
-) : androidx.recyclerview.widget.RecyclerView.OnItemTouchListener {
+) : RecyclerView.OnItemTouchListener {
 
     private val mGestureDetector by lazy {
         GestureDetector(recyclerView.context, object : GestureDetector.SimpleOnGestureListener() {
@@ -36,14 +35,6 @@ class RecyclerViewItemClickListener(
             }
         })
     }
-
-    init {
-        //非常扯犊子的一个问题
-        val ts = ViewConfiguration.get(recyclerView.context).scaledTouchSlop
-        val touchSlop = mGestureDetector::class.java.getDeclaredField("mTouchSlopSquare").apply { isAccessible = true }
-        touchSlop.set(mGestureDetector, ts)
-    }
-
 
     override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
     }

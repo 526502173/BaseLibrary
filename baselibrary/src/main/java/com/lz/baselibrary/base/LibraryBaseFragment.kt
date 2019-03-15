@@ -1,15 +1,11 @@
 package com.lz.baselibrary.base
 
 import android.content.Context
-import android.view.View
 import androidx.fragment.app.Fragment
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.uber.autodispose.autoDisposable
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
 
 /**
+ * LibraryBaseFragment
  * @author linzheng
  */
 open abstract class LibraryBaseFragment : Fragment(), BaseView {
@@ -20,28 +16,10 @@ open abstract class LibraryBaseFragment : Fragment(), BaseView {
     private lateinit var mBaseView: BaseView
 
     /**
-     * 是否初始化
-     */
-    private var mIsInitial = false
-
-    /**
      * AutoDispose
      */
     protected val mScopeProvider: AndroidLifecycleScopeProvider by lazy(LazyThreadSafetyMode.NONE) {
         AndroidLifecycleScopeProvider.from(this)
-    }
-
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (userVisibleHint && !mIsInitial) {
-            mIsInitial = !mIsInitial
-            Observable.timer(500, TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .autoDisposable(mScopeProvider)
-                    .subscribe {
-                        loadData()
-                    }
-        }
     }
 
     override fun onAttach(context: Context?) {
@@ -68,15 +46,6 @@ open abstract class LibraryBaseFragment : Fragment(), BaseView {
 
     override fun showSuccessLayout() {
 
-    }
-
-    /**
-     * 加载数据
-     */
-    open abstract fun loadData()
-
-
-    override fun reload(v: View?) {
     }
 
 }

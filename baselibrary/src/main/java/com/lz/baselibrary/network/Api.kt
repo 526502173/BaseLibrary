@@ -1,6 +1,6 @@
 package com.lz.baselibrary.network
 
-import com.lz.baselibrary.utils.exception.ApiConfigNotInitException
+import com.lz.baselibrary.ApiConfigNotInitException
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
@@ -54,7 +54,6 @@ object Api {
 
     /**
      * 将 Retrofit 中的 create() 转换到 Kotlin 中
-     * 方便我们调用
      */
     fun <T : Any> createApi(clazz: KClass<out T>) = mRetrofit.create(clazz.java)!!
 

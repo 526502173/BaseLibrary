@@ -21,8 +21,8 @@ dependencies {
     api 'androidx.appcompat:appcompat:' + gradle.androidXAppCompatVersion
     api 'androidx.core:core-ktx:' + gradle.androidXCoreKTXVersion
     api 'androidx.constraintlayout:constraintlayout:' + gradle.androidXConstraintLayoutVersion
-    api "androidx.lifecycle:lifecycle-extensions:2.0.0"
-    api 'com.google.android.material:material:1.0.0'
+    api "androidx.lifecycle:lifecycle-extensions:" + gradle.lifeCycleExtensionsVersion
+    api 'com.google.android.material:material:' + gradle.materialVersion
 
     //Retrofit
     api 'com.squareup.retrofit2:retrofit:' + gradle.retrofitVersion

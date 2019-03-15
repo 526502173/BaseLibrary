@@ -1,13 +1,15 @@
 package com.lz.baselibrary.utils.expand
 
-import androidx.collection.ArrayMap
 import android.view.View
+import androidx.collection.ArrayMap
 import com.lz.baselibrary.model.expandlist.Child
 import com.lz.baselibrary.model.expandlist.Parent
 import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
 
 /**
+ * 实现一个二级列表 Adapter
+ * 扩展 MultiType 中 MultTypeAdapter
  * @author linzheng
  */
 class ExpandAdapter<T : Parent>(
@@ -15,10 +17,15 @@ class ExpandAdapter<T : Parent>(
         private val adapter: MultiTypeAdapter
 ) : OnParentClickListener<T> {
 
-    val mExpandItems: androidx.collection.ArrayMap<Parent, List<Child>> by lazy(LazyThreadSafetyMode.NONE) {
-        androidx.collection.ArrayMap<Parent, List<Child>>()
+    private var mIsInitialize = false
+
+    private val mExpandItems: ArrayMap<Parent, List<Child>> by lazy(LazyThreadSafetyMode.NONE) {
+        ArrayMap<Parent, List<Child>>()
     }
 
+    /**
+     * ParentItem 的点击事件
+     */
     override fun onParentClick(v: View, parent: T) {
         var parentIndex = items.indexOf(parent)
         if (parentIndex == -1) return
@@ -33,18 +40,13 @@ class ExpandAdapter<T : Parent>(
     }
 
     /**
-     * @param list 一級的列表
-     *             parent
-     *              child
-     *              child
-     *              child
-     *             parent
-     *              child
-     *              child
-     *              child
+     * 初始化方法
+     * @param list ParentList
      * @param isExpand 是否展开
      */
     fun init(list: List<Parent>, isExpand: Boolean = false) {
+        if (mIsInitialize) return
+        mIsInitialize = !mIsInitialize
         list.forEach {
             it.isExpend = isExpand
             val childList = mutableListOf<Child>()

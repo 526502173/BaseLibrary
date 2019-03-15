@@ -1,22 +1,19 @@
 package com.lz.baselibrary.base
 
+import com.lz.baselibrary.base.viewmodel.LibraryBaseListViewModel
 import me.drakeet.multitype.MultiTypeAdapter
 
 /**
  * @author linzheng
  */
-open class LibraryBaseListActivity : LibraryBaseActivity() {
+abstract class LibraryBaseListActivity<T : LibraryBaseListViewModel> : LibraryBaseActivity() {
 
-    protected lateinit var mListViewModel: LibraryBaseListViewModel
-
-//    protected val mItems: Items by lazy(LazyThreadSafetyMode.NONE) { Items() }
+    protected abstract val mViewModel: T
 
     protected val mAdapter: MultiTypeAdapter by lazy(LazyThreadSafetyMode.NONE) {
         val adapter = MultiTypeAdapter()
-        adapter.items = mListViewModel.mItems
+        adapter.items = mViewModel.mItems
         adapter
     }
-
-    protected var mPage: Int = 1
 
 }

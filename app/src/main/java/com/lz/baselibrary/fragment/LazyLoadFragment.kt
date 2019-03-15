@@ -5,32 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lz.baselibrary.R
-import com.lz.baselibrary.base.LibraryBaseFragment
+import com.lz.baselibrary.base.LibraryLazyLoadFramgent
 import kotlinx.android.synthetic.main.fragment_lazy_load.*
+import timber.log.Timber
 
 /**
+ * 懒加载
  * @author linzheng
  */
-class LazyLoadFragment : LibraryBaseFragment() {
+class LazyLoadFragment : LibraryLazyLoadFramgent() {
 
     lateinit var mTitle: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tv_title.text = mTitle
-    }
-
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         mTitle = arguments?.getString("title")!!
-        super.setUserVisibleHint(isVisibleToUser)
+        tv_title.text = mTitle
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_lazy_load,container,false)
     }
 
-    override fun loadData() {
-        // load Data
+    override fun lazyLoad() {
+        Timber.d("lazy load!")
     }
 
     companion object {

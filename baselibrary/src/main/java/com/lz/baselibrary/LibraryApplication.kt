@@ -2,7 +2,6 @@ package com.lz.baselibrary
 
 import android.app.Application
 import com.heyooo.heymail.utils.initializer.Initializer
-import com.lz.baselibrary.utils.exception.LibraryAppInstanceNullException
 
 /**
  * MyApplication 需要继承此类
@@ -20,6 +19,9 @@ open class LibraryApplication : Application() {
 
         private lateinit var sInstance: Application
 
+        /**
+         * 获取 Application 对象实例
+         */
         fun app() = if (LibraryApplication.sInstance != null)
             LibraryApplication.sInstance
         else throw LibraryAppInstanceNullException()

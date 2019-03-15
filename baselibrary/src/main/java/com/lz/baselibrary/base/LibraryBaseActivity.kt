@@ -1,6 +1,5 @@
 package com.lz.baselibrary.base
 
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 
@@ -30,9 +29,6 @@ open class LibraryBaseActivity : AppCompatActivity(), BaseView {
     }
 
     override fun showSuccessLayout() {
-    }
-
-    override fun reload(v: View?) {
     }
 
 }
