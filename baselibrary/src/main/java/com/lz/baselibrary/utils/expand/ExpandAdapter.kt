@@ -4,7 +4,6 @@ import android.view.View
 import androidx.collection.ArrayMap
 import com.lz.baselibrary.model.expandlist.Child
 import com.lz.baselibrary.model.expandlist.Parent
-import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
 
 /**
@@ -13,7 +12,7 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author linzheng
  */
 class ExpandAdapter<T : Parent>(
-        private val items: Items,
+        private val items: ArrayList<Any>,
         private val adapter: MultiTypeAdapter
 ) : OnParentClickListener<T> {
 

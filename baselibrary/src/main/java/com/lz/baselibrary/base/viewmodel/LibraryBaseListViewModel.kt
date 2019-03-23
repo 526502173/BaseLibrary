@@ -1,15 +1,14 @@
 package com.lz.baselibrary.base.viewmodel
 
 import androidx.lifecycle.ViewModel
-import me.drakeet.multitype.Items
 
 /**
  * LibraryBaseListViewModel
  * @author linzheng
  */
-open class LibraryBaseListViewModel : ViewModel(){
+open class LibraryBaseListViewModel : ViewModel() {
 
-    val mItems: Items by lazy(LazyThreadSafetyMode.NONE) { Items() }
+    val mItems: ArrayList<Any> by lazy(LazyThreadSafetyMode.NONE) { ArrayList<Any>() }
 
     var mPage = 1
 

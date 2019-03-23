@@ -14,7 +14,6 @@ import com.lz.baselibrary.view.VerticalItemDecoration
 import com.lz.baselibrary.viewmodel.ListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import kotlinx.android.synthetic.main.activity_expand_list.*
-import me.drakeet.multitype.register
 import timber.log.Timber
 
 /**

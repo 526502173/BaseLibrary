@@ -1,4 +1,4 @@
-package com.lz.baselibrary.view
+package com.lz.baselibrary.view.itemdecoration
 
 import android.graphics.Canvas
 import android.graphics.Color

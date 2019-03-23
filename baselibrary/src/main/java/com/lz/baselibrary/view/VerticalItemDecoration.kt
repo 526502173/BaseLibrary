@@ -1,5 +1,8 @@
 package com.lz.baselibrary.view
 
+import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
+import com.lz.baselibrary.view.itemdecoration.Top
+
 /**
  * @author linzheng
  */

@@ -14,3 +14,5 @@ class LibraryAppInstanceNullException : RuntimeException(
 class ListActivityViewModelNotInitException : java.lang.RuntimeException(
         "必须初始化 mViewModel 对象"
 )
+
+class LoadMoreItemNotFoundException : RuntimeException("LoadMoreItem 没有找到!")

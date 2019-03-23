@@ -1,4 +1,4 @@
-package com.lz.baselibrary.view
+package com.lz.baselibrary.view.itemdecoration
 
 /**
  * 分隔线方向

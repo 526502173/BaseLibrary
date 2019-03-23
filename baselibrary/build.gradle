@@ -53,8 +53,8 @@ dependencies {
     api 'org.jetbrains.anko:anko-commons:' + gradle.ankoVersion
 
     //MultiType
-    api('me.drakeet.multitype:multitype-kotlin:' + gradle.multiTypeVersion) {
-        exclude group: "com.android.support"
+    api('me.drakeet.multitype:multitype:' + gradle.multiTypeVersion) {
+        exclude group: "androidx"
     }
 }
 //repositories {

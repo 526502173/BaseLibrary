@@ -1,23 +1,21 @@
 package com.lz.baselibrary
 
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.view.View
+import androidx.core.view.postDelayed
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.multitype.ListItemViewBinder
-import com.lz.baselibrary.multitype.LoadMoreDelegate
-import com.lz.baselibrary.multitype.LoadMoreListener
 import com.lz.baselibrary.utils.ToastUtils
+import com.lz.baselibrary.utils.loadmore.LoadMoreAdapter
+import com.lz.baselibrary.utils.loadmore.LoadMoreItems
+import com.lz.baselibrary.utils.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.RefreshListener
-import com.lz.baselibrary.view.VerticalItemDecoration
 import com.lz.baselibrary.viewmodel.ListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import kotlinx.android.synthetic.main.activity_list.*
-import me.drakeet.multitype.register
 
 /**
  * <pre>
@@ -30,49 +28,54 @@ import me.drakeet.multitype.register
  */
 class ListActivity : LibraryBaseListActivity<ListViewModel>(), RefreshListener, LoadMoreListener {
 
-    override val mViewModel: ListViewModel
-        get() = ViewModelProviders.of(this,ListViewModelFactory()).get(ListViewModel::class.java)
-
-    private val mLoadMoreDelegate = LoadMoreDelegate(this)
-
-    override fun loadMore(view: View) {
-        ToastUtils.showToast("加载更多")
-        mHandler.sendEmptyMessageDelayed(1, 3000)
+    private val mLoadMoreItems by lazy {
+        LoadMoreItems(mViewModel.mItems)
     }
 
-    private val mHandler: Handler = object : Handler() {
-        override fun handleMessage(msg: Message?) {
-            if (mViewModel.mPage == 5) {
-                mLoadMoreDelegate.setLoading(true)
-                return
-            }
-            mViewModel.mPage++
-            repeat(10) {
-                mViewModel.mItems.add("123")
-            }
-            mAdapter.notifyDataSetChanged()
-            mLoadMoreDelegate.setLoading(false)
+    private val mLoadMoreAdapter by lazy {
+        LoadMoreAdapter(this).apply {
+            items = mLoadMoreItems
         }
     }
+
+    override val mViewModel: ListViewModel
+        get() = ViewModelProviders.of(this, ListViewModelFactory()).get(ListViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
-        mAdapter.register(String::class, ListItemViewBinder())
+
         rv_list.layoutManager = LinearLayoutManager(this)
-        rv_list.addItemDecoration(VerticalItemDecoration(10, Color.BLACK))
+        rv_list.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        rv_list.adapter = mLoadMoreAdapter
 
-        rv_list.adapter = mAdapter
-        mLoadMoreDelegate.attach(rv_list)
+        mLoadMoreAdapter.register(String::class, ListItemViewBinder())
+        mLoadMoreAdapter.isEnableLoadMore = true
 
-        repeat(10) {
-            mViewModel.mItems.add("123")
-        }
-        mAdapter.notifyDataSetChanged()
+        mLoadMoreItems.addAll(createData())
+        mLoadMoreAdapter.notifyDataSetChanged()
     }
 
     override fun refresh(isRefresh: Boolean) {
-
+        srl_list.postDelayed(3000) {
+            srl_list.isRefreshing = false
+        }
     }
 
+    var mLoadMoreCount = 0
+
+    override fun loadMore(view: View) {
+        ToastUtils.showToast("加载更多...")
+        srl_list.postDelayed(3000) {
+            if (mLoadMoreCount == 4) {
+                mLoadMoreAdapter.noMore()
+            } else {
+                mLoadMoreItems.addAll(createData())
+                mLoadMoreAdapter.notifyDataSetChanged()
+                mLoadMoreCount += 1
+            }
+        }
+    }
+
+    private fun createData() = listOf("", "", "", "", "", "", "", "", "", "")
 }

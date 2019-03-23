@@ -45,7 +45,6 @@ object Utils {
         return result
     }
 
-
     /**
      * 重启 App
      */
