@@ -6,10 +6,10 @@ package com.lz.baselibrary.view.itemdecoration
  */
 sealed class DividerDirection
 
-class Top: DividerDirection()
+object Top : DividerDirection()
 
-class Bottom: DividerDirection()
+object Bottom : DividerDirection()
 
-class Left: DividerDirection()
+object Left : DividerDirection()
 
-class Right: DividerDirection()
+object Right : DividerDirection()

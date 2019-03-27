@@ -1,16 +1,13 @@
 package com.lz.baselibrary.utils.initializer
 
 import android.content.Context
-import com.heyooo.heymail.utils.initializer.Initialize
 import timber.log.Timber
 
 /**
  * Timer 的初始化操作
  * @author linzheng
  */
-class LibraryTimberInitialize : Initialize {
-
-    override fun isMultiProcessInitial() = false
+open class LibraryTimberInitialize : SimpleInitialize() {
 
     override fun initial(context: Context) {
         Timber.plant(createTree())

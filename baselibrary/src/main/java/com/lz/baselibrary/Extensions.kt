@@ -18,6 +18,6 @@ inline fun Int.dp(app: Context): Int = (app.resources.displayMetrics.density * t
  * true 表示 [View.VISIBLE]
  * false 表示 [View.GONE]
  */
-inline fun View.setViewVisibilityByBoolean(boolean: Boolean) {
+inline fun View.setVisibility(boolean: Boolean) {
     visibility = if (boolean) View.VISIBLE else View.GONE
 }

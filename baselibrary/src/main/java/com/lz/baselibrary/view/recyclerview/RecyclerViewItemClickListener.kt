@@ -1,4 +1,4 @@
-package com.lz.baselibrary.utils.recyclerview
+package com.lz.baselibrary.view.recyclerview
 
 import android.view.GestureDetector
 import android.view.MotionEvent

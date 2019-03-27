@@ -10,7 +10,7 @@ import com.lz.baselibrary.model.CustomParent
 import com.lz.baselibrary.multitype.CustomChildItemViewBinder
 import com.lz.baselibrary.multitype.CustomParentItemViewBinder
 import com.lz.baselibrary.utils.expand.ExpandAdapter
-import com.lz.baselibrary.view.VerticalItemDecoration
+import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
 import com.lz.baselibrary.viewmodel.ListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import kotlinx.android.synthetic.main.activity_expand_list.*

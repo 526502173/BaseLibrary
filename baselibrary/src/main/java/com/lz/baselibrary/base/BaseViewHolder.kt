@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * @author linzheng
  */
-open abstract class BaseViewHolder<T>(itemView:View): RecyclerView.ViewHolder(itemView){
+open class BaseViewHolder<T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     /**
      * 获取 ItemView 的 context 对象
@@ -18,6 +18,6 @@ open abstract class BaseViewHolder<T>(itemView:View): RecyclerView.ViewHolder(it
      * 讲数据绑定到 ViewHolder 上
      * 这个方法配合 DiffUtils 一起使用
      */
-    abstract fun bind(item: T)
+    open fun bind(item: T) {}
 
 }

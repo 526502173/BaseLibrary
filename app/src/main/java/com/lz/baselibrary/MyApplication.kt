@@ -1,8 +1,11 @@
 package com.lz.baselibrary
 
 import com.heyooo.heymail.utils.initializer.Initializer
-import com.lz.baselibrary.utils.initializer.LibraryApiInitialize
+import com.lz.baselibrary.initializer.ApiInitialize
+import com.lz.baselibrary.initializer.GloadingInitialize
 import com.lz.baselibrary.utils.initializer.LibraryTimberInitialize
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 /**
  * <pre>
@@ -16,15 +19,10 @@ import com.lz.baselibrary.utils.initializer.LibraryTimberInitialize
 class MyApplication : LibraryApplication() {
 
     override fun onCreate() {
-        Initializer.init(listOf(LibraryApiInitialize(), LibraryTimberInitialize()))
+        Initializer.init(listOf(ApiInitialize(), LibraryTimberInitialize(), GloadingInitialize()))
         super.onCreate()
     }
 
-//    override fun buildInterceptor(): List<Interceptor> {
-//        Api.BASE_URL = ""
-//        return listOf(
-//                CustomInterceptor()
-//        )
-//    }
-
 }
+
+val mainThreadScheduler: Scheduler = AndroidSchedulers.mainThread()

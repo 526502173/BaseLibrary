@@ -3,12 +3,10 @@ package com.lz.baselibrary.multitype
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
-import com.lz.baselibrary.R
 import com.lz.baselibrary.base.BaseViewHolder
-import com.lz.baselibrary.utils.loadmore.LoadMoreItem
-import com.lz.baselibrary.utils.loadmore.LoadMoreListener
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItem
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreView
 import me.drakeet.multitype.ItemViewBinder
 
 /**
@@ -24,23 +22,24 @@ class LoadMoreItemViewBinder : ItemViewBinder<LoadMoreItem, LoadMoreItemViewBind
         holder.bind(item)
     }
 
-    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): LoadMoreViewHolder = LoadMoreViewHolder(inflater.inflate(R.layout.item_load_more, parent, false))
+    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): LoadMoreViewHolder =
+            LoadMoreViewHolder(LoadMoreView.create(parent.context))
 
     class LoadMoreViewHolder(itemView: View) : BaseViewHolder<LoadMoreItem>(itemView) {
-
-        private val pbLoading: ProgressBar = itemView.findViewById(R.id.pb_loading)
-
-        private val tvLoading: TextView = itemView.findViewById(R.id.tv_loading)
-
         override fun bind(item: LoadMoreItem) {
-            if (item.status == LoadMoreItem.LOAD_MORE_STATUS_NORMAL) {
-                item.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
-                pbLoading.visibility = View.VISIBLE
-                tvLoading.text = "加载中..."
-                sLoadMoreListener.loadMore(itemView)
-            } else if (item.status == LoadMoreItem.LOAD_MORE_STATUS_NO_MORE) {
-                pbLoading.visibility = View.GONE
-                tvLoading.text = "没有更多了..."
+            val loadMoreView = itemView as LoadMoreView
+            when (item.status) {
+                LoadMoreItem.LOAD_MORE_STATUS_NO_MORE -> {
+                    loadMoreView.noMore()
+                }
+                LoadMoreItem.LOAD_MORE_STATUS_LOADING -> {
+                    //no code
+                }
+                LoadMoreItem.LOAD_MORE_STATUS_NORMAL -> {
+                    item.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
+                    loadMoreView.loading()
+                    sLoadMoreListener.loadMore(itemView)
+                }
             }
         }
     }

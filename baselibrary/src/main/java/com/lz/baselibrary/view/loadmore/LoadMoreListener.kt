@@ -1,4 +1,4 @@
-package com.lz.baselibrary.utils.loadmore
+package com.lz.baselibrary.view.itemdecoration.loadmore
 
 import android.view.View
 

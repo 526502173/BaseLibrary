@@ -51,6 +51,8 @@ dependencies {
     api 'com.squareup.okhttp3:logging-interceptor:' + gradle.loggingInterceptorVersion
     api 'com.jakewharton.timber:timber:' + gradle.timberVersion
     api 'org.jetbrains.anko:anko-commons:' + gradle.ankoVersion
+    api 'org.jetbrains.anko:anko-design:' + gradle.ankoVersion
+    api 'com.billy.android:gloading:1.0.0'
 
     //MultiType
     api('me.drakeet.multitype:multitype:' + gradle.multiTypeVersion) {

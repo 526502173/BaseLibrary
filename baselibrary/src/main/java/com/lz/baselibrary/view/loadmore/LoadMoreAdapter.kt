@@ -1,4 +1,4 @@
-package com.lz.baselibrary.utils.loadmore
+package com.lz.baselibrary.view.itemdecoration.loadmore
 
 import com.lz.baselibrary.multitype.LoadMoreItemViewBinder
 import me.drakeet.multitype.MultiTypeAdapter
@@ -13,6 +13,7 @@ class LoadMoreAdapter(
     var isEnableLoadMore: Boolean = true
         set(value) {
             getLoadMoreItems().setEnableLoadMore(value)
+            field = value
         }
 
     override fun noMore() {
@@ -22,6 +23,16 @@ class LoadMoreAdapter(
         notifyItemChanged(loadMoreItems.getLoadMoreItemIndex())
     }
 
+
+    override fun loading() {
+
+    }
+
+    override fun normal() {
+
+    }
+
+
     init {
         register(LoadMoreItem::class, LoadMoreItemViewBinder())
         LoadMoreItemViewBinder.sLoadMoreListener = loadMoreListener
@@ -30,8 +41,7 @@ class LoadMoreAdapter(
     private fun getLoadMoreItems() = items as LoadMoreItems
 
     override fun getItemCount(): Int {
-        val loadMoreItems = items as LoadMoreItems
-        return if (isEnableLoadMore) loadMoreItems.size + 1 else loadMoreItems.size
+        return if (isEnableLoadMore) items.size + 1 else items.size
     }
 
 }
