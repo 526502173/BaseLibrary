@@ -2,6 +2,7 @@ package com.lz.baselibrary
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.postDelayed
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,9 +10,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.model.wanandroid.SubscriptionArticle
+import com.lz.baselibrary.multitype.LoadMoreItemViewBinder
 import com.lz.baselibrary.multitype.SubscriptionArticleItemViewBinder
 import com.lz.baselibrary.network.Api
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
+import com.lz.baselibrary.view.loadmore.LoadMoreAdapterWrapper
 import com.lz.baselibrary.viewmodel.ListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import com.uber.autodispose.autoDisposable
@@ -24,6 +27,10 @@ import java.util.concurrent.TimeUnit
  */
 class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
+    private val mAdapterWrapper: LoadMoreAdapterWrapper by lazy {
+        LoadMoreAdapterWrapper(mAdapter)
+    }
+
     override val mViewModel: ListViewModel
         get() = ViewModelProviders.of(this, ListViewModelFactory()).get(ListViewModel::class.java)
 
@@ -33,14 +40,14 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
         rv_list.layoutManager = LinearLayoutManager(this)
         rv_list.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        rv_list.adapter = mAdapter
+        rv_list.adapter = mAdapterWrapper
 
         srl_list.setOnRefreshListener(this)
 
         mAdapter.register(SubscriptionArticle::class, SubscriptionArticleItemViewBinder())
-        mAdapter.isEnableLoadMore = true
-        mHolder.showLoading()
-        loadData()
+        LoadMoreItemViewBinder.sLoadMoreListener = this
+//        mHolder.showLoading()
+//        loadData()
     }
 
 
@@ -56,8 +63,9 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
                 .autoDisposable(mScopeProvider)
                 .subscribe({
                     if (isRefresh) mViewModel.mItems.clear()
+                    else mAdapterWrapper.normal()
                     mViewModel.mItems.addAll(it.data.datas)
-                    mAdapter.notifyDataSetChanged()
+                    mAdapterWrapper.notifyDataSetChanged()
                 }, {
                     Timber.e(it)
                 })
@@ -66,13 +74,17 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
     override fun onRefresh() {
         mViewModel.mPage = 1
+        mAdapterWrapper.normal()
         loadData()
     }
 
 
     override fun loadMore(view: View) {
-        mViewModel.mPage++
-        loadData(false)
+        srl_list.postDelayed(2000) {
+            mAdapterWrapper.noMore()
+        }
+//        mViewModel.mPage++
+//        loadData(false)
     }
 
 }

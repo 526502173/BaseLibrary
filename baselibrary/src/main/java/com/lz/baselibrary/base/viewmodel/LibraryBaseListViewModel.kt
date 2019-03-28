@@ -1,7 +1,6 @@
 package com.lz.baselibrary.base.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItems
 
 /**
  * LibraryBaseListViewModel
@@ -9,7 +8,7 @@ import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItems
  */
 open class LibraryBaseListViewModel : ViewModel() {
 
-    val mItems: LoadMoreItems by lazy(LazyThreadSafetyMode.NONE) { LoadMoreItems() }
+    val mItems: ArrayList<Any> by lazy { ArrayList<Any>() }
 
     var mPage = 1
 

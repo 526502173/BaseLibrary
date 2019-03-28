@@ -2,8 +2,8 @@ package com.lz.baselibrary.base
 
 import android.view.View
 import com.lz.baselibrary.base.viewmodel.LibraryBaseListViewModel
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreAdapter
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
+import me.drakeet.multitype.MultiTypeAdapter
 
 /**
  * @author linzheng
@@ -12,8 +12,8 @@ abstract class LibraryBaseListActivity<T : LibraryBaseListViewModel> : LibraryBa
 
     protected abstract val mViewModel: T
 
-    protected val mAdapter: LoadMoreAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        val adapter = LoadMoreAdapter(this)
+    protected val mAdapter: MultiTypeAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        val adapter = MultiTypeAdapter()
         adapter.items = mViewModel.mItems
         adapter
     }

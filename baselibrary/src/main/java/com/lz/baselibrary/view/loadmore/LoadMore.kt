@@ -14,8 +14,6 @@ interface LoadMore{
      * 加载中...
      */
     fun loading()
-
-
     /**
      * 普通状态
      * 一般在 Item 不可见时或是 [LoadMoreItem] 刚创建
