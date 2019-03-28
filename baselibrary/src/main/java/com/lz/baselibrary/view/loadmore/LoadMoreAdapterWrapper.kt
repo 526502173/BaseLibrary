@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.multitype.LoadMoreItemViewBinder
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItem
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import me.drakeet.multitype.MultiTypeAdapter
 import me.drakeet.multitype.Types
 
@@ -13,7 +14,10 @@ import me.drakeet.multitype.Types
  * 基于 MultiTypeAdapter 实现的加载跟多
  * @author linzheng
  */
-class LoadMoreAdapterWrapper(private val mAdapter: MultiTypeAdapter) : MultiTypeAdapter(), LoadMore {
+class LoadMoreAdapterWrapper(
+        private val mAdapter: MultiTypeAdapter,
+        private val mLoadMoreListener: LoadMoreListener
+) : MultiTypeAdapter(), LoadMore {
 
     /**
      * LoadMoreItem 对象
@@ -23,7 +27,7 @@ class LoadMoreAdapterWrapper(private val mAdapter: MultiTypeAdapter) : MultiType
     /**
      * LoadMoreItemViewBinder 对象
      */
-    private val mLoadMoreItemViewBinder by lazy { LoadMoreItemViewBinder() }
+    private val mLoadMoreItemViewBinder by lazy { LoadMoreItemViewBinder(mLoadMoreListener) }
 
     init {
         register(LoadMoreItem::class, mLoadMoreItemViewBinder)

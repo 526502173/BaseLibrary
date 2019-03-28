@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     private val mAdapterWrapper: LoadMoreAdapterWrapper by lazy {
-        LoadMoreAdapterWrapper(mAdapter)
+        LoadMoreAdapterWrapper(mAdapter, this)
     }
 
     override val mViewModel: ListViewModel
@@ -45,9 +45,8 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
         srl_list.setOnRefreshListener(this)
 
         mAdapter.register(SubscriptionArticle::class, SubscriptionArticleItemViewBinder())
-        LoadMoreItemViewBinder.sLoadMoreListener = this
-//        mHolder.showLoading()
-//        loadData()
+        mHolder.showLoading()
+        loadData()
     }
 
 
@@ -80,11 +79,8 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
 
     override fun loadMore(view: View) {
-        srl_list.postDelayed(2000) {
-            mAdapterWrapper.noMore()
-        }
-//        mViewModel.mPage++
-//        loadData(false)
+        mViewModel.mPage++
+        loadData(false)
     }
 
 }

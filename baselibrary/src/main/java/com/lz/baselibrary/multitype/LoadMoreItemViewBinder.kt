@@ -12,20 +12,16 @@ import me.drakeet.multitype.ItemViewBinder
 /**
  * @author linzheng
  */
-class LoadMoreItemViewBinder : ItemViewBinder<LoadMoreItem, LoadMoreItemViewBinder.LoadMoreViewHolder>() {
-
-    override fun onBindViewHolder(holder: LoadMoreViewHolder, item: LoadMoreItem, payloads: List<Any>) {
-        super.onBindViewHolder(holder, item, payloads)
-    }
+class LoadMoreItemViewBinder(private val mLoadMoreListener: LoadMoreListener) : ItemViewBinder<LoadMoreItem, LoadMoreItemViewBinder.LoadMoreViewHolder>() {
 
     override fun onBindViewHolder(holder: LoadMoreViewHolder, item: LoadMoreItem) {
         holder.bind(item)
     }
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): LoadMoreViewHolder =
-            LoadMoreViewHolder(LoadMoreView.create(parent.context))
+            LoadMoreViewHolder(LoadMoreView.create(parent.context), mLoadMoreListener)
 
-    class LoadMoreViewHolder(itemView: View) : BaseViewHolder<LoadMoreItem>(itemView) {
+    class LoadMoreViewHolder(itemView: View, private val mLoadMoreListener: LoadMoreListener) : BaseViewHolder<LoadMoreItem>(itemView) {
         override fun bind(item: LoadMoreItem) {
             val loadMoreView = itemView as LoadMoreView
             when (item.status) {
@@ -33,21 +29,16 @@ class LoadMoreItemViewBinder : ItemViewBinder<LoadMoreItem, LoadMoreItemViewBind
                     loadMoreView.noMore()
                 }
                 LoadMoreItem.LOAD_MORE_STATUS_LOADING -> {
-                    //no code
+
                 }
                 LoadMoreItem.LOAD_MORE_STATUS_NORMAL -> {
                     item.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
                     loadMoreView.loading()
-                    sLoadMoreListener.loadMore(itemView)
+                    mLoadMoreListener.loadMore(itemView)
                 }
             }
         }
     }
 
-    companion object {
-
-        lateinit var sLoadMoreListener: LoadMoreListener
-
-    }
 
 }
