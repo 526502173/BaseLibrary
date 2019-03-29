@@ -1,20 +1,23 @@
 package com.lz.baselibrary
 
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.postDelayed
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.model.wanandroid.SubscriptionArticle
-import com.lz.baselibrary.multitype.LoadMoreItemViewBinder
 import com.lz.baselibrary.multitype.SubscriptionArticleItemViewBinder
 import com.lz.baselibrary.network.Api
+import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.LoadMoreAdapterWrapper
+import com.lz.baselibrary.view.recyclerview.RecyclerViewItemClickListener
+import com.lz.baselibrary.view.recyclerview.SimpleOnItemClickListener
 import com.lz.baselibrary.viewmodel.ListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import com.uber.autodispose.autoDisposable
@@ -39,13 +42,21 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
         setContentView(R.layout.activity_list)
 
         rv_list.layoutManager = LinearLayoutManager(this)
-        rv_list.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        rv_list.addItemDecoration(VerticalItemDecoration(0.5.dp2px(this), Color.parseColor("#e0e0e0")) { _, position ->
+            position != mViewModel.mItems.size
+        })
         rv_list.adapter = mAdapterWrapper
+        rv_list.addOnItemTouchListener(RecyclerViewItemClickListener(rv_list, object : SimpleOnItemClickListener() {
+            override fun onItemClick(view: View, position: Int) {
+                val article = mViewModel.mItems[position] as SubscriptionArticle
+                startActivity(Intent(Intent.ACTION_VIEW, article.link.toUri()))
+            }
+        }))
 
         srl_list.setOnRefreshListener(this)
 
         mAdapter.register(SubscriptionArticle::class, SubscriptionArticleItemViewBinder())
-        mHolder.showLoading()
+        showLoading()
         loadData()
     }
 
@@ -56,7 +67,7 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
                 .delay(1, TimeUnit.SECONDS)
                 .observeOn(mainThreadScheduler)
                 .doFinally {
-                    mHolder.showLoadSuccess()
+                    showSuccess()
                     srl_list.isRefreshing = false
                 }
                 .autoDisposable(mScopeProvider)

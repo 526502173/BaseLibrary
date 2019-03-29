@@ -12,6 +12,7 @@ import com.lz.baselibrary.dp2px
 /**
  * @author linzheng
  */
+//todo 此 View 应该设计成可以自定义
 class LoadMoreView(context: Context?) : ConstraintLayout(context), LoadMore {
 
     private val mProgressBar by lazy {

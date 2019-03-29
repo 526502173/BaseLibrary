@@ -12,6 +12,10 @@ import android.view.View
  */
 inline fun Int.dp2px(app: Context): Int = (app.resources.displayMetrics.density * this).toInt()
 
+inline fun Float.dp2px(app: Context): Int = (app.resources.displayMetrics.density * this).toInt()
+
+inline fun Double.dp2px(app: Context): Int = (app.resources.displayMetrics.density * this).toInt()
+
 /**
  * 通过 Boolean类型的值来设置 View 的 Visibility
  * true 表示 [View.VISIBLE]

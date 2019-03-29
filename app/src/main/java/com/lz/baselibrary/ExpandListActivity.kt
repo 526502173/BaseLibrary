@@ -28,7 +28,7 @@ class ExpandListActivity : LibraryBaseListActivity<ListViewModel>() {
         ExpandAdapter<CustomParent>(mViewModel.mItems, mAdapter)
     }
 
-    private val mTestList  = listOf(
+    private val mTestList = listOf(
             CustomParent("1", listOf(CustomChild("1-1"), CustomChild("1-2"), CustomChild("1-3"))),
             CustomParent("2", listOf(CustomChild("2-1"), CustomChild("2-2"), CustomChild("2-3"))),
             CustomParent("3", listOf(CustomChild("4-1"), CustomChild("3-2"), CustomChild("3-3"))),
@@ -48,7 +48,9 @@ class ExpandListActivity : LibraryBaseListActivity<ListViewModel>() {
         mAdapter.register(CustomChild::class, CustomChildItemViewBinder())
 
         rv_expand_list.layoutManager = LinearLayoutManager(this)
-        rv_expand_list.addItemDecoration(VerticalItemDecoration(2, Color.GRAY))
+        rv_expand_list.addItemDecoration(VerticalItemDecoration(2, Color.GRAY) { direction, position ->
+            true
+        })
         rv_expand_list.adapter = mAdapter
 
         mExpandAdapter.init(mTestList)

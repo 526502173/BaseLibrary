@@ -2,7 +2,6 @@ package com.lz.baselibrary.view.recyclerview
 
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -46,13 +45,5 @@ class RecyclerViewItemClickListener(
     override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
     }
 
-
-}
-
-interface OnItemClickListener {
-
-    fun onItemClick(view: View, position: Int)
-
-    fun onItemLongClick(view: View, position: Int)
 
 }

@@ -1,8 +1,8 @@
 package com.lz.baselibrary
 
-import com.heyooo.heymail.utils.initializer.Initializer
 import com.lz.baselibrary.initializer.ApiInitialize
 import com.lz.baselibrary.initializer.GloadingInitialize
+import com.lz.baselibrary.utils.initializer.Initializer
 import com.lz.baselibrary.utils.initializer.LibraryTimberInitialize
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers

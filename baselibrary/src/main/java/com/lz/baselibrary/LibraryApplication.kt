@@ -1,7 +1,7 @@
 package com.lz.baselibrary
 
 import android.app.Application
-import com.heyooo.heymail.utils.initializer.Initializer
+import com.lz.baselibrary.utils.initializer.Initializer
 
 /**
  * MyApplication 需要继承此类
