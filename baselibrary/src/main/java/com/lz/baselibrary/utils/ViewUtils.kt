@@ -5,7 +5,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.forEach
 import com.google.android.material.tabs.TabLayout
-import com.lz.baselibrary.dp
+import com.lz.baselibrary.dp2px
 
 /**
  * @author linzheng
@@ -31,8 +31,8 @@ object ViewUtils {
                 }
                 val params = (it.layoutParams as LinearLayout.LayoutParams).apply {
                     this.width = measureWidth
-                    this.leftMargin = width.dp(tabLayout.context)
-                    this.rightMargin = width.dp(tabLayout.context)
+                    this.leftMargin = width.dp2px(tabLayout.context)
+                    this.rightMargin = width.dp2px(tabLayout.context)
                 }
                 it.layoutParams = params
                 it.invalidate()

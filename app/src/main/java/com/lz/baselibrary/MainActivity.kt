@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.lz.baselibrary.base.LibraryBaseActivity
-import org.jetbrains.anko.startActivity
 
 
 class MainActivity : LibraryBaseActivity() {
@@ -14,7 +13,7 @@ class MainActivity : LibraryBaseActivity() {
     }
 
     fun api(view: View) {
-        startActivity<ProcessActivity>()
+
     }
 
     fun viewPagerActivity(view: View) {

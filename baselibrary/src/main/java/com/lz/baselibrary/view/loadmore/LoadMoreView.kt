@@ -7,7 +7,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.lz.baselibrary.R
-import com.lz.baselibrary.dp
+import com.lz.baselibrary.dp2px
 
 /**
  * @author linzheng
@@ -17,7 +17,7 @@ class LoadMoreView(context: Context?) : ConstraintLayout(context), LoadMore {
     private val mProgressBar by lazy {
         ProgressBar(context).apply {
             id = R.id.pb_loading
-            layoutParams = LayoutParams(20.dp(context!!), 20.dp(context!!)).apply {
+            layoutParams = LayoutParams(20.dp2px(context!!), 20.dp2px(context!!)).apply {
                 leftToLeft = LayoutParams.PARENT_ID
                 topToTop = LayoutParams.PARENT_ID
                 bottomToBottom = LayoutParams.PARENT_ID
@@ -38,7 +38,7 @@ class LoadMoreView(context: Context?) : ConstraintLayout(context), LoadMore {
                 setTextColor(Color.BLACK)
             }
             text = "加载中..."
-            setPadding(10.dp(context!!), 0, 0, 0)
+            setPadding(10.dp2px(context!!), 0, 0, 0)
         }
     }
 
@@ -58,7 +58,7 @@ class LoadMoreView(context: Context?) : ConstraintLayout(context), LoadMore {
     companion object {
 
         fun create(context: Context) = LoadMoreView(context).apply {
-            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, 50.dp(context))
+            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, 50.dp2px(context))
             addView(mProgressBar)
             addView(mTextView)
         }

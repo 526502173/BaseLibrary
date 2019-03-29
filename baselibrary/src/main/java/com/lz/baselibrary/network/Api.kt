@@ -46,6 +46,7 @@ object Api {
             Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .client(mOkHttpClient)
+                    .validateEagerly(true)
                     .addCallAdapterFactory(callAdapterFactory)
                     .addConverterFactory(converterFactory)
                     .build()

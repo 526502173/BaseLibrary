@@ -10,30 +10,28 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
  */
 open class LibraryBaseActivity : AppCompatActivity(), BaseView {
 
-    protected val mHolder by lazy {
-        Gloading.getDefault().wrap(this)
-    }
-
     protected val mScopeProvider: AndroidLifecycleScopeProvider by lazy {
         AndroidLifecycleScopeProvider.from(this)
     }
 
-    override fun showLoadingDialog() {
+    protected val mHolder: Gloading.Holder by lazy {
+        Gloading.getDefault().wrap(this)
     }
 
-    override fun showLoadingLayout() {
+    override fun showLoading() {
+        mHolder.showLoading()
     }
 
-    override fun hideLoadingDialog() {
+    override fun showSuccess() {
+        mHolder.showLoadSuccess()
     }
 
-    override fun showEmptyDataLayout() {
+    override fun showLoadFailed() {
+        mHolder.showLoadFailed()
     }
 
-    override fun showErrorLayout() {
-    }
-
-    override fun showSuccessLayout() {
+    override fun showEmpty() {
+        mHolder.showEmpty()
     }
 
 }

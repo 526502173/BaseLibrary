@@ -27,25 +27,15 @@ open abstract class LibraryBaseFragment : Fragment(), BaseView {
         mBaseView = context as BaseView
     }
 
-    override fun showLoadingDialog() {
-        mBaseView.showLoadingDialog()
+    override fun showEmpty() {
     }
 
-    override fun showLoadingLayout() {
+    override fun showLoadFailed() {
     }
 
-    override fun hideLoadingDialog() {
-        mBaseView.hideLoadingDialog()
+    override fun showLoading() {
     }
 
-    override fun showEmptyDataLayout() {
+    override fun showSuccess() {
     }
-
-    override fun showErrorLayout() {
-    }
-
-    override fun showSuccessLayout() {
-
-    }
-
 }

@@ -5,7 +5,7 @@ gradle.ext.versionCode = 1
 gradle.ext.versionName = "1.0"
 gradle.ext.compileSdkVersion = 28
 gradle.ext.targetSdkVersion = 28
-gradle.ext.minSdkVersion = 15
+gradle.ext.minSdkVersion = 16
 gradle.ext.androidXAppCompatVersion = '1.0.2'
 gradle.ext.androidXCoreKTXVersion = '1.0.1'
 gradle.ext.androidXConstraintLayoutVersion = '1.1.3'
@@ -18,7 +18,7 @@ gradle.ext.rxJavaVersion = '2.2.7'
 gradle.ext.rxAndroidVersion = '2.1.1'
 
 gradle.ext.glideVersion = '4.9.0'
-gradle.ext.autoDispose = '1.1.0'
+gradle.ext.autoDisposeVersion = '1.1.0'
 
 gradle.ext.eventBusVersion = '3.1.1'
 gradle.ext.multiTypeVersion = '4.0.0-alpha3'

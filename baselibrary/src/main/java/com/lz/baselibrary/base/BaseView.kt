@@ -1,20 +1,18 @@
 package com.lz.baselibrary.base
 
 /**
+ * 封装界面状态显示方法
+ * 参照 [Gloading]
  * @author linzheng
  */
 interface BaseView {
 
-    fun showLoadingDialog()
+    fun showLoading()
 
-    fun hideLoadingDialog()
+    fun showSuccess()
 
-    fun showLoadingLayout()
+    fun showLoadFailed()
 
-    fun showEmptyDataLayout()
-
-    fun showErrorLayout()
-
-    fun showSuccessLayout()
+    fun showEmpty()
 
 }

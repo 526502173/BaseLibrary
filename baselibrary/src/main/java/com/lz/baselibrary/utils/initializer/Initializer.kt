@@ -1,4 +1,4 @@
-package com.heyooo.heymail.utils.initializer
+package com.lz.baselibrary.utils.initializer
 
 import android.content.Context
 import com.lz.baselibrary.utils.Utils

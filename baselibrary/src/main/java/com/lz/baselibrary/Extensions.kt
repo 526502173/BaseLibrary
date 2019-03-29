@@ -7,11 +7,10 @@ import android.view.View
  * 扩展方法
  * @author linzheng
  */
-
 /**
- * 计算 dp 值
+ * 计算 dp2px 值
  */
-inline fun Int.dp(app: Context): Int = (app.resources.displayMetrics.density * this).toInt()
+inline fun Int.dp2px(app: Context): Int = (app.resources.displayMetrics.density * this).toInt()
 
 /**
  * 通过 Boolean类型的值来设置 View 的 Visibility
