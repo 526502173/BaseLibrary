@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.lz.baselibrary.view.refresh.RefreshLayout
             android:id="@+id/srl_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -14,6 +14,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.lz.baselibrary.view.refresh.RefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

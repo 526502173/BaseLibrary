@@ -8,14 +8,17 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 /**
  * @author linzheng
  */
-open class LibraryBaseActivity : AppCompatActivity(), BaseView {
+open class LibraryBaseActivity : AppCompatActivity(), BaseView, Runnable {
 
+    /**
+     * 用于给 RxJava 绑定 Activity 的生命周期
+     */
     protected val mScopeProvider: AndroidLifecycleScopeProvider by lazy {
         AndroidLifecycleScopeProvider.from(this)
     }
 
     protected val mHolder: Gloading.Holder by lazy {
-        Gloading.getDefault().wrap(this)
+        Gloading.getDefault().wrap(this).withRetry(this)
     }
 
     override fun showLoading() {
@@ -26,12 +29,16 @@ open class LibraryBaseActivity : AppCompatActivity(), BaseView {
         mHolder.showLoadSuccess()
     }
 
-    override fun showLoadFailed() {
-        mHolder.showLoadFailed()
+    override fun showLoadFailed(status: Int) {
+        mHolder.showLoadingStatus(status)
     }
 
     override fun showEmpty() {
         mHolder.showEmpty()
+    }
+
+    override fun run() {
+
     }
 
 }

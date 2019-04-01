@@ -28,9 +28,9 @@ object Api {
                 readTimeout(timeoutReadMinutes, TimeUnit.MINUTES)
                 writeTimeout(timeoutWriteMinutes, TimeUnit.MINUTES)
                 if (cache != null) cache(cache)
-                if (cookieJar != null) cookieJar(cookieJar)
-                if (sslSocketFactory != null && trustManager != null)
-                    sslSocketFactory(sslSocketFactory, trustManager)
+                if (httpsConfig?.cookieJar != null) cookieJar(httpsConfig.cookieJar)
+                if (httpsConfig?.sslSocketFactory != null && httpsConfig.trustManager != null)
+                    sslSocketFactory(httpsConfig.sslSocketFactory, httpsConfig.trustManager)
             }
             build()
         }
@@ -40,7 +40,7 @@ object Api {
      * Retrofit 对象
      */
     private val mRetrofit by lazy(LazyThreadSafetyMode.NONE) {
-        if(!this::mApiConfig.isInitialized)
+        if (!this::mApiConfig.isInitialized)
             throw ApiConfigNotInitException()
         mApiConfig.retrofitConfig.run {
             Retrofit.Builder()

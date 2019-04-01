@@ -5,14 +5,18 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.net.toUri
+import androidx.core.view.postDelayed
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.lz.baselibrary.api.ApiConsumer
+import com.lz.baselibrary.api.ApiFunction
 import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.model.wanandroid.SubscriptionArticle
 import com.lz.baselibrary.multitype.SubscriptionArticleItemViewBinder
 import com.lz.baselibrary.network.Api
+import com.lz.baselibrary.view.LibraryGloadingStatusLayout
 import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.LoadMoreAdapterWrapper
@@ -21,8 +25,8 @@ import com.lz.baselibrary.view.recyclerview.SimpleOnItemClickListener
 import com.lz.baselibrary.viewmodel.ListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import com.uber.autodispose.autoDisposable
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_list.*
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 /**
@@ -55,30 +59,28 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
         srl_list.setOnRefreshListener(this)
 
+        mRefresh = srl_list
+        mLoadMore = mAdapterWrapper
+
         mAdapter.register(SubscriptionArticle::class, SubscriptionArticleItemViewBinder())
-        showLoading()
-        loadData()
+        showLoadFailed(LibraryGloadingStatusLayout.GLOADING_STATUS_NETWORK_ERROR)
     }
 
 
     private fun loadData(isRefresh: Boolean = true) {
         Api.createApi(WanAndroidApi::class)
                 .getSubscriptionList(mViewModel.mPage, 408)
+                .map(ApiFunction())
                 .delay(1, TimeUnit.SECONDS)
                 .observeOn(mainThreadScheduler)
-                .doFinally {
-                    showSuccess()
-                    srl_list.isRefreshing = false
-                }
+                .doFinally { srl_list.isRefreshing = false }
                 .autoDisposable(mScopeProvider)
-                .subscribe({
+                .subscribe(Consumer {
                     if (isRefresh) mViewModel.mItems.clear()
                     else mAdapterWrapper.normal()
-                    mViewModel.mItems.addAll(it.data.datas)
+                    mViewModel.mItems.addAll(it.datas)
                     mAdapterWrapper.notifyDataSetChanged()
-                }, {
-                    Timber.e(it)
-                })
+                }, ApiConsumer(this))
 
     }
 
@@ -92,6 +94,13 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
     override fun loadMore(view: View) {
         mViewModel.mPage++
         loadData(false)
+    }
+
+    override fun run() {
+        showLoading()
+        srl_list.postDelayed(1000) {
+            showLoadFailed(LibraryGloadingStatusLayout.GLOADING_STATUS_NETWORK_ERROR)
+        }
     }
 
 }

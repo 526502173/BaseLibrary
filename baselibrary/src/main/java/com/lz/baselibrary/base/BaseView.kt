@@ -7,12 +7,24 @@ package com.lz.baselibrary.base
  */
 interface BaseView {
 
+    /**
+     * 加载中
+     */
     fun showLoading()
 
+    /**
+     * 加载成功
+     */
     fun showSuccess()
 
-    fun showLoadFailed()
+    /**
+     * 加载失败
+     */
+    fun showLoadFailed(status: Int)
 
+    /**
+     * 数据为空
+     */
     fun showEmpty()
 
 }

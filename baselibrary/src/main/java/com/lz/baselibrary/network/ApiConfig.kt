@@ -30,6 +30,13 @@ data class OkHttpConfig(
         val interceptorList: List<Interceptor> = listOf(),
         val networkInterceptorList: List<Interceptor> = listOf(),
         val cache: Cache? = null,
+        val httpsConfig: OkHttpHttpsConfig? = null
+)
+
+/**
+ * OkHttp 的 https 配置
+ */
+data class OkHttpHttpsConfig(
         val cookieJar: CookieJar? = null,
         val sslSocketFactory: SSLSocketFactory? = null,
         val trustManager: X509TrustManager? = null
