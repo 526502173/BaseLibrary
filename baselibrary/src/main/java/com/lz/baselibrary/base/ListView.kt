@@ -11,7 +11,7 @@ interface ListView : BaseView {
     fun refreshComplete()
 
     /**
-     * 出发下拉刷新
+     * 触发下拉刷新
      */
     fun refreshing()
 

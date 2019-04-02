@@ -1,8 +1,7 @@
-package com.lz.baselibrary.initializer
+package com.lz.baselibrary.utils.initializer
 
 import com.lz.baselibrary.network.ApiConfig
 import com.lz.baselibrary.network.RetrofitConfig
-import com.lz.baselibrary.utils.initializer.LibraryApiInitialize
 
 /**
  * Api 初始化

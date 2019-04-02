@@ -16,6 +16,8 @@ import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.model.wanandroid.SubscriptionArticle
 import com.lz.baselibrary.multitype.SubscriptionArticleItemViewBinder
 import com.lz.baselibrary.network.Api
+import com.lz.baselibrary.utils.PageFunction
+import com.lz.baselibrary.utils.rxjava.PageTransformer
 import com.lz.baselibrary.view.global.LibraryGlobalStatusLayout
 import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
@@ -69,19 +71,17 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
     }
 
 
-    private fun loadData(isRefresh: Boolean = true) {
-        Api.createApi(WanAndroidApi::class)
-                .getSubscriptionList(mViewModel.mPage, 408)
+    private fun loadData() {
+        //todo 已 observerOn 为分界，分别实现两个 Transformer 一个用来判断服务器获取的数据，一个用来调用 ListView 的方法
+        Api.createApi(WanAndroidApi::class).getSubscriptionList(mViewModel.mPage, 408)
+                .delay(1,TimeUnit.SECONDS)
                 .map(ApiFunction())
-                .delay(1, TimeUnit.SECONDS)
+                .map(PageFunction())
                 .observeOn(mainThreadScheduler)
-                .doFinally { srl_list.isRefreshing = false }
-                .doOnNext { showSuccess() }
+                .compose(PageTransformer(this))
                 .autoDisposable(mScopeProvider)
                 .subscribe(Consumer {
-                    if (isRefresh) mViewModel.mItems.clear()
-                    else mAdapterWrapper.normal()
-                    mViewModel.mItems.addAll(it.datas)
+                    mViewModel.mItems.addAll(it)
                     mAdapterWrapper.notifyDataSetChanged()
                 }, ApiConsumer(this))
 
@@ -89,14 +89,14 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
     override fun onRefresh() {
         mViewModel.mPage = 1
-        mAdapterWrapper.normal()
+        mViewModel.mItems.clear()
         loadData()
     }
 
 
     override fun loadMore(view: View) {
         mViewModel.mPage++
-        loadData(false)
+        loadData()
     }
 
     override fun run() {

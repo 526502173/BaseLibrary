@@ -1,7 +1,6 @@
-package com.lz.baselibrary.initializer
+package com.lz.baselibrary.utils.initializer
 
 import android.content.Context
-import com.lz.baselibrary.utils.initializer.LibraryGloadingInitialize
 import com.lz.baselibrary.view.GlobalStatusLayout
 import com.lz.baselibrary.view.global.LibraryGlobalStatusLayout
 

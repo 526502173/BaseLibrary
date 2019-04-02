@@ -1,7 +1,7 @@
 package com.lz.baselibrary
 
-import com.lz.baselibrary.initializer.ApiInitialize
-import com.lz.baselibrary.initializer.GloadingInitialize
+import com.lz.baselibrary.utils.initializer.ApiInitialize
+import com.lz.baselibrary.utils.initializer.GloadingInitialize
 import com.lz.baselibrary.utils.initializer.Initializer
 import com.lz.baselibrary.utils.initializer.LibraryTimberInitialize
 import io.reactivex.Scheduler

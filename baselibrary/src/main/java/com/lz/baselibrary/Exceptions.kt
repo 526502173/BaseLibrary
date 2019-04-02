@@ -17,4 +17,14 @@ class ListActivityViewModelNotInitException : java.lang.RuntimeException(
 
 class LoadMoreItemNotFoundException : RuntimeException("LoadMoreItem 没有找到!")
 
+
+
+/**
+ * 接口异常
+ */
 class InterfaceException: RuntimeException()
+
+/**
+ * 分页数据没有更多了
+ */
+class NoMoreException: RuntimeException()
