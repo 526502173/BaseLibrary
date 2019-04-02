@@ -24,6 +24,7 @@ import com.lz.baselibrary.view.recyclerview.RecyclerViewItemClickListener
 import com.lz.baselibrary.view.recyclerview.SimpleOnItemClickListener
 import com.lz.baselibrary.viewmodel.ListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
+import com.uber.autodispose.AutoDispose.autoDisposable
 import com.uber.autodispose.autoDisposable
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_list.*
@@ -75,9 +76,9 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
                 .delay(1, TimeUnit.SECONDS)
                 .observeOn(mainThreadScheduler)
                 .doFinally { srl_list.isRefreshing = false }
+                .doOnNext { showSuccess() }
                 .autoDisposable(mScopeProvider)
                 .subscribe(Consumer {
-                    showSuccess()
                     if (isRefresh) mViewModel.mItems.clear()
                     else mAdapterWrapper.normal()
                     mViewModel.mItems.addAll(it.datas)
@@ -99,10 +100,8 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
     }
 
     override fun run() {
-        showLoading()
-        srl_list.postDelayed(1000) {
-            showLoadFailed(LibraryGlobalStatusLayout.GLOADING_STATUS_NETWORK_ERROR)
-        }
+        super.run()
+        loadData()
     }
 
 }

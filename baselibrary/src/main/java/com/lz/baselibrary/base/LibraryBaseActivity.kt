@@ -38,7 +38,7 @@ open class LibraryBaseActivity : AppCompatActivity(), BaseView, Runnable {
     }
 
     override fun run() {
-
+        showLoading()
     }
 
 }
