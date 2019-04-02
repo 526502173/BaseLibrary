@@ -2,7 +2,7 @@ package com.lz.baselibrary.utils.initializer
 
 import android.content.Context
 import com.billy.android.loading.Gloading
-import com.lz.baselibrary.view.LibraryGloadingStatusLayout
+import com.lz.baselibrary.view.global.LibraryGlobalStatusLayout
 
 /**
  * Gloading 初始化
@@ -12,8 +12,8 @@ open abstract class LibraryGloadingInitialize : SimpleInitialize() {
 
     override fun initial(context: Context) {
         Gloading.initDefault { holder, convertView, status ->
-            var layout: LibraryGloadingStatusLayout? = null
-            if (convertView != null && convertView is LibraryGloadingStatusLayout) {
+            var layout: LibraryGlobalStatusLayout? = null
+            if (convertView != null && convertView is LibraryGlobalStatusLayout) {
                 layout = convertView
             }
             if (layout == null) {
@@ -27,7 +27,7 @@ open abstract class LibraryGloadingInitialize : SimpleInitialize() {
     /**
      * 创建 GloadingStatusLayout 对象
      */
-    abstract fun createGloadingStatusLayout(context: Context, retry: Runnable): LibraryGloadingStatusLayout
+    abstract fun createGloadingStatusLayout(context: Context, retry: Runnable): LibraryGlobalStatusLayout
 
 
 }

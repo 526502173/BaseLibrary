@@ -16,7 +16,7 @@ import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.model.wanandroid.SubscriptionArticle
 import com.lz.baselibrary.multitype.SubscriptionArticleItemViewBinder
 import com.lz.baselibrary.network.Api
-import com.lz.baselibrary.view.LibraryGloadingStatusLayout
+import com.lz.baselibrary.view.global.LibraryGlobalStatusLayout
 import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.LoadMoreAdapterWrapper
@@ -63,7 +63,8 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
         mLoadMore = mAdapterWrapper
 
         mAdapter.register(SubscriptionArticle::class, SubscriptionArticleItemViewBinder())
-        showLoadFailed(LibraryGloadingStatusLayout.GLOADING_STATUS_NETWORK_ERROR)
+        showLoading()
+        loadData()
     }
 
 
@@ -76,6 +77,7 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
                 .doFinally { srl_list.isRefreshing = false }
                 .autoDisposable(mScopeProvider)
                 .subscribe(Consumer {
+                    showSuccess()
                     if (isRefresh) mViewModel.mItems.clear()
                     else mAdapterWrapper.normal()
                     mViewModel.mItems.addAll(it.datas)
@@ -99,7 +101,7 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
     override fun run() {
         showLoading()
         srl_list.postDelayed(1000) {
-            showLoadFailed(LibraryGloadingStatusLayout.GLOADING_STATUS_NETWORK_ERROR)
+            showLoadFailed(LibraryGlobalStatusLayout.GLOADING_STATUS_NETWORK_ERROR)
         }
     }
 

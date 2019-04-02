@@ -2,8 +2,8 @@ package com.lz.baselibrary.initializer
 
 import android.content.Context
 import com.lz.baselibrary.utils.initializer.LibraryGloadingInitialize
-import com.lz.baselibrary.view.GloadingStatusLayout
-import com.lz.baselibrary.view.LibraryGloadingStatusLayout
+import com.lz.baselibrary.view.GlobalStatusLayout
+import com.lz.baselibrary.view.global.LibraryGlobalStatusLayout
 
 /**
  * [Gloading] 初始化
@@ -11,8 +11,8 @@ import com.lz.baselibrary.view.LibraryGloadingStatusLayout
  */
 class GloadingInitialize : LibraryGloadingInitialize() {
 
-    override fun createGloadingStatusLayout(context: Context, retry: Runnable): LibraryGloadingStatusLayout {
-        return GloadingStatusLayout(context, retry)
+    override fun createGloadingStatusLayout(context: Context, retry: Runnable): LibraryGlobalStatusLayout {
+        return GlobalStatusLayout(context, retry)
     }
 
 }

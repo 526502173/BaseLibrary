@@ -1,7 +1,8 @@
 package com.lz.baselibrary.network
 
+import com.billy.android.loading.Gloading
 import com.lz.baselibrary.base.BaseView
-import com.lz.baselibrary.view.LibraryGloadingStatusLayout
+import com.lz.baselibrary.view.global.LibraryGlobalStatusLayout
 import io.reactivex.functions.Consumer
 import retrofit2.HttpException
 import java.net.ConnectException
@@ -15,9 +16,9 @@ abstract class LibraryApiConsumer(private val mBaseView: BaseView) : Consumer<Th
 
     override fun accept(t: Throwable) {
         when (t) {
-            is ConnectException -> mBaseView.showLoadFailed(LibraryGloadingStatusLayout.GLOADING_STATUS_NETWORK_ERROR)
-            is HttpException -> mBaseView.showLoadFailed(LibraryGloadingStatusLayout.GLOADING_STATUS_HTTP_ERROR)
-            else -> if (!handleOrderException(t)) mBaseView.showLoadFailed(LibraryGloadingStatusLayout.GLOADING_STATUS_ORDER_ERROR)
+            is ConnectException -> mBaseView.showLoadFailed(LibraryGlobalStatusLayout.GLOADING_STATUS_NETWORK_ERROR)
+            is HttpException -> mBaseView.showLoadFailed(LibraryGlobalStatusLayout.GLOADING_STATUS_HTTP_ERROR)
+            else -> if (!handleOrderException(t)) mBaseView.showLoadFailed(Gloading.STATUS_LOAD_FAILED)
         }
     }
 

@@ -6,23 +6,22 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.lz.baselibrary.R
 import com.lz.baselibrary.dp2px
 
 /**
  * @author linzheng
  */
 //todo 此 View 应该设计成可以自定义
-class LoadMoreView(context: Context?) : ConstraintLayout(context), LoadMore {
+class LoadMoreView(context: Context) : ConstraintLayout(context), LoadMore {
 
     private val mProgressBar by lazy {
         ProgressBar(context).apply {
-            id = R.id.pb_loading
-            layoutParams = LayoutParams(20.dp2px(context!!), 20.dp2px(context!!)).apply {
+            id = VIEW_ID_PB_LOADING
+            layoutParams = LayoutParams(20.dp2px(context), 20.dp2px(context)).apply {
                 leftToLeft = LayoutParams.PARENT_ID
                 topToTop = LayoutParams.PARENT_ID
                 bottomToBottom = LayoutParams.PARENT_ID
-                rightToLeft = R.id.tv_loading
+                rightToLeft = VIEW_ID_TV_LOADING
                 horizontalChainStyle = LayoutParams.CHAIN_PACKED
             }
         }
@@ -30,12 +29,12 @@ class LoadMoreView(context: Context?) : ConstraintLayout(context), LoadMore {
 
     private val mTextView by lazy {
         AppCompatTextView(context).apply {
-            id = R.id.tv_loading
+            id = VIEW_ID_TV_LOADING
             layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
                 topToTop = LayoutParams.PARENT_ID
                 bottomToBottom = LayoutParams.PARENT_ID
                 rightToRight = LayoutParams.PARENT_ID
-                leftToRight = R.id.pb_loading
+                leftToRight = VIEW_ID_PB_LOADING
                 setTextColor(Color.BLACK)
             }
             text = "加载中..."
@@ -57,6 +56,10 @@ class LoadMoreView(context: Context?) : ConstraintLayout(context), LoadMore {
     }
 
     companion object {
+
+        const val VIEW_ID_TV_LOADING = 2333334
+
+        const val VIEW_ID_PB_LOADING = 2333335
 
         fun create(context: Context) = LoadMoreView(context).apply {
             layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, 50.dp2px(context))
