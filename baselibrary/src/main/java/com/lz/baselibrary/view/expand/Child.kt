@@ -1,4 +1,4 @@
-package com.lz.baselibrary.model.expandlist
+package com.lz.baselibrary.view.expand
 
 /**
  * @author linzheng

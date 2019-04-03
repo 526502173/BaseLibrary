@@ -1,6 +1,6 @@
 package com.lz.baselibrary.model
 
-import com.lz.baselibrary.model.expandlist.Child
+import com.lz.baselibrary.view.expand.Child
 
 /**
  * @author linzheng

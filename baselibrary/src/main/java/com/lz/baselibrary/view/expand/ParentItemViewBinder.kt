@@ -1,8 +1,6 @@
-package com.lz.baselibrary.multitype
+package com.lz.baselibrary.view.expand
 
 import androidx.recyclerview.widget.RecyclerView
-import com.lz.baselibrary.model.expandlist.Parent
-import com.lz.baselibrary.utils.expand.OnParentClickListener
 import me.drakeet.multitype.ItemViewBinder
 
 /**

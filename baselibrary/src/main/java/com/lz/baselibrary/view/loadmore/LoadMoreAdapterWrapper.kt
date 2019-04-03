@@ -3,7 +3,7 @@ package com.lz.baselibrary.view.loadmore
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.lz.baselibrary.multitype.LoadMoreItemViewBinder
+import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItem
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
@@ -27,7 +27,9 @@ class LoadMoreAdapterWrapper(
     /**
      * LoadMoreItemViewBinder 对象
      */
-    private val mLoadMoreItemViewBinder by lazy { LoadMoreItemViewBinder(mLoadMoreListener) }
+    private val mLoadMoreItemViewBinder by lazy {
+        LoadMoreItemViewBinder(mLoadMoreListener, LibraryLoadMoreInitialize.sLoadMoreAdapter)
+    }
 
     init {
         register(LoadMoreItem::class, mLoadMoreItemViewBinder)

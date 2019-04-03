@@ -7,8 +7,9 @@ import android.view.View
  * 扩展方法
  * @author linzheng
  */
+
 /**
- * 计算 dp2px 值
+ * dp 2 px
  */
 inline fun Int.dp2px(app: Context): Int = (app.resources.displayMetrics.density * this).toInt()
 

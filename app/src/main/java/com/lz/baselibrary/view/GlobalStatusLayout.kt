@@ -5,8 +5,7 @@ import android.graphics.Color
 import android.view.View
 import com.billy.android.loading.Gloading
 import com.lz.baselibrary.R
-import com.lz.baselibrary.setVisibility
-import com.lz.baselibrary.view.global.*
+import com.lz.baselibrary.view.globalstatus.*
 import kotlinx.android.synthetic.main.view_global_loading_status.view.*
 
 /**

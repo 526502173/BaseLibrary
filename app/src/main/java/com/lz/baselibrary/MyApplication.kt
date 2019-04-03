@@ -1,9 +1,6 @@
 package com.lz.baselibrary
 
-import com.lz.baselibrary.utils.initializer.ApiInitialize
-import com.lz.baselibrary.utils.initializer.GloadingInitialize
-import com.lz.baselibrary.utils.initializer.Initializer
-import com.lz.baselibrary.utils.initializer.LibraryTimberInitialize
+import com.lz.baselibrary.utils.initializer.*
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -19,7 +16,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 class MyApplication : LibraryApplication() {
 
     override fun onCreate() {
-        Initializer.init(listOf(ApiInitialize(), LibraryTimberInitialize(), GloadingInitialize()))
+        Initializer.init(listOf(
+                ApiInitialize(),
+                LibraryTimberInitialize(),
+                GloadingInitialize(),
+                LibraryLoadMoreInitialize()
+        ))
         super.onCreate()
     }
 

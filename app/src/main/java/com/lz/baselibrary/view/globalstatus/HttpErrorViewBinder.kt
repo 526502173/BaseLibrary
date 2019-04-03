@@ -1,4 +1,4 @@
-package com.lz.baselibrary.view.global
+package com.lz.baselibrary.view.globalstatus
 
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.view_global_loading_status.view.*
@@ -6,11 +6,11 @@ import kotlinx.android.synthetic.main.view_global_loading_status.view.*
 /**
  * @author linzheng
  */
-class EmptyDataViewBinder : CommonViewBinder() {
+class HttpErrorViewBinder : CommonViewBinder() {
 
     override fun bindView(layout: ViewGroup, retry: Runnable) {
         super.bindView(layout, retry)
-        layout.tv_text.text = "空空如也..."
+        layout.tv_text.text = "Http Code != 2xx"
     }
 
 }

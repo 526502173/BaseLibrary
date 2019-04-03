@@ -1,4 +1,4 @@
-package com.lz.baselibrary.view.global
+package com.lz.baselibrary.view.globalstatus
 
 import android.view.ViewGroup
 

@@ -2,7 +2,7 @@ package com.lz.baselibrary.utils.initializer
 
 import android.content.Context
 import com.billy.android.loading.Gloading
-import com.lz.baselibrary.view.global.LibraryGlobalStatusLayout
+import com.lz.baselibrary.view.globalstatus.LibraryGlobalStatusLayout
 
 /**
  * Gloading 初始化

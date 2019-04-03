@@ -1,7 +1,6 @@
-package com.lz.baselibrary.utils.expand
+package com.lz.baselibrary.view.expand
 
 import android.view.View
-import com.lz.baselibrary.model.expandlist.Parent
 
 /**
  * @author linzheng

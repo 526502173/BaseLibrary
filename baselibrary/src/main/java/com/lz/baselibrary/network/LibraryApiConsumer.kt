@@ -2,7 +2,7 @@ package com.lz.baselibrary.network
 
 import com.billy.android.loading.Gloading
 import com.lz.baselibrary.base.BaseView
-import com.lz.baselibrary.view.global.LibraryGlobalStatusLayout
+import com.lz.baselibrary.view.globalstatus.LibraryGlobalStatusLayout
 import io.reactivex.functions.Consumer
 import retrofit2.HttpException
 import java.net.ConnectException

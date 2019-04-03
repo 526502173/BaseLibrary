@@ -1,4 +1,4 @@
-package com.lz.baselibrary.view.global
+package com.lz.baselibrary.view.globalstatus
 
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.view_global_loading_status.view.*

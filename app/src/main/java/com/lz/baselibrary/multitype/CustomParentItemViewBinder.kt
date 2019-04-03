@@ -8,7 +8,8 @@ import android.widget.TextView
 import com.lz.baselibrary.R
 import com.lz.baselibrary.base.BaseViewHolder
 import com.lz.baselibrary.model.CustomParent
-import com.lz.baselibrary.utils.expand.OnParentClickListener
+import com.lz.baselibrary.view.expand.OnParentClickListener
+import com.lz.baselibrary.view.expand.ParentItemViewBinder
 import kotlinx.android.synthetic.main.item_parent.view.*
 
 /**

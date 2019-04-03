@@ -22,7 +22,7 @@ open class LibraryApplication : Application() {
         /**
          * 获取 Application 对象实例
          */
-        fun app() = if (LibraryApplication.sInstance != null)
+        fun app() = if (this::sInstance.isInitialized)
             LibraryApplication.sInstance
         else throw LibraryAppInstanceNullException()
     }

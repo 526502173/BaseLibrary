@@ -1,39 +1,45 @@
-package com.lz.baselibrary.multitype
+package com.lz.baselibrary.view.loadmore
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.lz.baselibrary.base.BaseViewHolder
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItem
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreView
 import me.drakeet.multitype.ItemViewBinder
 
 /**
+ * LoadMoreItemViewBinder
  * @author linzheng
  */
-class LoadMoreItemViewBinder(private val mLoadMoreListener: LoadMoreListener) : ItemViewBinder<LoadMoreItem, LoadMoreItemViewBinder.LoadMoreViewHolder>() {
+class LoadMoreItemViewBinder(
+        private val mAdapter: LoadMoreAdapter,
+        private val mListener: LoadMoreListener
+) : ItemViewBinder<LoadMoreItem, LoadMoreItemViewBinder.LoadMoreViewHolder>() {
 
-    override fun onBindViewHolder(holder: LoadMoreViewHolder, item: LoadMoreItem) {
-        holder.bind(item)
-    }
+    override fun onBindViewHolder(holder: LoadMoreViewHolder, item: LoadMoreItem) = holder.bind(item)
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): LoadMoreViewHolder =
-            LoadMoreViewHolder(LoadMoreView.create(parent.context), mLoadMoreListener)
+            LoadMoreViewHolder(mAdapter, mListener)
 
-    class LoadMoreViewHolder(itemView: View, private val mLoadMoreListener: LoadMoreListener) : BaseViewHolder<LoadMoreItem>(itemView) {
+    /**
+     * LoadMoreViewHolder
+     */
+    class LoadMoreViewHolder(
+            private val mAdapter: LoadMoreAdapter,
+            private val mLoadMoreListener: LoadMoreListener
+    ) : BaseViewHolder<LoadMoreItem>(mAdapter.mItemView) {
+
         override fun bind(item: LoadMoreItem) {
-            val loadMoreView = itemView as LoadMoreView
             when (item.status) {
                 LoadMoreItem.LOAD_MORE_STATUS_NO_MORE -> {
-                    loadMoreView.noMore()
+                    mAdapter.noMore()
                 }
                 LoadMoreItem.LOAD_MORE_STATUS_LOADING -> {
-
+                    //nothing
                 }
                 LoadMoreItem.LOAD_MORE_STATUS_NORMAL -> {
                     item.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
-                    loadMoreView.loading()
+                    mAdapter.loading()
                     mLoadMoreListener.loadMore(itemView)
                 }
             }
