@@ -37,7 +37,9 @@ class LoadMoreAdapterWrapper(
 
     override fun noMore() {
         mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NO_MORE
-        notifyItemChanged(items.size)
+        //todo 解决刷新的闪烁问题
+//        notifyItemChanged(items.size)
+        notifyDataSetChanged()
     }
 
     override fun loading() {
@@ -90,6 +92,11 @@ class LoadMoreAdapterWrapper(
     override fun getItemCount(): Int {
         return if (items.isNotEmpty()) mAdapter.itemCount + 1
         else mAdapter.itemCount
+    }
+
+    override fun getItemId(position: Int): Long {
+        return if (position == itemCount - 1) mLoadMoreItemViewBinder.getItemId(mLoadMoreItem)
+        else super.getItemId(position)
     }
 
     override var items: List<Any>

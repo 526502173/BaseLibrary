@@ -47,10 +47,10 @@ open abstract class BaseDialogFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        dialog.setCanceledOnTouchOutside(true)
-        if (dialog.window != null) {
+        dialog?.setCanceledOnTouchOutside(true)
+        if (dialog?.window != null) {
             setParams()
-            val window = dialog.window
+            val window = dialog?.window
             val lp = window!!.attributes
             lp.dimAmount = if (mDimAmount == 0) 0.5f else mDimAmount.toFloat()
             lp.gravity = if (mIsShowBottom) Gravity.BOTTOM else Gravity.CENTER

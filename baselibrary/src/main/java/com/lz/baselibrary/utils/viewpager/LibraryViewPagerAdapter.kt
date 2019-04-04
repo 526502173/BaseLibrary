@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager
  * ViewPager 的 Fragment
  * @author linzheng
  */
-class LibraryFragmentPagerAdapter(
+class LibraryViewPagerAdapter(
         fragmentManager: FragmentManager,
         private val fragmentList: List<Fragment>,
         private val mPageTitles: List<String> = listOf()

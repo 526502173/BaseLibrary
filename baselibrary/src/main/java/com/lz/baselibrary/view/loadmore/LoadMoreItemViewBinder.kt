@@ -8,6 +8,7 @@ import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.adapter.LoadMoreAdapter
 import com.lz.baselibrary.view.loadmore.adapter.factory.LoadMoreAdapterFactory
 import me.drakeet.multitype.ItemViewBinder
+import timber.log.Timber
 
 /**
  * LoadMoreItemViewBinder
@@ -20,8 +21,11 @@ class LoadMoreItemViewBinder(
 
     override fun onBindViewHolder(holder: LoadMoreViewHolder, item: LoadMoreItem) = holder.bind(item)
 
+    //todo 这里会再调用调用 noMore 方法的时候调用一次，可能是缓存没有命中
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): LoadMoreViewHolder =
-            LoadMoreViewHolder(mAdapterFactory.create(parent.context), mListener)
+            LoadMoreViewHolder(mAdapterFactory.create(parent.context), mListener).also {
+                Timber.d("LoadMoreItemViewBinder onCreateViewHolder()")
+            }
 
     /**
      * LoadMoreViewHolder

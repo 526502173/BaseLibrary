@@ -15,7 +15,7 @@ object ViewUtils {
     /**
      * 使用反射修改 TabLayout 指示器的线条长度
      * 该方法有一个弊端，就是线条长度最小不能小于
-     * 指示器文章的长度
+     * 指示器文字的长度
      */
     fun refexSetTabLayoutLineWidth(tabLayout: TabLayout, width: Int) {
         tabLayout.post {

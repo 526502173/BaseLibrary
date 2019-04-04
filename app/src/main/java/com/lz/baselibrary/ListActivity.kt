@@ -94,7 +94,10 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
     override fun loadMore(view: View) {
         mViewModel.loadMore()
-        loadData()
+//        loadData()
+        Handler().postDelayed(2000) {
+            mAdapterWrapper.noMore()
+        }
     }
 
     override fun run() {

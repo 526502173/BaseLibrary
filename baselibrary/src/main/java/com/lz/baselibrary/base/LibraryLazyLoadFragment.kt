@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 /**
  * @author linzheng
  */
-open abstract class LibraryLazyLoadFramgent : LibraryBaseFragment() {
+open abstract class LibraryLazyLoadFragment : LibraryBaseFragment() {
 
     /**
      * 是否初始化
