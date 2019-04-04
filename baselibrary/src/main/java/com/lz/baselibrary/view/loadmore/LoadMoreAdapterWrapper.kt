@@ -16,7 +16,7 @@ import me.drakeet.multitype.Types
  */
 class LoadMoreAdapterWrapper(
         private val mAdapter: MultiTypeAdapter,
-        private val mLoadMoreListener: LoadMoreListener
+        private val mListener: LoadMoreListener
 ) : MultiTypeAdapter(), LoadMore {
 
     /**
@@ -28,7 +28,7 @@ class LoadMoreAdapterWrapper(
      * LoadMoreItemViewBinder 对象
      */
     private val mLoadMoreItemViewBinder by lazy {
-        LoadMoreItemViewBinder(mLoadMoreListener, LibraryLoadMoreInitialize.sLoadMoreAdapter)
+        LoadMoreItemViewBinder(LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener)
     }
 
     init {

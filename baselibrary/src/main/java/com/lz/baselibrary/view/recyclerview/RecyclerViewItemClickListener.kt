@@ -16,8 +16,8 @@ class RecyclerViewItemClickListener(
 
     private val mGestureDetector by lazy {
         GestureDetector(recyclerView.context, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onSingleTapUp(e: MotionEvent?): Boolean {
-                val child = recyclerView.findChildViewUnder(e?.x!!, e.y!!)
+            override fun onSingleTapUp(e: MotionEvent): Boolean {
+                val child = recyclerView.findChildViewUnder(e.x, e.y)
                 //判断 Item 是否需要分发事件
                 if (child != null && !child.dispatchTouchEvent(e)) {
                     val position = recyclerView.getChildLayoutPosition(child)
@@ -26,8 +26,8 @@ class RecyclerViewItemClickListener(
                 return super.onSingleTapUp(e)
             }
 
-            override fun onLongPress(e: MotionEvent?) {
-                val child = recyclerView.findChildViewUnder(e?.x!!, e?.y!!)
+            override fun onLongPress(e: MotionEvent) {
+                val child = recyclerView.findChildViewUnder(e.x, e.y)
                 if (child != null) {
                     listener.onItemLongClick(child, recyclerView.getChildAdapterPosition(child))
                 }

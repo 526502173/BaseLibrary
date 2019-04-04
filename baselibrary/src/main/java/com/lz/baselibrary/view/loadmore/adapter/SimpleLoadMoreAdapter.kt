@@ -1,4 +1,4 @@
-package com.lz.baselibrary.view.loadmore
+package com.lz.baselibrary.view.loadmore.adapter
 
 import android.content.Context
 import android.view.View

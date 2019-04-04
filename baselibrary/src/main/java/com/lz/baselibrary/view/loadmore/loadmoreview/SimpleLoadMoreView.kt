@@ -17,6 +17,10 @@ class SimpleLoadMoreView(
         private val mConfig: SimpleLoadMoreViewConfig = SimpleLoadMoreViewConfig.createDefault()
 ) : ConstraintLayout(context), LoadMore {
 
+    init {
+        isClickable = true
+    }
+
     /**
      * ProgressBar 对象
      */
@@ -57,13 +61,11 @@ class SimpleLoadMoreView(
     override fun noMore() {
         mProgressBar.visibility = View.GONE
         mTextView.text = "加载完了..."
-        mTextView.invalidate()
     }
 
     override fun loading() {
         mProgressBar.visibility = View.VISIBLE
         mTextView.text = "加载中..."
-        mTextView.invalidate()
     }
 
     override fun normal() {
