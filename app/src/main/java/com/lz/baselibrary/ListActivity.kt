@@ -54,7 +54,6 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
         rv_list.adapter = mAdapterWrapper
         rv_list.addOnItemTouchListener(RecyclerViewItemClickListener(rv_list, object : SimpleOnItemClickListener() {
             override fun onItemClick(view: View, position: Int) {
-                //todo 需要处理有 LoadMore 的情况下，索引越界的情况。
                 val article = mViewModel.mItems[position] as SubscriptionArticle
                 startActivity(Intent(Intent.ACTION_VIEW, article.link.toUri()))
             }
@@ -95,10 +94,7 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
     override fun loadMore(view: View) {
         mViewModel.loadMore()
-//        loadData()
-        Handler().postDelayed(2000) {
-            loadMoreNoMore()
-        }
+        loadData()
     }
 
     override fun run() {

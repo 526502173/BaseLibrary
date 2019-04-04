@@ -6,18 +6,24 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.lz.baselibrary.dp2px
-import com.lz.baselibrary.view.loadmore.SimpleLoadMoreViewConfig
+import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
 
 /**
  * 实现 LoadMore 接口的自定义 Layout
+ * @constructor context 必须是 Activity 类型
  * @author linzheng
  */
 class SimpleLoadMoreView(
-        context: Context,
-        private val mConfig: SimpleLoadMoreViewConfig = SimpleLoadMoreViewConfig.createDefault()
+        context: Context
 ) : ConstraintLayout(context), LoadMore {
 
+    /**
+     * 配置对象
+     */
+    private val mConfig = LibraryLoadMoreInitialize.sSimpleLoadMoreViewConfig
+
     init {
+        //防止时间传到 RecyclerView 的 onItemTouchEvent 中
         isClickable = true
     }
 
@@ -60,12 +66,12 @@ class SimpleLoadMoreView(
 
     override fun noMore() {
         mProgressBar.visibility = View.GONE
-        mTextView.text = "加载完了..."
+        mTextView.text = mConfig.noMoreText
     }
 
     override fun loading() {
         mProgressBar.visibility = View.VISIBLE
-        mTextView.text = "加载中..."
+        mTextView.text = mConfig.loadingText
     }
 
     override fun normal() {

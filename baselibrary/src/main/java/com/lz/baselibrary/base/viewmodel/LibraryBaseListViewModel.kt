@@ -11,7 +11,8 @@ open class LibraryBaseListViewModel : ViewModel() {
     /**
      * 数据容器
      */
-    val mItems: ArrayList<Any> by lazy { ArrayList<Any>() }
+    //todo 修改为 LiveData
+    val mItems: ArrayList<Any>  by lazy { ArrayList<Any>() }
 
     /**
      * 当前是第几页
@@ -21,7 +22,7 @@ open class LibraryBaseListViewModel : ViewModel() {
     /**
      * 下拉刷新调用
      */
-    open fun refresh(){
+    open fun refresh() {
         mPage = 1
         mItems.clear()
     }
@@ -29,8 +30,8 @@ open class LibraryBaseListViewModel : ViewModel() {
     /**
      * 上拉加载调用
      */
-    open fun loadMore(){
-        mPage ++
+    open fun loadMore() {
+        mPage++
     }
 
 }

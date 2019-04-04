@@ -5,6 +5,7 @@ import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 
 /**
+ * 处理列表数据的 Transformer，配合 RxJava 一起使用
  * @author linzheng
  */
 class PageTransformer<T>(
