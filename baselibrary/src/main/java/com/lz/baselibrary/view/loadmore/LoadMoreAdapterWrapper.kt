@@ -35,11 +35,21 @@ class LoadMoreAdapterWrapper(
         register(LoadMoreItem::class, mLoadMoreItemViewBinder)
     }
 
+    override var items: List<Any>
+        get() = mAdapter.items
+        set(value) {
+            mAdapter.items = value
+        }
+
+    override var types: Types
+        get() = mAdapter.types
+        set(value) {
+            mAdapter.types = value
+        }
+
     override fun noMore() {
         mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NO_MORE
-        //todo 解决刷新的闪烁问题
-//        notifyItemChanged(items.size)
-        notifyDataSetChanged()
+        notifyItemChanged(items.size)
     }
 
     override fun loading() {
@@ -52,7 +62,7 @@ class LoadMoreAdapterWrapper(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (items.size == position) {
+        return if (itemCount - 1 == position) {
             ITEM_TYPE_LOAD_MORE
         } else mAdapter.getItemViewType(position)
     }
@@ -69,6 +79,19 @@ class LoadMoreAdapterWrapper(
             mLoadMoreItemViewBinder.onBindViewHolder(holder as LoadMoreItemViewBinder.LoadMoreViewHolder, mLoadMoreItem, payloads)
         else
             mAdapter.onBindViewHolder(holder, position, payloads)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder.itemViewType == ITEM_TYPE_LOAD_MORE)
+            mLoadMoreItemViewBinder.onBindViewHolder(holder as LoadMoreItemViewBinder.LoadMoreViewHolder, mLoadMoreItem)
+        else
+            mAdapter.onBindViewHolder(holder, position)
+    }
+
+    override fun onFailedToRecycleView(holder: RecyclerView.ViewHolder): Boolean {
+        return if (holder.itemViewType == ITEM_TYPE_LOAD_MORE)
+            mLoadMoreItemViewBinder.onFailedToRecycleView(holder as LoadMoreItemViewBinder.LoadMoreViewHolder)
+        else mAdapter.onFailedToRecycleView(holder)
     }
 
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
@@ -88,28 +111,10 @@ class LoadMoreAdapterWrapper(
         else super.onViewRecycled(holder)
     }
 
-
     override fun getItemCount(): Int {
         return if (items.isNotEmpty()) mAdapter.itemCount + 1
         else mAdapter.itemCount
     }
-
-    override fun getItemId(position: Int): Long {
-        return if (position == itemCount - 1) mLoadMoreItemViewBinder.getItemId(mLoadMoreItem)
-        else super.getItemId(position)
-    }
-
-    override var items: List<Any>
-        get() = mAdapter.items
-        set(value) {
-            mAdapter.items = value
-        }
-
-    override var types: Types
-        get() = mAdapter.types
-        set(value) {
-            mAdapter.types = value
-        }
 
     companion object {
         private const val ITEM_TYPE_LOAD_MORE = 233331

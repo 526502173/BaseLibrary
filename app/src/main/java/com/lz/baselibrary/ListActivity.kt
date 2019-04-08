@@ -3,21 +3,17 @@ package com.lz.baselibrary
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.core.net.toUri
-import androidx.core.os.postDelayed
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lz.baselibrary.api.ApiConsumer
-import com.lz.baselibrary.api.ApiFunction
 import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.model.wanandroid.SubscriptionArticle
 import com.lz.baselibrary.multitype.SubscriptionArticleItemViewBinder
 import com.lz.baselibrary.network.Api
-import com.lz.baselibrary.utils.PageFunction
 import com.lz.baselibrary.utils.rxjava.PageTransformer
 import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
@@ -30,6 +26,7 @@ import com.uber.autodispose.autoDisposable
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_list.*
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 /**
  * @author linzheng
@@ -47,6 +44,7 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
+        rv_list.setItemViewCacheSize(10)
         rv_list.layoutManager = LinearLayoutManager(this)
         rv_list.addItemDecoration(VerticalItemDecoration(0.5.dp2px(this), Color.parseColor("#e0e0e0")) { _, position ->
             position != mViewModel.mItems.size
@@ -63,7 +61,6 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
         mRefresh = srl_list
         mLoadMore = mAdapterWrapper
-
         mAdapter.register(SubscriptionArticle::class, SubscriptionArticleItemViewBinder())
         showLoading()
         loadData()
@@ -71,11 +68,8 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
 
     private fun loadData() {
-        //todo 已 observerOn 为分界，分别实现两个 Transformer 一个用来判断服务器获取的数据，一个用来调用 ListView 的方法
         Api.createApi(WanAndroidApi::class).getSubscriptionList(mViewModel.mPage, 408)
                 .delay(1, TimeUnit.SECONDS)
-                .map(ApiFunction())
-                .map(PageFunction())
                 .observeOn(mainThreadScheduler)
                 .compose(PageTransformer(this))
                 .autoDisposable(mScopeProvider)
@@ -94,15 +88,18 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
     override fun loadMore(view: View) {
         mViewModel.loadMore()
-//        loadData()
-        Handler().postDelayed(2000) {
-            mAdapterWrapper.noMore()
-        }
+        loadData()
     }
 
     override fun run() {
         super.run()
         loadData()
+    }
+
+    fun notify(v: View) {
+        val subscriptionArticle = mViewModel.mItems.first() as SubscriptionArticle
+        subscriptionArticle.title = "${subscriptionArticle.title.subSequence(0, subscriptionArticle.title.lastIndex)}${Random.nextInt(10) + 1}"
+        mAdapter.notifyItemChanged(0)
     }
 
 }

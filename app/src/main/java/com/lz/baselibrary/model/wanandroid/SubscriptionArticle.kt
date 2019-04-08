@@ -19,7 +19,7 @@ data class SubscriptionArticle(
     val superChapterId: Int,
     val superChapterName: String,
     val tags: List<Tag>,
-    val title: String,
+    var title: String,
     val type: Int,
     val userId: Int,
     val visible: Int,

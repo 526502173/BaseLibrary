@@ -7,7 +7,6 @@ import android.graphics.Color
  * 下面所有长度单位都是 dp 字体大小单位为 sp
  * @author linzheng
  */
-//todo 需要定义成可配置的
 data class SimpleLoadMoreViewConfig(
         val loadingText: String = "加载中...",
         val noMoreText: String = "没有更多了...",

@@ -1,5 +1,7 @@
 package com.lz.baselibrary.multitype
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,9 +23,11 @@ import me.drakeet.multitype.ItemViewBinder
  */
 class SubscriptionArticleItemViewBinder : ItemViewBinder<SubscriptionArticle, SubscriptionArticleItemViewBinder.ListViewHolder>() {
 
-    override fun onBindViewHolder(holder: ListViewHolder, item: SubscriptionArticle) = holder.bind(item)
+    override fun onBindViewHolder(holder: ListViewHolder, item: SubscriptionArticle) =
+            holder.bind(item)
 
-    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): ListViewHolder = ListViewHolder(inflater.inflate(R.layout.item_list, parent, false))
+    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): ListViewHolder =
+            ListViewHolder(inflater.inflate(R.layout.item_list, parent, false))
 
     class ListViewHolder(itemView: View) : BaseViewHolder<SubscriptionArticle>(itemView) {
 
