@@ -1,7 +1,5 @@
 package com.lz.baselibrary.multitype
 
-import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,15 +19,15 @@ import me.drakeet.multitype.ItemViewBinder
  * version: 1.0
 </pre> *
  */
-class SubscriptionArticleItemViewBinder : ItemViewBinder<SubscriptionArticle, SubscriptionArticleItemViewBinder.ListViewHolder>() {
+class SubscriptionArticleItemViewBinder : ItemViewBinder<SubscriptionArticle, SubscriptionArticleItemViewBinder.SubscriptionArticleHolder>() {
 
-    override fun onBindViewHolder(holder: ListViewHolder, item: SubscriptionArticle) =
+    override fun onBindViewHolder(holder: SubscriptionArticleHolder, item: SubscriptionArticle) =
             holder.bind(item)
 
-    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): ListViewHolder =
-            ListViewHolder(inflater.inflate(R.layout.item_list, parent, false))
+    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): SubscriptionArticleHolder =
+            SubscriptionArticleHolder(inflater.inflate(R.layout.item_list, parent, false))
 
-    class ListViewHolder(itemView: View) : BaseViewHolder<SubscriptionArticle>(itemView) {
+    class SubscriptionArticleHolder(itemView: View) : BaseViewHolder<SubscriptionArticle>(itemView) {
 
         override fun bind(item: SubscriptionArticle) {
             itemView.tv_title.text = item.title.parseAsHtml()

@@ -11,7 +11,6 @@ open class LibraryBaseListViewModel : ViewModel() {
     /**
      * 数据容器
      */
-    //todo 修改为 LiveData
     val mItems: ArrayList<Any>  by lazy { ArrayList<Any>() }
 
     /**
