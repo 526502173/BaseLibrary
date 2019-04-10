@@ -1,14 +1,15 @@
-package com.lz.baselibrary
+package com.lz.baselibrary.ui
 
 import android.graphics.Color
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lz.baselibrary.R
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.model.CustomChild
 import com.lz.baselibrary.model.CustomParent
-import com.lz.baselibrary.multitype.CustomChildItemViewBinder
-import com.lz.baselibrary.multitype.CustomParentItemViewBinder
+import com.lz.baselibrary.ui.multitype.CustomChildItemViewBinder
+import com.lz.baselibrary.ui.multitype.CustomParentItemViewBinder
 import com.lz.baselibrary.view.expand.ExpandAdapter
 import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
 import com.lz.baselibrary.viewmodel.ListViewModel

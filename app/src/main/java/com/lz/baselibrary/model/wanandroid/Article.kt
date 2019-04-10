@@ -1,6 +1,6 @@
 package com.lz.baselibrary.model.wanandroid
 
-data class SubscriptionArticle(
+data class Article(
     val apkLink: String,
     val author: String,
     val chapterId: Int,

@@ -1,4 +1,4 @@
-package com.lz.baselibrary.multitype
+package com.lz.baselibrary.ui.multitype
 
 import android.view.LayoutInflater
 import android.view.View

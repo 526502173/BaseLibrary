@@ -1,6 +1,7 @@
-package com.lz.baselibrary
+package com.lz.baselibrary.ui
 
 import android.os.Bundle
+import com.lz.baselibrary.R
 import com.lz.baselibrary.base.LibraryBaseActivity
 
 /**

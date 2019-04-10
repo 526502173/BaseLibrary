@@ -1,4 +1,4 @@
-package com.lz.baselibrary
+package com.lz.baselibrary.ui
 
 import android.content.Intent
 import android.graphics.Color
@@ -8,12 +8,15 @@ import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.lz.baselibrary.R
 import com.lz.baselibrary.api.ApiConsumer
 import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.base.LibraryBaseListActivity
-import com.lz.baselibrary.model.wanandroid.SubscriptionArticle
-import com.lz.baselibrary.multitype.SubscriptionArticleItemViewBinder
+import com.lz.baselibrary.dp2px
+import com.lz.baselibrary.mainThreadScheduler
+import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.network.Api
+import com.lz.baselibrary.ui.multitype.SubscriptionArticleItemViewBinder
 import com.lz.baselibrary.utils.rxjava.PageTransformer
 import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
@@ -52,7 +55,7 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
         rv_list.adapter = mAdapterWrapper
         rv_list.addOnItemTouchListener(RecyclerViewItemClickListener(rv_list, object : SimpleOnItemClickListener() {
             override fun onItemClick(view: View, position: Int) {
-                val article = mViewModel.mItems[position] as SubscriptionArticle
+                val article = mViewModel.mItems[position] as Article
                 startActivity(Intent(Intent.ACTION_VIEW, article.link.toUri()))
             }
         }))
@@ -61,7 +64,7 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
         mRefresh = srl_list
         mLoadMore = mAdapterWrapper
-        mAdapter.register(SubscriptionArticle::class, SubscriptionArticleItemViewBinder())
+        mAdapter.register(Article::class, SubscriptionArticleItemViewBinder())
         showLoading()
         loadData()
     }
@@ -97,7 +100,7 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
     }
 
     fun notify(v: View) {
-        val subscriptionArticle = mViewModel.mItems.first() as SubscriptionArticle
+        val subscriptionArticle = mViewModel.mItems.first() as Article
         subscriptionArticle.title = "${subscriptionArticle.title.subSequence(0, subscriptionArticle.title.lastIndex)}${Random.nextInt(10) + 1}"
         mAdapter.notifyItemChanged(0)
     }

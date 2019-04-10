@@ -1,4 +1,4 @@
-package com.lz.baselibrary.fragment
+package com.lz.baselibrary.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.lz.baselibrary.R
 import com.lz.baselibrary.base.LibraryBaseFragment
-import com.lz.baselibrary.base.LibraryLazyLoadFragment
 import kotlinx.android.synthetic.main.fragment_lazy_load.*
 import timber.log.Timber
 

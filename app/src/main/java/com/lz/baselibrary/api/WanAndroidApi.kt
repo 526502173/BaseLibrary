@@ -1,6 +1,6 @@
 package com.lz.baselibrary.api
 
-import com.lz.baselibrary.model.wanandroid.SubscriptionArticle
+import com.lz.baselibrary.model.wanandroid.Article
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,6 +17,6 @@ interface WanAndroidApi {
     fun getSubscriptionList(
             @Path("page") page: Int,
             @Path("subscriptionId") subscriptionId: Int
-    ): Observable<Response<Page<SubscriptionArticle>>>
+    ): Observable<Response<Page<Article>>>
 
 }

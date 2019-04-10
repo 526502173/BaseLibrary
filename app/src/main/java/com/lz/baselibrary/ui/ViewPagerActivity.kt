@@ -1,10 +1,10 @@
-package com.lz.baselibrary
+package com.lz.baselibrary.ui
 
 import android.os.Bundle
+import com.lz.baselibrary.R
 import com.lz.baselibrary.base.LibraryBaseActivity
-import com.lz.baselibrary.fragment.LazyLoadFragment
+import com.lz.baselibrary.ui.fragment.LazyLoadFragment
 import com.lz.baselibrary.utils.viewpager.LibraryViewPager2Adapter
-import com.lz.baselibrary.utils.viewpager.LibraryViewPagerAdapter
 import com.lz.baselibrary.view.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_view_pager.*
 
