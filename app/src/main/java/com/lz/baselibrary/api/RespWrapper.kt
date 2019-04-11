@@ -4,13 +4,13 @@ package com.lz.baselibrary.api
  * @author linzheng
  */
 
-data class Response<T>(
+data class RespWrapper<T>(
         val data: T,
         val errorCode: Int,
         val errorMsg: String
 )
 
-data class Page<T>(
+data class PageWrapper<T>(
         val curPage: Int,
         val datas: List<T>,
         val offset: Int,

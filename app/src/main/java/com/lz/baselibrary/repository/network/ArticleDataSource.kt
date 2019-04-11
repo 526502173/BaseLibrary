@@ -1,9 +1,16 @@
 package com.lz.baselibrary.repository.network
 
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
+import com.lz.baselibrary.api.PageWrapper
+import com.lz.baselibrary.api.RespWrapper
 import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.model.wanandroid.Article
-import io.reactivex.functions.Consumer
+import com.lz.baselibrary.repository.NetworkState
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
 
 /**
  * @author linzheng
@@ -13,29 +20,34 @@ class ArticleDataSource(
         private val mSubscriptionId: Int
 ) : PageKeyedDataSource<Int, Article>() {
 
+    val mNetworkState = MutableLiveData<NetworkState>()
+
+    val mInitialLoad = MutableLiveData<NetworkState>()
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Article>) {
 
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Article>) {
-        mApi.getSubscriptionList(params.key, mSubscriptionId)
-                .map { it.data.datas }
-                .subscribe(Consumer {
-                    callback.onResult(it, params.key + 1)
-                }, Consumer {
-
-                })
+//        mNetworkState.postValue(NetworkState.LOADING)
     }
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Article>) {
-        mApi.getSubscriptionList(1, mSubscriptionId)
-                .map { it.data.datas }
-                .subscribe(Consumer {
-                    callback.onResult(it, null, 2)
-                }, Consumer {
-                    //exception
-                })
+//        mInitialLoad.postValue(NetworkState.LOADING)
+//        mNetworkState.postValue(NetworkState.LOADING)
+//        try {
+//            val response = mApi.getSubscriptionList(1, mSubscriptionId)
+//                    .execute()
+//            val articleList = response.body()?.data?.datas ?: emptyList()
+//            callback.onResult(articleList, null, 2)
+//            mNetworkState.postValue(NetworkState.LOADED)
+//            mInitialLoad.postValue(NetworkState.LOADED)
+//        } catch (ex: Exception) {
+//            mNetworkState.postValue(NetworkState.error(ex.message))
+//            mInitialLoad.postValue(NetworkState.error(ex.message))
+//        }
     }
+}
+
 
 }

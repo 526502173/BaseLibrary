@@ -71,15 +71,15 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
 
     private fun loadData() {
-        Api.createApi(WanAndroidApi::class).getSubscriptionList(mViewModel.mPage, 408)
-                .delay(1, TimeUnit.SECONDS)
-                .observeOn(mainThreadScheduler)
-                .compose(PageTransformer(this))
-                .autoDisposable(mScopeProvider)
-                .subscribe(Consumer {
-                    mViewModel.mItems.addAll(it)
-                    mAdapterWrapper.notifyDataSetChanged()
-                }, ApiConsumer(this))
+//        Api.createApi(WanAndroidApi::class).getSubscriptionList(mViewModel.mPage, 408)
+//                .delay(1, TimeUnit.SECONDS)
+//                .observeOn(mainThreadScheduler)
+//                .compose(PageTransformer(this))
+//                .autoDisposable(mScopeProvider)
+//                .subscribe(Consumer {
+//                    mViewModel.mItems.addAll(it)
+//                    mAdapterWrapper.notifyDataSetChanged()
+//                }, ApiConsumer(this))
 
     }
 

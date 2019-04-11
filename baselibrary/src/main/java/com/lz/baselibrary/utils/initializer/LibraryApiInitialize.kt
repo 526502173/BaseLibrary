@@ -12,7 +12,7 @@ import com.lz.baselibrary.network.ApiConfig
 open class LibraryApiInitialize : SimpleInitialize() {
 
     override fun initial(context: Context) {
-        Api.mApiConfig = createApiConfig()
+        Api.sApiConfig = createApiConfig()
     }
 
     /**

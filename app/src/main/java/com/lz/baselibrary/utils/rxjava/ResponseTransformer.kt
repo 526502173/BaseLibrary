@@ -1,6 +1,6 @@
 package com.lz.baselibrary.utils.rxjava
 
-import com.lz.baselibrary.api.Response
+import com.lz.baselibrary.api.RespWrapper
 import com.lz.baselibrary.base.BaseView
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -11,8 +11,8 @@ import io.reactivex.ObservableTransformer
  */
 class ResponseTransformer<T>(
         private val mBaseView: BaseView
-) : ObservableTransformer<Response<T>, T> {
-    override fun apply(upstream: Observable<Response<T>>): Observable<T> = upstream.doOnComplete {
+) : ObservableTransformer<RespWrapper<T>, T> {
+    override fun apply(upstream: Observable<RespWrapper<T>>): Observable<T> = upstream.doOnComplete {
         mBaseView.showSuccess()
     }.map {
         it.data

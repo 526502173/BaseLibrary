@@ -7,18 +7,28 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.repository.ArticleRepository
+import com.lz.baselibrary.repository.NetworkState
 
 /**
  * @author linzheng
  */
 class PagingViewModel(
         private val mArticleRepository: ArticleRepository
-) : ViewModel(){
+) : ViewModel() {
 
     val mSubscriptionId: MutableLiveData<Int> = MutableLiveData()
 
-    val mArticleList: LiveData<PagedList<Article>> = Transformations.switchMap(mSubscriptionId){
-        mArticleRepository.getArticleList(it)
+    private val mListing = Transformations.map(mSubscriptionId) { mArticleRepository.getArticleList(it) }
+
+    val mArticleList: LiveData<PagedList<Article>> = Transformations.switchMap(mListing) {
+        it.pagedList
+    }
+
+    val mRefreshState: LiveData<NetworkState> = Transformations.switchMap(mListing) { it.refreshSate }
+    val mNetworkState: LiveData<NetworkState> = Transformations.switchMap(mListing) { it.networkState }
+
+    fun refresh() {
+        mListing.value?.refresh?.invoke()
     }
 
 }

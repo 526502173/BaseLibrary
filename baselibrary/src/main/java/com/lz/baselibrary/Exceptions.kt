@@ -5,7 +5,7 @@ package com.lz.baselibrary
  * @author linzheng
  */
 
-class ApiConfigNotInitException : RuntimeException("Api.mApiConfig 没有初始化，参考 LibraryApiInitialize 类。")
+class ApiConfigNotInitException : RuntimeException("Api.sApiConfig 没有初始化，参考 LibraryApiInitialize 类。")
 
 class LibraryAppInstanceNullException : RuntimeException(
         "LibraryApplication 的 sInstance 为 null，Application 类需要基础 LibraryApplicaton 类。"

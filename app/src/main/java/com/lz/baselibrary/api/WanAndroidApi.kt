@@ -17,6 +17,6 @@ interface WanAndroidApi {
     fun getSubscriptionList(
             @Path("page") page: Int,
             @Path("subscriptionId") subscriptionId: Int
-    ): Observable<Response<Page<Article>>>
+    ): Observable<RespWrapper<PageWrapper<Article>>>
 
 }

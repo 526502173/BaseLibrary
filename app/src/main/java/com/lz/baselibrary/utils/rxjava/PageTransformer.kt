@@ -1,7 +1,7 @@
 package com.lz.baselibrary.utils.rxjava
 
-import com.lz.baselibrary.api.Page
-import com.lz.baselibrary.api.Response
+import com.lz.baselibrary.api.PageWrapper
+import com.lz.baselibrary.api.RespWrapper
 import com.lz.baselibrary.base.ListView
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -12,8 +12,8 @@ import io.reactivex.ObservableTransformer
  */
 class PageTransformer<T>(
         private val mListView: ListView
-) : ObservableTransformer<Response<Page<T>>, List<T>> {
-    override fun apply(upstream: Observable<Response<Page<T>>>): Observable<List<T>> = upstream.doAfterNext {
+) : ObservableTransformer<RespWrapper<PageWrapper<T>>, List<T>> {
+    override fun apply(upstream: Observable<RespWrapper<PageWrapper<T>>>): Observable<List<T>> = upstream.doAfterNext {
         //判断是否加载完所有数据
         if (it.data.over) mListView.loadMoreNoMore()
         else mListView.loadMoreNormal()
