@@ -15,7 +15,6 @@ import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
 import com.lz.baselibrary.viewmodel.ListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import kotlinx.android.synthetic.main.activity_expand_list.*
-import timber.log.Timber
 
 /**
  * @author linzheng
@@ -39,7 +38,6 @@ class ExpandListActivity : LibraryBaseListActivity<ListViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.d("ExpandListActivity->onCreate()")
         setContentView(R.layout.activity_expand_list)
 
 

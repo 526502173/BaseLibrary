@@ -3,9 +3,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion gradle.ext.compileSdkVersion
+    compileSdkVersion build_versions.target_sdk
     defaultConfig {
-        minSdkVersion gradle.minSdkVersion
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
     }
     lintOptions {
         abortOnError false
@@ -16,56 +17,35 @@ android {
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:' + gradle.kotlinVersion
-    //AndroidX
-    api('androidx.appcompat:appcompat:' + gradle.androidXAppCompatVersion) {
-        exclude group: 'androidx.vectordrawable'
-    }
-    api 'androidx.core:core-ktx:' + gradle.androidXCoreKTXVersion
-    api 'androidx.constraintlayout:constraintlayout:' + gradle.androidXConstraintLayoutVersion
-    api 'androidx.viewpager2:viewpager2:' + gradle.androidXViewPager2Version
-    api 'androidx.lifecycle:lifecycle-extensions:' + gradle.lifeCycleExtensionsVersion
-    api 'com.google.android.material:material:' + gradle.materialVersion
-    api 'androidx.paging:paging-runtime-ktx:2.1.0-rc01'
+    api deps.kotlin.stdlib
+    api deps.support.app_compat
+    api deps.constraint_layout
+    api deps.support.app_compat
+    api deps.support.recyclerview
+    api deps.support.design
+    api deps.support.core_ktx
+    api deps.support.view_pager2
+    api deps.lifecycle.runtime
+    api deps.lifecycle.extensions
+    api deps.paging_ktx
+    api deps.retrofit.runtime
+    api deps.retrofit.call_adapter
+    api deps.retrofit.converter
+    api deps.auto_dispose.ktx
+    api deps.auto_dispose.android_ktx
+    api deps.auto_dispose.android_arch_components
+    api deps.event_bus.runtime
+    api deps.anko.commons
+    api deps.anko.design
+    api deps.okhttp_logging_interceptor
+    api deps.rxjava2
+    api deps.rx_android
+    api deps.timber
+    api deps.multi_type
 
-    //Retrofit
-    api 'com.squareup.retrofit2:retrofit:' + gradle.retrofitVersion
-    api 'com.squareup.retrofit2:adapter-rxjava2:' + gradle.retrofitVersion
-    api 'com.squareup.retrofit2:converter-moshi:' + gradle.retrofitVersion
-
-    //RxJava
-    api 'io.reactivex.rxjava2:rxjava:' + gradle.rxJavaVersion
-    api 'io.reactivex.rxjava2:rxandroid:' + gradle.rxAndroidVersion
-
-    //AutoDispose
-    api 'com.uber.autodispose:autodispose-ktx:' + gradle.autoDisposeVersion
-    api 'com.uber.autodispose:autodispose-android-ktx:' + gradle.autoDisposeVersion
-    api 'com.uber.autodispose:autodispose-android-archcomponents-ktx:' + gradle.autoDisposeVersion
-
-    //Glide
-    api 'com.github.bumptech.glide:glide:' + gradle.glideVersion
-
-    //Moshi
-    api 'com.squareup.moshi:moshi:1.8.0'
-
-    //EventBus
-    api 'org.greenrobot:eventbus:' + gradle.eventBusVersion
-
-    //other
-    api 'com.squareup.okhttp3:logging-interceptor:' + gradle.loggingInterceptorVersion
-    api 'com.jakewharton.timber:timber:' + gradle.timberVersion
-    api 'org.jetbrains.anko:anko-commons:' + gradle.ankoVersion
-    api 'org.jetbrains.anko:anko-design:' + gradle.ankoVersion
     api 'com.billy.android:gloading:1.0.0'
-
-    //MultiType
-    api('me.drakeet.multitype:multitype:' + gradle.multiTypeVersion) {
-        exclude group: "androidx"
-    }
 }
-//repositories {
-//    mavenCentral()
-//}
+
 tasks.withType(Javadoc).all {
     enabled = false
 }

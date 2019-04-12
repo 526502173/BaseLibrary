@@ -2,15 +2,11 @@ package com.lz.baselibrary.repository.network
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import com.lz.baselibrary.api.PageWrapper
-import com.lz.baselibrary.api.RespWrapper
 import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.repository.NetworkState
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import timber.log.Timber
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 
 /**
  * @author linzheng
@@ -25,29 +21,36 @@ class ArticleDataSource(
     val mInitialLoad = MutableLiveData<NetworkState>()
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Article>) {
-
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Article>) {
-//        mNetworkState.postValue(NetworkState.LOADING)
+        mNetworkState.postValue(NetworkState.LOADING)
+        mApi.getSubscriptionList(params.key, mSubscriptionId)
+                .subscribeOn(Schedulers.io())
+                .map { it.data.datas }
+                .doOnComplete { mNetworkState.postValue(NetworkState.LOADED) }
+                .subscribe(Consumer {
+                    callback.onResult(it, params.key + 1)
+                }, Consumer {
+                    mNetworkState.postValue(NetworkState.error(it.message))
+                })
     }
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Article>) {
-//        mInitialLoad.postValue(NetworkState.LOADING)
-//        mNetworkState.postValue(NetworkState.LOADING)
-//        try {
-//            val response = mApi.getSubscriptionList(1, mSubscriptionId)
-//                    .execute()
-//            val articleList = response.body()?.data?.datas ?: emptyList()
-//            callback.onResult(articleList, null, 2)
-//            mNetworkState.postValue(NetworkState.LOADED)
-//            mInitialLoad.postValue(NetworkState.LOADED)
-//        } catch (ex: Exception) {
-//            mNetworkState.postValue(NetworkState.error(ex.message))
-//            mInitialLoad.postValue(NetworkState.error(ex.message))
-//        }
+        //不知道为什么，在这里必须使用同步调用，不然 Adapter 的 DiffCallback 会不起作用。
+        mInitialLoad.postValue(NetworkState.LOADING)
+        mNetworkState.postValue(NetworkState.LOADING)
+        mApi.getSubscriptionList(1, mSubscriptionId)
+                .map { it.data.datas }
+                .doOnComplete {
+                    mNetworkState.postValue(NetworkState.LOADED)
+                    mInitialLoad.postValue(NetworkState.LOADED)
+                }.subscribe(Consumer {
+                    callback.onResult(it, null, 2)
+                }, Consumer {
+                    mNetworkState.postValue(NetworkState.error(it.message))
+                    mInitialLoad.postValue(NetworkState.error(it.message))
+                })
     }
-}
-
 
 }

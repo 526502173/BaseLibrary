@@ -17,6 +17,7 @@ class NetworkArticleRepository(
     override fun getArticleList(subscriptionId: Int): Listing<Article> {
         val factory = ArticleDataSourceFactory(mApi, subscriptionId)
 
+        //toLiveData 返回的对象其实就是 ComputableLiveData 中的 mLiveDate
         val livePagedList = factory.toLiveData(pageSize = 20)
 
         return Listing(

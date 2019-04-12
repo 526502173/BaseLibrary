@@ -18,15 +18,27 @@ class ArticleListAdapter : PagedListAdapter<Article, SubscriptionArticleItemView
         return SubscriptionArticleItemViewBinder.SubscriptionArticleHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false))
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return R.layout.item_list
+    }
+
     override fun onBindViewHolder(holder: SubscriptionArticleItemViewBinder.SubscriptionArticleHolder, position: Int) {
         holder.bind(getItem(position)!!)
     }
 
     class MyDiffCallback : DiffUtil.ItemCallback<Article>() {
 
-        override fun areItemsTheSame(oldItem: Article, newItem: Article) = oldItem.id == newItem.id
+        override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+            return oldItem.id == newItem.id
+        }
 
-        override fun areContentsTheSame(oldItem: Article, newItem: Article) = false
+        override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
+            return when {
+                oldItem.title != newItem.title -> false
+                oldItem.publishTime != newItem.publishTime -> false
+                else -> true
+            }
+        }
 
     }
 
