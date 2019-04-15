@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * @author linzheng
  */
-open class BaseViewHolder<T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+open class BaseViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
 
     /**
      * 获取 ItemView 的 context 对象

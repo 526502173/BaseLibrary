@@ -8,9 +8,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lz.baselibrary.R
 import com.lz.baselibrary.dp2px
+import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.repository.NetworkState
-import com.lz.baselibrary.ui.adapter.ArticleListAdapter
+import com.lz.baselibrary.toAnyType
+import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
 import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
+import com.lz.baselibrary.view.paging.MultiTypePagedListAdapter
 import com.lz.baselibrary.viewmodel.PagingViewModel
 import com.lz.baselibrary.viewmodel.PagingViewModelFactory
 import kotlinx.android.synthetic.main.activity_paging.*
@@ -19,7 +22,7 @@ class PagingActivity : AppCompatActivity() {
 
     lateinit var mViewModel: PagingViewModel
 
-    lateinit var mAdapter: ArticleListAdapter
+    lateinit var mAdapter: MultiTypePagedListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +38,8 @@ class PagingActivity : AppCompatActivity() {
      * 初始化 RecyclerView
      */
     private fun initRecyclerView() {
-        mAdapter = ArticleListAdapter()
+        mAdapter = MultiTypePagedListAdapter()
+        mAdapter.register(Article::class, ArticleItemViewBinder())
         rv_article.layoutManager = LinearLayoutManager(this)
         rv_article.addItemDecoration(VerticalItemDecoration(0.5.dp2px(this), Color.parseColor("#e0e0e0")) { _, position ->
             position != mViewModel.mArticleList.value?.size
@@ -48,7 +52,7 @@ class PagingActivity : AppCompatActivity() {
 
     private fun bindViewModel() {
         mViewModel.mArticleList.observe(this, Observer {
-            mAdapter.submitList(it)
+            mAdapter.submitList(it.toAnyType())
         })
         mViewModel.mRefreshState.observe(this, Observer {
             srl_article.isRefreshing = it == NetworkState.LOADING

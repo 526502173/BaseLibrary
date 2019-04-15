@@ -9,15 +9,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lz.baselibrary.R
-import com.lz.baselibrary.api.ApiConsumer
-import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.dp2px
-import com.lz.baselibrary.mainThreadScheduler
 import com.lz.baselibrary.model.wanandroid.Article
-import com.lz.baselibrary.network.Api
-import com.lz.baselibrary.ui.multitype.SubscriptionArticleItemViewBinder
-import com.lz.baselibrary.utils.rxjava.PageTransformer
+import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
 import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.LoadMoreAdapterWrapper
@@ -25,10 +20,7 @@ import com.lz.baselibrary.view.recyclerview.RecyclerViewItemClickListener
 import com.lz.baselibrary.view.recyclerview.SimpleOnItemClickListener
 import com.lz.baselibrary.viewmodel.ListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
-import com.uber.autodispose.autoDisposable
-import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_list.*
-import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
 /**
@@ -64,7 +56,7 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
         mRefresh = srl_list
         mLoadMore = mAdapterWrapper
-        mAdapter.register(Article::class, SubscriptionArticleItemViewBinder())
+        mAdapter.register(Article::class, ArticleItemViewBinder())
         showLoading()
         loadData()
     }

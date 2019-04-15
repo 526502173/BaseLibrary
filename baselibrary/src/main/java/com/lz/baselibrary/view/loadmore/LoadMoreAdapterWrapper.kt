@@ -1,11 +1,9 @@
 package com.lz.baselibrary.view.loadmore
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItem
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import me.drakeet.multitype.MultiTypeAdapter
 import me.drakeet.multitype.Types
@@ -16,24 +14,12 @@ import me.drakeet.multitype.Types
  */
 class LoadMoreAdapterWrapper(
         private val mAdapter: MultiTypeAdapter,
-        private val mListener: LoadMoreListener
+        mListener: LoadMoreListener
 ) : MultiTypeAdapter(), LoadMore {
 
-    /**
-     * LoadMoreItem 对象
-     */
-    private val mLoadMoreItem: LoadMoreItem by lazy { LoadMoreItem() }
-
-    /**
-     * LoadMoreItemViewBinder 对象
-     */
-    private val mLoadMoreItemViewBinder by lazy {
-        LoadMoreItemViewBinder(LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener)
-    }
-
-    init {
-        register(LoadMoreItem::class, mLoadMoreItemViewBinder)
-    }
+    private val mDelegate: LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(
+            mAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
+    )
 
     override var items: List<Any>
         get() = mAdapter.items
@@ -47,77 +33,29 @@ class LoadMoreAdapterWrapper(
             mAdapter.types = value
         }
 
-    override fun noMore() {
-        mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NO_MORE
-        notifyItemChanged(items.size)
-    }
+    override fun noMore() = (mDelegate as LoadMore).noMore()
 
-    override fun loading() {
-        mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
-        notifyItemChanged(items.size)
-    }
+    override fun loading() = (mDelegate as LoadMore).loading()
 
-    override fun normal() {
-        mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NORMAL
-    }
+    override fun normal() = (mDelegate as LoadMore).normal()
 
-    override fun getItemViewType(position: Int): Int {
-        return if (itemCount - 1 == position) {
-            ITEM_TYPE_LOAD_MORE
-        } else mAdapter.getItemViewType(position)
-    }
+    override fun getItemViewType(position: Int) = mDelegate.getItemViewType(position)
 
-    override fun onCreateViewHolder(parent: ViewGroup, indexViewType: Int): RecyclerView.ViewHolder {
-        return if (indexViewType == ITEM_TYPE_LOAD_MORE) {
-            val layoutInflater = LayoutInflater.from(parent.context)
-            mLoadMoreItemViewBinder.onCreateViewHolder(layoutInflater, parent)
-        } else mAdapter.onCreateViewHolder(parent, indexViewType)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, indexViewType: Int) = mDelegate.onCreateViewHolder(parent, indexViewType)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
-        if (holder.itemViewType == ITEM_TYPE_LOAD_MORE)
-            mLoadMoreItemViewBinder.onBindViewHolder(holder as LoadMoreItemViewBinder.LoadMoreViewHolder, mLoadMoreItem, payloads)
-        else
-            mAdapter.onBindViewHolder(holder, position, payloads)
-    }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) = mDelegate.onBindViewHolder(holder, position, payloads)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder.itemViewType == ITEM_TYPE_LOAD_MORE)
-            mLoadMoreItemViewBinder.onBindViewHolder(holder as LoadMoreItemViewBinder.LoadMoreViewHolder, mLoadMoreItem)
-        else
-            mAdapter.onBindViewHolder(holder, position)
-    }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = mDelegate.onBindViewHolder(holder, position)
 
-    override fun onFailedToRecycleView(holder: RecyclerView.ViewHolder): Boolean {
-        return if (holder.itemViewType == ITEM_TYPE_LOAD_MORE)
-            mLoadMoreItemViewBinder.onFailedToRecycleView(holder as LoadMoreItemViewBinder.LoadMoreViewHolder)
-        else mAdapter.onFailedToRecycleView(holder)
-    }
+    override fun onFailedToRecycleView(holder: RecyclerView.ViewHolder) = mDelegate.onFailedToRecycleView(holder)
 
-    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
-        if (holder.itemViewType == ITEM_TYPE_LOAD_MORE) mLoadMoreItemViewBinder.onViewAttachedToWindow(holder as LoadMoreItemViewBinder.LoadMoreViewHolder)
-        else super.onViewAttachedToWindow(holder)
-    }
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) = mDelegate.onViewAttachedToWindow(holder)
 
-    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
-        if (holder.itemViewType == ITEM_TYPE_LOAD_MORE)
-            mLoadMoreItemViewBinder.onViewDetachedFromWindow(holder as LoadMoreItemViewBinder.LoadMoreViewHolder)
-        else super.onViewDetachedFromWindow(holder)
-    }
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) = mDelegate.onViewDetachedFromWindow(holder)
 
-    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
-        if (holder.itemViewType == ITEM_TYPE_LOAD_MORE)
-            mLoadMoreItemViewBinder.onViewRecycled(holder as LoadMoreItemViewBinder.LoadMoreViewHolder)
-        else super.onViewRecycled(holder)
-    }
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) = mDelegate.onViewRecycled(holder)
 
-    override fun getItemCount(): Int {
-        return if (items.isNotEmpty()) mAdapter.itemCount + 1
-        else mAdapter.itemCount
-    }
+    override fun getItemCount() = mDelegate.getItemCount()
 
-    companion object {
-        private const val ITEM_TYPE_LOAD_MORE = 233331
-    }
 
 }

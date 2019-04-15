@@ -2,6 +2,7 @@ package com.lz.baselibrary
 
 import android.content.Context
 import android.view.View
+import androidx.paging.PagedList
 
 /**
  * 扩展方法
@@ -24,4 +25,12 @@ inline fun Double.dp2px(app: Context): Int = (app.resources.displayMetrics.densi
  */
 inline fun View.setVisibility(boolean: Boolean) {
     visibility = if (boolean) View.VISIBLE else View.GONE
+}
+
+/**
+ * 将 PagedList<T> 类的对象转换成 PagedList<Any> 类型的对象
+ * 理论上讲这里是不会有问题的
+ */
+inline fun <T> PagedList<T>.toAnyType(): PagedList<Any> {
+    return this as PagedList<Any>
 }

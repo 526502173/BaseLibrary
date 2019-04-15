@@ -6,23 +6,23 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.lz.baselibrary.R
 import com.lz.baselibrary.model.wanandroid.Article
-import com.lz.baselibrary.ui.multitype.SubscriptionArticleItemViewBinder
+import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
 
 
 /**
  * @author linzheng
  */
-class ArticleListAdapter : PagedListAdapter<Article, SubscriptionArticleItemViewBinder.SubscriptionArticleHolder>(MyDiffCallback()) {
+class ArticleListAdapter : PagedListAdapter<Article, ArticleItemViewBinder.ArticleViewHolder>(MyDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubscriptionArticleItemViewBinder.SubscriptionArticleHolder {
-        return SubscriptionArticleItemViewBinder.SubscriptionArticleHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleItemViewBinder.ArticleViewHolder {
+        return ArticleItemViewBinder.ArticleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false))
     }
 
     override fun getItemViewType(position: Int): Int {
         return R.layout.item_list
     }
 
-    override fun onBindViewHolder(holder: SubscriptionArticleItemViewBinder.SubscriptionArticleHolder, position: Int) {
+    override fun onBindViewHolder(holder: ArticleItemViewBinder.ArticleViewHolder, position: Int) {
         holder.bind(getItem(position)!!)
     }
 
