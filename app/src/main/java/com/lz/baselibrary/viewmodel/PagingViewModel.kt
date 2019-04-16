@@ -26,6 +26,7 @@ class PagingViewModel(
 
     val mRefreshState: LiveData<NetworkState> = Transformations.switchMap(mListing) { it.refreshSate }
     val mNetworkState: LiveData<NetworkState> = Transformations.switchMap(mListing) { it.networkState }
+    val mLoadMoreState: LiveData<NetworkState> = Transformations.switchMap(mListing) { it.loadMoreState }
 
     fun refresh() {
         mListing.value?.refresh?.invoke()

@@ -9,10 +9,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lz.baselibrary.R
+import com.lz.baselibrary.api.ApiConsumer
+import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.dp2px
+import com.lz.baselibrary.mainThreadScheduler
 import com.lz.baselibrary.model.wanandroid.Article
+import com.lz.baselibrary.network.Api
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
+import com.lz.baselibrary.utils.rxjava.PageTransformer
 import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.LoadMoreAdapterWrapper
@@ -20,7 +25,10 @@ import com.lz.baselibrary.view.recyclerview.RecyclerViewItemClickListener
 import com.lz.baselibrary.view.recyclerview.SimpleOnItemClickListener
 import com.lz.baselibrary.viewmodel.ListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
+import com.uber.autodispose.autoDisposable
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_list.*
+import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
 /**
@@ -63,15 +71,15 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
 
 
     private fun loadData() {
-//        Api.createApi(WanAndroidApi::class).getSubscriptionList(mViewModel.mPage, 408)
-//                .delay(1, TimeUnit.SECONDS)
-//                .observeOn(mainThreadScheduler)
-//                .compose(PageTransformer(this))
-//                .autoDisposable(mScopeProvider)
-//                .subscribe(Consumer {
-//                    mViewModel.mItems.addAll(it)
-//                    mAdapterWrapper.notifyDataSetChanged()
-//                }, ApiConsumer(this))
+        Api.createApi(WanAndroidApi::class).getSubscriptionList(mViewModel.mPage, 408)
+                .delay(1, TimeUnit.SECONDS)
+                .observeOn(mainThreadScheduler)
+                .compose(PageTransformer(this))
+                .autoDisposable(mScopeProvider)
+                .subscribe(Consumer {
+                    mViewModel.mItems.addAll(it)
+                    mAdapterWrapper.notifyDataSetChanged()
+                }, ApiConsumer(this))
 
     }
 
@@ -81,7 +89,7 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
     }
 
 
-    override fun loadMore(view: View) {
+    override fun onLoadMore(view: View) {
         mViewModel.loadMore()
         loadData()
     }
@@ -89,12 +97,6 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
     override fun run() {
         super.run()
         loadData()
-    }
-
-    fun notify(v: View) {
-        val subscriptionArticle = mViewModel.mItems.first() as Article
-        subscriptionArticle.title = "${subscriptionArticle.title.subSequence(0, subscriptionArticle.title.lastIndex)}${Random.nextInt(10) + 1}"
-        mAdapter.notifyItemChanged(0)
     }
 
 }

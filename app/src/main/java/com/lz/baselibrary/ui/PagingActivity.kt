@@ -13,21 +13,29 @@ import com.lz.baselibrary.repository.NetworkState
 import com.lz.baselibrary.toAnyType
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
 import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
-import com.lz.baselibrary.view.paging.MultiTypePagedListAdapter
+import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapterWrapper
 import com.lz.baselibrary.viewmodel.PagingViewModel
 import com.lz.baselibrary.viewmodel.PagingViewModelFactory
 import kotlinx.android.synthetic.main.activity_paging.*
+import me.drakeet.multitype.MultiTypeAdapter
 
 class PagingActivity : AppCompatActivity() {
 
-    lateinit var mViewModel: PagingViewModel
+    private val mAdapter: MultiTypeAdapter = MultiTypeAdapter().apply {
+        register(Article::class, ArticleItemViewBinder())
+    }
 
-    lateinit var mAdapter: MultiTypePagedListAdapter
+    private val mViewModel by lazy {
+        ViewModelProviders.of(this, PagingViewModelFactory())[PagingViewModel::class.java]
+    }
+
+    private val mAdapterWrapper by lazy {
+        MultiTypePagedListAdapterWrapper(mAdapter)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_paging)
-        mViewModel = ViewModelProviders.of(this, PagingViewModelFactory())[PagingViewModel::class.java]
         initRecyclerView()
         bindViewModel()
         mViewModel.mSubscriptionId.value = 408
@@ -38,28 +46,31 @@ class PagingActivity : AppCompatActivity() {
      * 初始化 RecyclerView
      */
     private fun initRecyclerView() {
-        mAdapter = MultiTypePagedListAdapter()
-        mAdapter.register(Article::class, ArticleItemViewBinder())
         rv_article.layoutManager = LinearLayoutManager(this)
         rv_article.addItemDecoration(VerticalItemDecoration(0.5.dp2px(this), Color.parseColor("#e0e0e0")) { _, position ->
             position != mViewModel.mArticleList.value?.size
         })
-        rv_article.adapter = mAdapter
+        rv_article.adapter = mAdapterWrapper
         srl_article.setOnRefreshListener {
+            mAdapterWrapper.normal()
             mViewModel.refresh()
         }
     }
 
     private fun bindViewModel() {
         mViewModel.mArticleList.observe(this, Observer {
-            mAdapter.submitList(it.toAnyType())
+            mAdapterWrapper.submitList(it.toAnyType())
         })
         mViewModel.mRefreshState.observe(this, Observer {
             srl_article.isRefreshing = it == NetworkState.LOADING
+        })
+        mViewModel.mLoadMoreState.observe(this, Observer {
+            if (it == NetworkState.LOADED) {
+                mAdapterWrapper.noMore()
+            }
         })
         mViewModel.mNetworkState.observe(this, Observer {
             //网络出现故障
         })
     }
-
 }

@@ -24,8 +24,9 @@ class NetworkArticleRepository(
                 pagedList = livePagedList,
                 networkState = Transformations.switchMap(factory.sourceLiveData) { it.mNetworkState },
                 refreshSate = Transformations.switchMap(factory.sourceLiveData) { it.mInitialLoad },
+                loadMoreState = Transformations.switchMap(factory.sourceLiveData) { it.mAfterLoad },
                 retry = {},
-                refresh = { factory.sourceLiveData.value?.invalidate()   }
+                refresh = { factory.sourceLiveData.value?.invalidate() }
         )
 
 

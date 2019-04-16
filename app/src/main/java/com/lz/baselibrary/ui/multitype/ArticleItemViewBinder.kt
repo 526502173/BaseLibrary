@@ -7,7 +7,7 @@ import androidx.core.text.parseAsHtml
 import com.lz.baselibrary.R
 import com.lz.baselibrary.base.BaseViewHolder
 import com.lz.baselibrary.model.wanandroid.Article
-import com.lz.baselibrary.view.paging.DiffItemViewBinder
+import com.lz.baselibrary.view.loadmore.paging.DiffItemViewBinder
 import kotlinx.android.synthetic.main.item_list.view.*
 
 /**

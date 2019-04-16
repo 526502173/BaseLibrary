@@ -1,4 +1,4 @@
-package com.lz.baselibrary.view.paging
+package com.lz.baselibrary.view.loadmore.paging
 
 import androidx.recyclerview.widget.RecyclerView
 import me.drakeet.multitype.ItemViewBinder

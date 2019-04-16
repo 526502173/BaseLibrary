@@ -11,6 +11,7 @@ data class Listing<T>(
         val pagedList: LiveData<PagedList<T>>,
         val networkState: LiveData<NetworkState>,
         val refreshSate: LiveData<NetworkState>,
+        val loadMoreState: LiveData<NetworkState>,
         val refresh: () -> Unit,
         val retry: () -> Unit
 )

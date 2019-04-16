@@ -1,13 +1,19 @@
-package com.lz.baselibrary.view.loadmore
+package com.lz.baselibrary.view.loadmore.delegate
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItem
+import com.lz.baselibrary.view.loadmore.LoadMoreItemViewBinder
 
 /**
  * LoadMoreAdapterDelegate
  * @author linzheng
  */
-interface LoadMoreAdapterDelegate{
+interface LoadMoreAdapterDelegate {
+
+    val mLoadMoreItem: LoadMoreItem
+
+    val mLoadMoreItemViewBinder: LoadMoreItemViewBinder
 
     fun getItemViewType(position: Int): Int
 

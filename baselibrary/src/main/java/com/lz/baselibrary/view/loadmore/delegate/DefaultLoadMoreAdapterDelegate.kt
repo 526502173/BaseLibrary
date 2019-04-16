@@ -1,34 +1,35 @@
-package com.lz.baselibrary.view.loadmore
+package com.lz.baselibrary.view.loadmore.delegate
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItem
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
+import com.lz.baselibrary.view.loadmore.LoadMoreItemViewBinder
 import com.lz.baselibrary.view.loadmore.adapter.factory.LoadMoreAdapterFactory
 import me.drakeet.multitype.MultiTypeAdapter
 
 /**
  * @author linzheng
  */
+//todo 考虑让 LoadMoreAdapterDelegate 接口继承 LoadMore 接口
 class DefaultLoadMoreAdapterDelegate(
         private val mAdapter: MultiTypeAdapter,
-        mLoadMoreAdapterFactory: LoadMoreAdapterFactory,
-        mListener: LoadMoreListener
-) : LoadMoreAdapterDelegate, LoadMore {
+        private val mLoadMoreAdapterFactory: LoadMoreAdapterFactory,
+        private val mListener: LoadMoreListener
+) : LoadMoreAdapterDelegate {
 
-    private val mLoadMoreItemViewBinder = LoadMoreItemViewBinder(mLoadMoreAdapterFactory, mListener)
-
-    private val mLoadMoreItem = LoadMoreItem()
-
-    init {
-        mAdapter.register(LoadMoreItem::class, mLoadMoreItemViewBinder)
+    override val mLoadMoreItem: LoadMoreItem by lazy {
+        LoadMoreItem()
     }
 
-    override fun getItemViewType(position: Int) = if (mAdapter.itemCount - 1 == position) {
-        LoadMoreAdapterDelegate.ITEM_TYPE_LOAD_MORE
-    } else mAdapter.getItemViewType(position)
+    override val mLoadMoreItemViewBinder: LoadMoreItemViewBinder
+        get() = LoadMoreItemViewBinder(mLoadMoreAdapterFactory, mListener)
+
+    override fun getItemViewType(position: Int) =
+            if (mAdapter.itemCount == position) {
+                LoadMoreAdapterDelegate.ITEM_TYPE_LOAD_MORE
+            } else mAdapter.getItemViewType(position)
 
     override fun onCreateViewHolder(parent: ViewGroup, indexViewType: Int): RecyclerView.ViewHolder {
         return if (indexViewType == LoadMoreAdapterDelegate.ITEM_TYPE_LOAD_MORE) {
@@ -77,20 +78,6 @@ class DefaultLoadMoreAdapterDelegate(
     override fun getItemCount(): Int {
         return if (mAdapter.items.isNotEmpty()) mAdapter.itemCount + 1
         else mAdapter.itemCount
-    }
-
-    override fun noMore() {
-        mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NO_MORE
-        mAdapter.notifyItemChanged(mAdapter.items.size)
-    }
-
-    override fun loading() {
-        mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
-        mAdapter.notifyItemChanged(mAdapter.items.size)
-    }
-
-    override fun normal() {
-        mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NORMAL
     }
 
 }

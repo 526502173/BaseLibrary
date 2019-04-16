@@ -3,6 +3,7 @@ package com.lz.baselibrary.view.recyclerview
 import android.view.View
 
 /**
+ * SimpleOnItemClickListener
  * @author linzheng
  */
 open class SimpleOnItemClickListener : OnItemClickListener{

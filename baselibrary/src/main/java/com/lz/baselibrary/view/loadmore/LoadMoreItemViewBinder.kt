@@ -23,7 +23,7 @@ class LoadMoreItemViewBinder(
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): LoadMoreViewHolder =
             LoadMoreViewHolder(mAdapterFactory.create(parent.context), mListener)
 
-    /**
+    /*
      * LoadMoreViewHolder
      */
     class LoadMoreViewHolder(
@@ -42,7 +42,7 @@ class LoadMoreItemViewBinder(
                 LoadMoreItem.LOAD_MORE_STATUS_NORMAL -> {
                     item.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
                     mAdapter.loading()
-                    mLoadMoreListener.loadMore(itemView)
+                    mLoadMoreListener.onLoadMore(itemView)
                 }
             }
         }
