@@ -9,6 +9,10 @@ import com.lz.baselibrary.view.expand.Parent
 data class CustomParent(
         val title: String,
         val customChildList: List<Child>
-) : Parent() {
+) : Parent {
+    override var isExpend: Boolean
+        get() = false
+        set(value) {}
+
     override fun getChildList(): List<Child> = customChildList
 }

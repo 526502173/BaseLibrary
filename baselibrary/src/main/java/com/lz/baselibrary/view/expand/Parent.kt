@@ -1,12 +1,13 @@
 package com.lz.baselibrary.view.expand
 
 /**
+ * Parent 用于实现 2 级列表中的父 Item
  * @author linzheng
  */
-open abstract class Parent{
+interface Parent {
 
-    var isExpend: Boolean = false
+    var isExpend: Boolean
 
-    abstract fun getChildList(): List<Child>
+    fun getChildList(): List<Child>
 
 }

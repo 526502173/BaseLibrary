@@ -11,9 +11,9 @@ import com.lz.baselibrary.view.loadmore.LoadMoreItemViewBinder
  */
 interface LoadMoreAdapterDelegate {
 
-    val mLoadMoreItem: LoadMoreItem
+    val loadMoreItem: LoadMoreItem
 
-    val mLoadMoreItemViewBinder: LoadMoreItemViewBinder
+    val loadMoreItemViewBinder: LoadMoreItemViewBinder
 
     fun getItemViewType(position: Int): Int
 

@@ -5,4 +5,4 @@ import com.lz.baselibrary.view.expand.Child
 /**
  * @author linzheng
  */
-data class CustomChild(val title: String) : Child()
+data class CustomChild(val title: String) : Child

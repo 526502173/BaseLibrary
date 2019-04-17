@@ -16,6 +16,9 @@ class ExpandAdapter<T : Parent>(
 
     private var mIsInitialize = false
 
+    /**
+     * K Parent V [Child,Child,Child]
+     */
     private val mExpandItems: ArrayMap<Parent, List<Child>> by lazy(LazyThreadSafetyMode.NONE) {
         ArrayMap<Parent, List<Child>>()
     }
@@ -37,7 +40,7 @@ class ExpandAdapter<T : Parent>(
     }
 
     /**
-     * 初始化方法
+     * 初始化方法,用于将
      * @param list ParentList
      * @param isExpand 是否展开
      */

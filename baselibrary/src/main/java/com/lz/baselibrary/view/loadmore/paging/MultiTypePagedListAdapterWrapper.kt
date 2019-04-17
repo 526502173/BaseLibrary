@@ -34,17 +34,17 @@ class MultiTypePagedListAdapterWrapper(
     )
 
     override fun noMore() {
-        mDelegate.mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NO_MORE
+        mDelegate.loadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NO_MORE
         notifyItemChanged(items.size)
     }
 
     override fun loading() {
-        mDelegate.mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
+        mDelegate.loadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
         notifyItemChanged(items.size)
     }
 
     override fun normal() {
-        mDelegate.mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NORMAL
+        mDelegate.loadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NORMAL
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, indexViewType: Int) = mDelegate.onCreateViewHolder(parent, indexViewType)
@@ -58,7 +58,7 @@ class MultiTypePagedListAdapterWrapper(
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) = mDelegate.onViewRecycled(holder)
 
     override fun getItem(position: Int): Any {
-        return if (itemCount != 0 && position == items.size) mDelegate.mLoadMoreItem else super.getItem(position)
+        return if (itemCount != 0 && position == items.size) mDelegate.loadMoreItem else super.getItem(position)
     }
 
     override fun getItemCount(): Int {
@@ -74,7 +74,7 @@ class MultiTypePagedListAdapterWrapper(
     override fun getOutBinderByViewHolder(holder: RecyclerView.ViewHolder): ItemViewBinder<Any, RecyclerView.ViewHolder> {
         val itemType = holder.itemViewType
         return if (itemType == LoadMoreAdapterDelegate.ITEM_TYPE_LOAD_MORE)
-            mDelegate.mLoadMoreItemViewBinder as ItemViewBinder<Any, RecyclerView.ViewHolder>
+            mDelegate.loadMoreItemViewBinder as ItemViewBinder<Any, RecyclerView.ViewHolder>
         else super.getOutBinderByViewHolder(holder)
     }
 

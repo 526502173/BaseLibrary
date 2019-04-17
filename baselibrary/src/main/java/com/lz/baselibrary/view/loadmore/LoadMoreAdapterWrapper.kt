@@ -38,17 +38,17 @@ class LoadMoreAdapterWrapper(
 
 
     override fun noMore() {
-        mDelegate.mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NO_MORE
+        mDelegate.loadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NO_MORE
         notifyItemChanged(mAdapter.items.size)
     }
 
     override fun loading() {
-        mDelegate.mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
+        mDelegate.loadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
         notifyItemChanged(mAdapter.items.size)
     }
 
     override fun normal() {
-        mDelegate.mLoadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NORMAL
+        mDelegate.loadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NORMAL
     }
 
     override fun getItemViewType(position: Int) = mDelegate.getItemViewType(position)

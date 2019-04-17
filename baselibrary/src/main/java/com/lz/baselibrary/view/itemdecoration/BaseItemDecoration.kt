@@ -5,16 +5,18 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.view.View
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 
 /**
  * @author linzheng
  */
+//todo mPadding 修改为 list 类型，和 mDirectionList 对应起来
 open class BaseItemDecoration(
-        open val padding: Int,
-        open val color: Int = Color.GRAY,
-        private val directionList: List<DividerDirection>,
-        open val isDrawDivider: (direction: DividerDirection, position: Int) -> Boolean = { _, _ -> true }
+        open val mPadding: Int = 1,
+        open val mColor: Int = Color.GRAY,
+        open val mDirectionList: List<DividerDirection> = emptyList(),
+        open val mIsDrawDivider: (direction: DividerDirection, position: Int) -> Boolean = { _, _ -> true }
 ) : RecyclerView.ItemDecoration() {
 
     /**
@@ -22,21 +24,23 @@ open class BaseItemDecoration(
      */
     protected val mPaint: Paint by lazy(LazyThreadSafetyMode.NONE) {
         val paint = Paint()
-        paint.color = color
+        paint.color = mColor
         paint
     }
 
     /**
      * 绘制 Divider
      */
-    protected fun drawDivider(canvas: Canvas, childView: View, padding: Int, direction: DividerDirection) {
-        canvas.drawRect(createDividerRect(direction, childView, padding), mPaint)
+    fun drawDivider(canvas: Canvas, childView: View, index: Int) {
+        mDirectionList.forEach {
+            if (mIsDrawDivider(it, index)) canvas.drawRect(createDividerRect(it, childView, mPadding), mPaint)
+        }
     }
 
     /**
      * 根据 [direction] 创建不同的 Rect
      */
-    private fun createDividerRect(direction: DividerDirection, childView: View, padding: Int) = when (direction) {
+    protected fun createDividerRect(direction: DividerDirection, childView: View, padding: Int) = when (direction) {
         is Top -> Rect(childView.left, childView.top - padding, childView.right, childView.top)
         is Bottom -> Rect(childView.left, childView.bottom, childView.right, childView.bottom + padding)
         is Right -> Rect(childView.left - padding, childView.top, childView.left, childView.bottom)
@@ -44,21 +48,21 @@ open class BaseItemDecoration(
     }
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        directionList.forEach {
+        mDirectionList.forEach {
             when (it) {
-                is Top -> outRect.set(0, padding, 0, 0)
-                is Bottom -> outRect.set(0, 0, 0, padding)
-                is Right -> outRect.set(0, 0, padding, 0)
-                is Left -> outRect.set(padding, 0, 0, 0)
+                is Top -> outRect.set(0, mPadding, 0, 0)
+                is Bottom -> outRect.set(0, 0, 0, mPadding)
+                is Right -> outRect.set(0, 0, mPadding, 0)
+                is Left -> outRect.set(mPadding, 0, 0, 0)
             }
         }
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-        repeat(parent.childCount) { index ->
-            val childView = parent.getChildAt(index)
-            directionList.forEach { if (isDrawDivider(it, index)) drawDivider(c, childView, padding, it) }
+        parent.children.forEachIndexed { index, child ->
+            drawDivider(c, child, index)
         }
     }
+
 
 }
