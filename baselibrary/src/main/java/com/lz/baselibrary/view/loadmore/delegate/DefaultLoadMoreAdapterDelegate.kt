@@ -12,7 +12,6 @@ import me.drakeet.multitype.MultiTypeAdapter
 /**
  * @author linzheng
  */
-//todo 考虑让 LoadMoreAdapterDelegate 接口继承 LoadMore 接口
 class DefaultLoadMoreAdapterDelegate(
         private val mAdapter: MultiTypeAdapter,
         private val mLoadMoreAdapterFactory: LoadMoreAdapterFactory,

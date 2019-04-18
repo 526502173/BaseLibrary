@@ -2,14 +2,10 @@ package com.lz.baselibrary.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lz.baselibrary.R
 import com.lz.baselibrary.model.wanandroid.Product
 import com.lz.baselibrary.ui.multitype.ProductItemViewBinder
-import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
-import com.lz.baselibrary.view.itemdecoration.Bottom
-import com.lz.baselibrary.view.itemdecoration.Top
 import com.lz.baselibrary.view.itemdecoration.stickyheader.DefaultStickyHeaderDelegate
 import com.lz.baselibrary.view.itemdecoration.stickyheader.StickyHeaderItemDecoration
 import kotlinx.android.synthetic.main.activity_sticky_header.*
@@ -65,7 +61,7 @@ class StickyHeaderActivity : AppCompatActivity() {
 
         mAdapter.items = mItems
         rv_sticky_header.layoutManager = LinearLayoutManager(this)
-        rv_sticky_header.addItemDecoration(StickyHeaderItemDecoration(DefaultStickyHeaderDelegate(mItems)))
+        rv_sticky_header.addItemDecoration(StickyHeaderItemDecoration(mDelegate = DefaultStickyHeaderDelegate(mItems)))
         rv_sticky_header.adapter = mAdapter
 
     }

@@ -1,10 +1,17 @@
 package com.lz.baselibrary.view.itemdecoration
 
+import android.graphics.Rect
+
 /**
  * @author linzheng
  */
 open class VerticalItemDecoration(
-        override val mPadding: Int,
-        override val mColor: Int,
-        override val mIsDrawDivider: (direction: DividerDirection, position: Int) -> Boolean
-) : BaseItemDecoration(mColor, mPadding, listOf(Top))
+        padding: Int,
+        color: Int,
+        isDrawDivider: (direction: DividerDirection, position: Int) -> Boolean
+) : BaseItemDecoration(
+        mPadding = Rect(0, padding, 0, 0),
+        mColor = color,
+        mDirectionList = listOf(Top),
+        mIsDrawDivider = isDrawDivider
+)

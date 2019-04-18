@@ -1,21 +1,22 @@
 package com.lz.baselibrary.view.itemdecoration.stickyheader
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Rect
 import android.view.View
 import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
-import com.lz.baselibrary.view.itemdecoration.Top
 
 /**
  * 顶部吸附的 ItemViewDecoration
  * @author linzheng
  */
 class StickyHeaderItemDecoration<T : StickyHeader>(
+        private val mIsSticky: Boolean = true,
         private val mDelegate: StickyHeaderDelegate<T>,
-        private val mBaseItemDecoration: BaseItemDecoration? = BaseItemDecoration(mPadding = 1, mDirectionList = listOf(Top))
+        private val mBaseItemDecoration: BaseItemDecoration? = BaseItemDecoration.createFromTop(1, Color.GRAY)
 ) : RecyclerView.ItemDecoration() {
 
     /**
@@ -41,35 +42,37 @@ class StickyHeaderItemDecoration<T : StickyHeader>(
     }
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+        if (!mIsSticky) return
         val layoutManager = parent.layoutManager as? LinearLayoutManager
                 ?: throw ClassCastException("RecyclerView 的 LayoutManger 必须为 LinearLayoutManager 类型")
         val firstPosition = layoutManager.findFirstVisibleItemPosition()
         val firstChild = parent.findViewHolderForAdapterPosition(firstPosition)?.itemView
-        var flag = false
-        if (isNextItemDiff(firstPosition) && isNeedTranslate(firstChild)) {
-            c.save()
-            flag = true
-            val dy = (firstChild?.top!! + firstChild?.height!! - mDelegate.headerHeight).toFloat()
-            c.translate(0f, dy)
-        }
+        //更具 findViewHolderForAdapterPosition 方法中的描述得知，这个方法有一定几率会返回 null
         if (firstChild != null) {
+            var flag = false
+            if (isNextItemDiff(firstPosition) && isNeedTranslate(firstChild)) {
+                c.save()
+                flag = true
+                val dy = (firstChild.top + firstChild.height - mDelegate.headerHeight).toFloat()
+                c.translate(0f, dy)
+            }
             setHeaderRect(firstChild, parent, true)
             mDelegate.drawHeader(c, mHeaderRect, mTextRect, mDelegate.dataSource[firstPosition])
+            if (flag) c.restore()
         }
-        if (flag) c.restore()
-    }
-
-    /**
-     * 判断是否需要执行位移
-     */
-    private fun isNeedTranslate(child: View?): Boolean {
-        return child?.top!! + child?.height!! < mDelegate.headerHeight
     }
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         val position = parent.getChildAdapterPosition(view)
         if (isLastItemDiff(position)) outRect.set(0, mDelegate.headerHeight, 0, 0)
         else mBaseItemDecoration?.getItemOffsets(outRect, view, parent, state)
+    }
+
+    /**
+     * 判断是否需要执行位移
+     */
+    private fun isNeedTranslate(child: View): Boolean {
+        return child.top + child.height < mDelegate.headerHeight
     }
 
     /**
@@ -86,6 +89,7 @@ class StickyHeaderItemDecoration<T : StickyHeader>(
 
     /**
      * 是否和上一个 Item 的 stickySortValue 不同
+     * 如果 [position] == 0 则直接返回 true
      * @return true 表示不相同 false 表示相同
      */
     private fun isLastItemDiff(position: Int): Boolean {
