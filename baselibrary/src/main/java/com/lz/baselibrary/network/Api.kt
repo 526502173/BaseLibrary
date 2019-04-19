@@ -23,12 +23,12 @@ object Api {
      */
     private val OKHTTP_CLIENT by lazy {
         OkHttpClient.Builder().run {
-            sApiConfig.okHttpConfig.apply {
+            sApiConfig.retrofitConfig.clientConfig.apply {
                 interceptorList.forEach { addInterceptor(it) }
                 networkInterceptorList.forEach { addNetworkInterceptor(it) }
-                connectTimeout(timeoutConnectMinutes, TimeUnit.MINUTES)
-                readTimeout(timeoutReadMinutes, TimeUnit.MINUTES)
-                writeTimeout(timeoutWriteMinutes, TimeUnit.MINUTES)
+                connectTimeout(timeoutConfig.timeoutConnectMinutes, TimeUnit.MINUTES)
+                readTimeout(timeoutConfig.timeoutReadMinutes, TimeUnit.MINUTES)
+                writeTimeout(timeoutConfig.timeoutWriteMinutes, TimeUnit.MINUTES)
                 if (cache != null) cache(cache)
                 if (httpsConfig?.cookieJar != null) cookieJar(httpsConfig.cookieJar)
                 if (httpsConfig?.sslSocketFactory != null && httpsConfig.trustManager != null)

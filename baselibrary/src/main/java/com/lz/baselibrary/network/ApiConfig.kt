@@ -15,7 +15,7 @@ import javax.net.ssl.X509TrustManager
  * Api 配置属性
  * @author linzheng
  */
-data class ApiConfig(val retrofitConfig: RetrofitConfig) {
+data class ApiConfig private constructor(val retrofitConfig: RetrofitConfig) {
     companion object {
         fun create(retrofitConfig: RetrofitConfig = RetrofitConfig.create()) = ApiConfig(retrofitConfig)
     }
@@ -24,7 +24,7 @@ data class ApiConfig(val retrofitConfig: RetrofitConfig) {
 /**
  * OkHttp 配置信息
  */
-data class OkHttpConfig(
+data class OkHttpConfig private constructor(
         val timeoutConfig: OkHttpTimeoutConfig,
         val interceptorList: List<Interceptor>,
         val networkInterceptorList: List<Interceptor>,
@@ -45,7 +45,7 @@ data class OkHttpConfig(
 /**
  * okhttp 超时相关配置
  */
-data class OkHttpTimeoutConfig(
+data class OkHttpTimeoutConfig private constructor(
         val timeoutConnectMinutes: Long = 1L,
         val timeoutReadMinutes: Long = 1L,
         val timeoutWriteMinutes: Long = 1L
@@ -62,7 +62,7 @@ data class OkHttpTimeoutConfig(
 /**
  * OkHttp 的 https 配置
  */
-data class OkHttpHttpsConfig(
+data class OkHttpHttpsConfig private constructor(
         val cookieJar: CookieJar?,
         val sslSocketFactory: SSLSocketFactory?,
         val trustManager: X509TrustManager?
@@ -79,7 +79,7 @@ data class OkHttpHttpsConfig(
 /**
  * Retrofit 配置信息
  */
-data class RetrofitConfig(
+data class RetrofitConfig private constructor(
         val baseUrl: String,
         val clientConfig: OkHttpConfig,
         val callAdapterFactory: CallAdapter.Factory,

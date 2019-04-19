@@ -18,6 +18,6 @@ open class LibraryApiInitialize : SimpleInitialize() {
     /**
      * 创建 Api 配置对象
      */
-    open fun createApiConfig() = ApiConfig()
+    open fun createApiConfig() = ApiConfig.create()
 
 }
