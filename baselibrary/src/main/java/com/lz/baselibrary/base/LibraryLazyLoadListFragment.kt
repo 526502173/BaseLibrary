@@ -7,6 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
 /**
+ * 实现懒加载的 Fragment
  * @author linzheng
  */
 open abstract class LibraryLazyLoadListFragment<T : LibraryBaseListViewModel> : LibraryBaseListFragment<T>(){

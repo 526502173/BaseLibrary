@@ -5,6 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
+ * BaseViewHolder
  * @author linzheng
  */
 open class BaseViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {

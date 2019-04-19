@@ -21,7 +21,7 @@ object Api {
     /**
      * OkHttp 对象
      */
-    private val sOkHttpClient by lazy {
+    private val OKHTTP_CLIENT by lazy {
         OkHttpClient.Builder().run {
             sApiConfig.okHttpConfig.apply {
                 interceptorList.forEach { addInterceptor(it) }
@@ -41,12 +41,12 @@ object Api {
     /**
      * Retrofit 对象
      */
-    private val sRetrofit by lazy { buildRetrofit() }
+    private val RETROFIT by lazy { buildRetrofit() }
 
     /**
      * 同步 Retrofit 对象，用于同步执行请求
      */
-    private val sSyncRetrofit by lazy { buildRetrofit(true) }
+    private val SYNC_RETROFIT by lazy { buildRetrofit(true) }
 
     //todo 需要考虑自定义的 CallAdapter 这里假设 CallAdapter 的实现只有 RxJavaCallAdapter
     private fun buildRetrofit(isSync: Boolean = false) = if (!this::sApiConfig.isInitialized)
@@ -54,7 +54,7 @@ object Api {
     else sApiConfig.retrofitConfig.run {
         Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .client(sOkHttpClient)
+                .client(OKHTTP_CLIENT)
                 .validateEagerly(true)
                 .addCallAdapterFactory(if (isSync) RxJava2CallAdapterFactory.create() else callAdapterFactory)
                 .addConverterFactory(converterFactory)
@@ -64,8 +64,11 @@ object Api {
     /**
      * 将 Retrofit 中的 create() 转换到 Kotlin 中
      */
-    fun <T : Any> createApi(clazz: KClass<out T>) = sRetrofit.create(clazz.java)!!
+    fun <T : Any> createApi(clazz: KClass<out T>) = RETROFIT.create(clazz.java)!!
 
-    fun <T : Any> createSyncApi(clazz: KClass<out T>) = sSyncRetrofit.create(clazz.java)!!
+    /**
+     * 通过同步 Retrofit 创建 Api 对象
+     */
+    fun <T : Any> createSyncApi(clazz: KClass<out T>) = SYNC_RETROFIT.create(clazz.java)!!
 
 }

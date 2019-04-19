@@ -10,7 +10,7 @@ import com.lz.baselibrary.network.RetrofitConfig
 class ApiInitialize : LibraryApiInitialize() {
 
     override fun createApiConfig(): ApiConfig {
-        return ApiConfig(retrofitConfig = RetrofitConfig(baseUrl = "https://www.wanandroid.com"))
+        return ApiConfig.create(retrofitConfig = RetrofitConfig.create(baseUrl = "https://www.wanandroid.com"))
     }
 
 }
