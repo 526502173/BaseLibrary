@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lz.baselibrary.R
-import com.lz.baselibrary.api.ApiConsumer
 import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.dp2px
@@ -29,18 +28,17 @@ import com.uber.autodispose.autoDisposable
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_list.*
 import java.util.concurrent.TimeUnit
-import kotlin.random.Random
 
 /**
  * @author linzheng
  */
-class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+class ListActivity : LibraryBaseListActivity(), LoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     private val mAdapterWrapper: LoadMoreAdapterWrapper by lazy {
         LoadMoreAdapterWrapper(mAdapter, this)
     }
 
-    override val mViewModel: ListViewModel
+    val mViewModel: ListViewModel
         get() = ViewModelProviders.of(this, ListViewModelFactory()).get(ListViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +77,7 @@ class ListActivity : LibraryBaseListActivity<ListViewModel>(), LoadMoreListener,
                 .subscribe(Consumer {
                     mViewModel.mItems.addAll(it)
                     mAdapterWrapper.notifyDataSetChanged()
-                }, ApiConsumer(this))
+                })
 
     }
 

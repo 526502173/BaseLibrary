@@ -28,6 +28,6 @@ class ItemViewNotImplementLoadMoreInterface : RuntimeException("ItemView 必须�
 class InterfaceException: RuntimeException()
 
 /**
- * 分页数据没有更多了
+ * 压根就没数据
  */
-class NoMoreException: RuntimeException()
+class EmptyDataException: RuntimeException()

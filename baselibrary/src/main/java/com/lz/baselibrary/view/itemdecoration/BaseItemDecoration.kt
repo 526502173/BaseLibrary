@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
  * BaseItemDecoration 封装了 ItemDecoration 的基本操作
  * @author linzheng
  */
+//todo 添加 create() 方法
 open class BaseItemDecoration(
         open val mPadding: Rect = Rect(),
         open val mColor: Int = Color.GRAY,

@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.PagingActivity">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.lz.baselibrary.view.refresh.RefreshLayout
             android:id="@+id/srl_article"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -19,6 +19,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.lz.baselibrary.view.refresh.RefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

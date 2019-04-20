@@ -1,15 +1,12 @@
-package com.lz.baselibrary.base.paging
+package com.lz.baselibrary.network
 
 import androidx.lifecycle.MutableLiveData
-import com.lz.baselibrary.network.LoadMoreStatus
-import com.lz.baselibrary.network.NetworkStatus
-import com.lz.baselibrary.network.RefreshStatus
 
 /**
+ * PagingLiveData
  * @author linzheng
  */
-//todo  类名还没有想好
-class A {
+class PagingLiveData {
 
     val networkStatus = MutableLiveData<NetworkStatus>()
 
@@ -17,6 +14,7 @@ class A {
 
     val loadMoreStatus = MutableLiveData<LoadMoreStatus>()
 
+    //重试
     var retry: (() -> Any)? = null
 
     /**

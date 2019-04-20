@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItem
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.delegate.DefaultLoadMoreAdapterDelegate
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
@@ -19,7 +18,7 @@ import me.drakeet.multitype.Types
  * @author linzheng
  */
 class MultiTypePagedListAdapterWrapper(
-        private val mAdapter: MultiTypeAdapter
+        private val mWrapperAdapter: MultiTypeAdapter
 ) : MultiTypePagedListAdapter(), LoadMore {
 
     private val mListener = object : LoadMoreListener {
@@ -30,22 +29,14 @@ class MultiTypePagedListAdapterWrapper(
     }
 
     private val mDelegate: LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(
-            mAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
+            this, mWrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
     )
 
-    override fun noMore() {
-        mDelegate.loadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NO_MORE
-        notifyItemChanged(items.size)
-    }
+    override fun noMore() = mDelegate.noMore()
 
-    override fun loading() {
-        mDelegate.loadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
-        notifyItemChanged(items.size)
-    }
+    override fun loading() = mDelegate.loading()
 
-    override fun normal() {
-        mDelegate.loadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NORMAL
-    }
+    override fun normal() = mDelegate.normal()
 
     override fun onCreateViewHolder(parent: ViewGroup, indexViewType: Int) = mDelegate.onCreateViewHolder(parent, indexViewType)
 
@@ -79,7 +70,7 @@ class MultiTypePagedListAdapterWrapper(
     }
 
     override var types: Types
-        get() = mAdapter.types
+        get() = mWrapperAdapter.types
         set(value) {}
 
 }

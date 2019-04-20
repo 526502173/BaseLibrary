@@ -1,6 +1,5 @@
 package com.lz.baselibrary.base
 
-import com.lz.baselibrary.base.viewmodel.LibraryBaseListViewModel
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.refresh.Refresh
 import me.drakeet.multitype.MultiTypeAdapter
@@ -8,12 +7,7 @@ import me.drakeet.multitype.MultiTypeAdapter
 /**
  * @author linzheng
  */
-abstract class LibraryBaseListActivity<T : LibraryBaseListViewModel> : LibraryBaseActivity(), ListView {
-
-    /**
-     * ViewModel
-     */
-    protected abstract val mViewModel: T
+abstract class LibraryBaseListActivity : LibraryBaseActivity(), ListView {
 
     /**
      * Refresh
@@ -30,7 +24,6 @@ abstract class LibraryBaseListActivity<T : LibraryBaseListViewModel> : LibraryBa
      */
     protected val mAdapter: MultiTypeAdapter by lazy(LazyThreadSafetyMode.NONE) {
         val adapter = MultiTypeAdapter()
-        adapter.items = mViewModel.mItems
         adapter
     }
 

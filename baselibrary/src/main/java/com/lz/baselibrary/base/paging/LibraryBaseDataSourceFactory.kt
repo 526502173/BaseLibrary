@@ -7,11 +7,12 @@ import androidx.paging.DataSource
  * LibraryBaseDataSourceFactory
  * @author linzheng
  */
-abstract class LibraryBaseDataSourceFactory<Key, Value, DS : DataSource<Key, Value>> : DataSource.Factory<Key, Value>() {
+abstract class LibraryBaseDataSourceFactory<Key, Value, T : DataSource<Key, Value>> : DataSource.Factory<Key, Value>() {
 
     /**
      * 此 LiveData 是为了让 DataSource 能够向 Repo 传递数据
      */
-    val sourceLiveData = MutableLiveData<DS>()
+    val sourceLiveData = MutableLiveData<T>()
+
 
 }

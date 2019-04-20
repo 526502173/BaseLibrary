@@ -1,6 +1,7 @@
 package com.lz.baselibrary.base.paging
 
 import androidx.paging.ItemKeyedDataSource
+import com.lz.baselibrary.network.PagingLiveData
 
 /**
  * LibraryBaseNetWorkItemKeyedDataSource
@@ -8,7 +9,7 @@ import androidx.paging.ItemKeyedDataSource
  */
 abstract class LibraryBaseNetWorkItemKeyedDataSource<Key, Value> : ItemKeyedDataSource<Key, Value>() {
 
-    val a = A()
+    val liveData = PagingLiveData()
 
     override fun loadBefore(params: LoadParams<Key>, callback: LoadCallback<Value>) {
     }

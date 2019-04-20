@@ -17,14 +17,14 @@ class LibraryLoadMoreInitialize : SimpleInitialize() {
     }
 
     /**
-     * 创建默认的 [SimpleLoadMoreAdapterFactory] 对象
-     */
-    open fun createDefaultFactory() = SimpleLoadMoreAdapterFactory()
-
-    /**
      * 创建默认的 [SimpleLoadMoreViewConfig] 对象
      */
     open fun createDefaultLoadMoreViewConfig() = SimpleLoadMoreViewConfig()
+
+    /**
+     * 创建默认的 [SimpleLoadMoreAdapterFactory] 对象
+     */
+    open fun createDefaultFactory() = SimpleLoadMoreAdapterFactory()
 
     companion object {
         /**

@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItem
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.delegate.DefaultLoadMoreAdapterDelegate
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
@@ -16,40 +15,26 @@ import me.drakeet.multitype.Types
  * @author linzheng
  */
 class LoadMoreAdapterWrapper(
-        private val mAdapter: MultiTypeAdapter,
+        private val mWrapperAdapter: MultiTypeAdapter,
         mListener: LoadMoreListener
 ) : MultiTypeAdapter(), LoadMore {
 
     private val mDelegate: LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(
-            mAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
+            this, mWrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
     )
 
     override var items: List<Any>
-        get() = mAdapter.items
+        get() = mWrapperAdapter.items
         set(value) {
-            mAdapter.items = value
+            mWrapperAdapter.items = value
         }
 
     override var types: Types
-        get() = mAdapter.types
+        get() = mWrapperAdapter.types
         set(value) {
-            mAdapter.types = value
+            mWrapperAdapter.types = value
         }
 
-
-    override fun noMore() {
-        mDelegate.loadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NO_MORE
-        notifyItemChanged(mAdapter.items.size)
-    }
-
-    override fun loading() {
-        mDelegate.loadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
-        notifyItemChanged(mAdapter.items.size)
-    }
-
-    override fun normal() {
-        mDelegate.loadMoreItem.status = LoadMoreItem.LOAD_MORE_STATUS_NORMAL
-    }
 
     override fun getItemViewType(position: Int) = mDelegate.getItemViewType(position)
 
@@ -69,5 +54,10 @@ class LoadMoreAdapterWrapper(
 
     override fun getItemCount() = mDelegate.getItemCount()
 
+    override fun noMore() = mDelegate.noMore()
+
+    override fun loading() = mDelegate.loading()
+
+    override fun normal() = mDelegate.normal()
 
 }

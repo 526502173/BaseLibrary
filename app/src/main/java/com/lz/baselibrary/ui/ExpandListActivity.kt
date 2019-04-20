@@ -19,9 +19,9 @@ import kotlinx.android.synthetic.main.activity_expand_list.*
 /**
  * @author linzheng
  */
-class ExpandListActivity : LibraryBaseListActivity<ListViewModel>() {
+class ExpandListActivity : LibraryBaseListActivity() {
 
-    override val mViewModel: ListViewModel
+    val mViewModel: ListViewModel
         get() = ViewModelProviders.of(this, ListViewModelFactory()).get(ListViewModel::class.java)
 
     private val mExpandAdapter: ExpandAdapter<CustomParent> by lazy {

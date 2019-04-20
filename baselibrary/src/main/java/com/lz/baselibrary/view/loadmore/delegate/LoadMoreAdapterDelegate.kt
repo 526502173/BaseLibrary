@@ -2,6 +2,7 @@ package com.lz.baselibrary.view.loadmore.delegate
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItem
 import com.lz.baselibrary.view.loadmore.LoadMoreItemViewBinder
 
@@ -9,7 +10,7 @@ import com.lz.baselibrary.view.loadmore.LoadMoreItemViewBinder
  * LoadMoreAdapterDelegate
  * @author linzheng
  */
-interface LoadMoreAdapterDelegate {
+interface LoadMoreAdapterDelegate : LoadMore {
 
     val loadMoreItem: LoadMoreItem
 
@@ -35,6 +36,7 @@ interface LoadMoreAdapterDelegate {
 
     companion object {
         const val ITEM_TYPE_LOAD_MORE = 233331
+
     }
 
 }
