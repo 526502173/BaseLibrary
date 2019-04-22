@@ -5,9 +5,8 @@ import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.base.paging.LibraryBaseNetWorkPageKeyedDataSource
 import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.network.LibraryPagingApiConsumer
-import com.lz.baselibrary.network.LoadMoreStatus
-import com.lz.baselibrary.network.NetworkStatus
-import com.lz.baselibrary.network.RefreshStatus
+import com.lz.baselibrary.network.UIStatus
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -29,13 +28,13 @@ class ArticleDataSource(
                 .delay(2, TimeUnit.SECONDS)
                 .subscribe(Consumer {
                     if (it.size < 20) {
-                        postLoadMoreStatusValue(LoadMoreStatus.LOAD_MORE_NO_MORE)
+                        uiStatus.postValue(UIStatus.LOAD_MORE_NO_MORE)
                         callback.onResult(it, null)
                     } else {
                         callback.onResult(it, params.key + 1)
-                        postLoadMoreStatusValue(LoadMoreStatus.LOAD_MORE_NORMAL)
+                        uiStatus.postValue(UIStatus.LOAD_MORE_NORMAL)
                     }
-                }, LibraryPagingApiConsumer(liveData))
+                }, LibraryPagingApiConsumer(uiStatus))
     }
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Article>) {
@@ -46,19 +45,19 @@ class ArticleDataSource(
                 .doOnNext {
                     if (it.isEmpty()) throw EmptyDataException()
                 }
+                .observeOn(AndroidSchedulers.mainThread())
                 .doFinally {
-                    postRefreshStatusValue(RefreshStatus.REFRESH_COMPLETE)
-                    postLoadMoreStatusValue(LoadMoreStatus.LOAD_MORE_NORMAL)
+                    uiStatus.value = UIStatus.LOAD_MORE_NORMAL
+                    uiStatus.value = UIStatus.REFRESH_COMPLETE
                 }.subscribe(Consumer {
-                    postNetworkStatusValue(NetworkStatus.SUCCESS)
-                    //todo PageSize
+                    uiStatus.postValue(UIStatus.SUCCESS)
                     if (it.size < 20) {
-                        postLoadMoreStatusValue(LoadMoreStatus.LOAD_MORE_NO_MORE)
+                        uiStatus.value = UIStatus.LOAD_MORE_NO_MORE
                         callback.onResult(it, null, null)
                     } else {
                         callback.onResult(it, null, 2)
                     }
-                }, LibraryPagingApiConsumer(liveData))
+                }, LibraryPagingApiConsumer(uiStatus))
     }
 
 }

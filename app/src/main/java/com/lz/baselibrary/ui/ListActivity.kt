@@ -17,7 +17,7 @@ import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.network.Api
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
 import com.lz.baselibrary.utils.rxjava.PageTransformer
-import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
+import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.LoadMoreAdapterWrapper
 import com.lz.baselibrary.view.recyclerview.RecyclerViewItemClickListener
@@ -47,7 +47,7 @@ class ListActivity : LibraryBaseListActivity(), LoadMoreListener, SwipeRefreshLa
 
         rv_list.setItemViewCacheSize(10)
         rv_list.layoutManager = LinearLayoutManager(this)
-        rv_list.addItemDecoration(VerticalItemDecoration(0.5.dp2px(this), Color.parseColor("#e0e0e0")) { _, position ->
+        rv_list.addItemDecoration(BaseItemDecoration.createFromBottom(0.5.dp2px(this), Color.parseColor("#e0e0e0")) { _, position ->
             position != mViewModel.mItems.size
         })
         rv_list.adapter = mAdapterWrapper

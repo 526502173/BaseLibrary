@@ -1,5 +1,6 @@
 package com.lz.baselibrary.network
 
+import androidx.lifecycle.MutableLiveData
 import com.billy.android.loading.Gloading
 import com.lz.baselibrary.EmptyDataException
 
@@ -9,12 +10,12 @@ import com.lz.baselibrary.EmptyDataException
  * @author linzheng
  */
 open class LibraryPagingApiConsumer(
-        liveData: PagingLiveData
-) : LibraryApiConsumer(liveData.networkStatus) {
+        uiStatus: MutableLiveData<UIStatus>
+) : LibraryApiConsumer(uiStatus) {
     override fun accept(t: Throwable) {
         when (t) {
             is EmptyDataException -> {
-                postNetworkFailed(Gloading.STATUS_EMPTY_DATA)
+                postFailedUIStatus(Gloading.STATUS_EMPTY_DATA)
             }
             else -> super.accept(t)
         }

@@ -11,7 +11,7 @@ import com.lz.baselibrary.model.CustomParent
 import com.lz.baselibrary.ui.multitype.CustomChildItemViewBinder
 import com.lz.baselibrary.ui.multitype.CustomParentItemViewBinder
 import com.lz.baselibrary.view.expand.ExpandAdapter
-import com.lz.baselibrary.view.itemdecoration.VerticalItemDecoration
+import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
 import com.lz.baselibrary.viewmodel.ListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import kotlinx.android.synthetic.main.activity_expand_list.*
@@ -47,9 +47,7 @@ class ExpandListActivity : LibraryBaseListActivity() {
         mAdapter.register(CustomChild::class, CustomChildItemViewBinder())
 
         rv_expand_list.layoutManager = LinearLayoutManager(this)
-        rv_expand_list.addItemDecoration(VerticalItemDecoration(2, Color.GRAY) { direction, position ->
-            true
-        })
+        rv_expand_list.addItemDecoration(BaseItemDecoration.createFromBottom(2, Color.GRAY))
         rv_expand_list.adapter = mAdapter
 
         mExpandAdapter.init(mTestList)

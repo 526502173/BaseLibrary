@@ -1,18 +1,10 @@
 package com.lz.baselibrary.network
 
-import androidx.lifecycle.MutableLiveData
-
 /**
  * PagingLiveData
  * @author linzheng
  */
-class PagingLiveData {
-
-    val networkStatus = MutableLiveData<NetworkStatus>()
-
-    val refreshStatus = MutableLiveData<RefreshStatus>()
-
-    val loadMoreStatus = MutableLiveData<LoadMoreStatus>()
+class DataSourceLiveData {
 
     //重试
     var retry: (() -> Any)? = null

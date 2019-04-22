@@ -8,6 +8,7 @@ import com.lz.baselibrary.network.PagingData
 import com.lz.baselibrary.repository.ArticleRepository
 
 /**
+ * NetworkArticleRepository
  * @author linzheng
  */
 class NetworkArticleRepository(
@@ -22,14 +23,12 @@ class NetworkArticleRepository(
 
         return PagingData.create(
                 pagedList = livePagedList,
-                networkStatus = Transformations.switchMap(factory.sourceLiveData) { it.liveData.networkStatus },
-                refreshStatus = Transformations.switchMap(factory.sourceLiveData) { it.liveData.refreshStatus },
-                loadMoreStatus = Transformations.switchMap(factory.sourceLiveData) { it.liveData.loadMoreStatus },
+                uiStatus = Transformations.switchMap(factory.sourceLiveData) { it.uiStatus },
                 refresh = {
                     factory.sourceLiveData.value?.invalidate()
                 },
                 retry = {
-                    factory.sourceLiveData.value?.liveData?.retryAllFailed()
+                    //todo retry
                 }
         )
     }
