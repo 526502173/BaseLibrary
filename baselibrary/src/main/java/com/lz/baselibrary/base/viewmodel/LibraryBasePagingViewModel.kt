@@ -3,24 +3,41 @@ package com.lz.baselibrary.base.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.PagedList
-import com.lz.baselibrary.network.PagingData
-import com.lz.baselibrary.network.UIStatus
+import com.lz.baselibrary.network.LoadMoreStatus
+import com.lz.baselibrary.network.NetworkStatus
+import com.lz.baselibrary.network.PagedListData
+import com.lz.baselibrary.network.RefreshStatus
 
 /**
  * LibraryBasePagingViewModel
  * @author linzheng
  */
-//todo 这里泛型需要考虑使用 Any 来代替
-abstract class LibraryBasePagingViewModel<T> : LiveDataViewModel() {
+//todo 这个类里面用 Lazy 的原因和 Kotlin 机制有关系。建议在所有 override field 都是用 lazy，Kotlin 的 getter 非常奇怪。
+abstract class LibraryBasePagingViewModel : NetworkViewModel() {
 
-    abstract val pagingData: LiveData<PagingData<T>>
+    abstract val pagingData: LiveData<PagedListData>
 
-    val livePagedList: LiveData<PagedList<T>> = Transformations.switchMap(pagingData) {
-        it.pagedList
+    val pagedList: LiveData<PagedList<Any>> by lazy {
+        Transformations.switchMap(pagingData) {
+            it.pagedList
+        }
     }
 
-    override val uiStatus: LiveData<UIStatus> = Transformations.switchMap(pagingData) {
-        it.uiStatus
+    override val networkStatus: LiveData<NetworkStatus> by lazy {
+        Transformations.switchMap(pagingData) { it.networkStatus }
+    }
+
+    val refreshStatus: LiveData<RefreshStatus> by lazy {
+        Transformations.switchMap(pagingData) { it.refreshStatus }
+    }
+
+    val loadMoreStatus: LiveData<LoadMoreStatus> by lazy {
+        Transformations.switchMap(pagingData) { it.loadMoreStatus }
+    }
+
+    //Paging 的下拉刷新需要调用此方法
+    open fun refresh() {
+        pagingData.value?.refresh?.invoke()
     }
 
 }

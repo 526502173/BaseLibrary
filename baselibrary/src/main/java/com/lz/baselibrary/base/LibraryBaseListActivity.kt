@@ -43,5 +43,4 @@ abstract class LibraryBaseListActivity : LibraryBaseActivity(), ListView {
         if (this::mLoadMore.isInitialized) mLoadMore.normal()
     }
 
-
 }

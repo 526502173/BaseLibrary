@@ -82,7 +82,7 @@ open class BaseItemDecoration private constructor(
         fun createFromBottom(padding: Int, color: Int, isDrawDivider: (direction: DividerDirection, position: Int) -> Boolean = { _, _ -> true }) = BaseItemDecoration(
                 mPadding = Rect(0, 0, 0, padding),
                 mColor = color,
-                mDirectionList = listOf(Top),
+                mDirectionList = listOf(Bottom),
                 mIsDrawDivider = isDrawDivider
         )
 
@@ -92,7 +92,7 @@ open class BaseItemDecoration private constructor(
         fun createFromLeft(padding: Int, color: Int, isDrawDivider: (direction: DividerDirection, position: Int) -> Boolean = { _, _ -> true }) = BaseItemDecoration(
                 mPadding = Rect(padding, 0, 0, 0),
                 mColor = color,
-                mDirectionList = listOf(Top),
+                mDirectionList = listOf(Left),
                 mIsDrawDivider = isDrawDivider
         )
 
@@ -103,7 +103,7 @@ open class BaseItemDecoration private constructor(
         fun createFromRight(padding: Int, color: Int, isDrawDivider: (direction: DividerDirection, position: Int) -> Boolean = { _, _ -> true }) = BaseItemDecoration(
                 mPadding = Rect(0, 0, padding, 0),
                 mColor = color,
-                mDirectionList = listOf(Top),
+                mDirectionList = listOf(Right),
                 mIsDrawDivider = isDrawDivider
         )
 

@@ -13,7 +13,7 @@ import java.net.ConnectException
  * @author linzheng
  */
 open class LibraryApiConsumer(
-        private val liveData: MutableLiveData<UIStatus>
+        private val liveData: MutableLiveData<NetworkStatus>
 ) : Consumer<Throwable> {
 
     override fun accept(t: Throwable) {
@@ -25,13 +25,7 @@ open class LibraryApiConsumer(
     }
 
     protected fun postFailedUIStatus(code: Int) {
-        val uiStatus = when (code) {
-            LibraryGlobalStatusLayout.GLOADING_STATUS_NETWORK_ERROR -> UIStatus.FAILED_NETWORK
-            LibraryGlobalStatusLayout.GLOADING_STATUS_HTTP_ERROR -> UIStatus.FAILED_HTTP
-            Gloading.STATUS_EMPTY_DATA -> UIStatus.FAILED_EMPTY_DATA
-            else -> UIStatus.FAILED_LOAD
-        }
-        liveData.postValue(uiStatus)
+        liveData.postValue(NetworkStatus.code(code))
     }
 
     /**

@@ -3,6 +3,12 @@ package com.lz.baselibrary
 import android.content.Context
 import android.view.View
 import androidx.paging.PagedList
+import com.billy.android.loading.Gloading
+import com.lz.baselibrary.base.BaseView
+import com.lz.baselibrary.base.ListView
+import com.lz.baselibrary.network.LoadMoreStatus
+import com.lz.baselibrary.network.NetworkStatus
+import com.lz.baselibrary.network.RefreshStatus
 
 /**
  * 扩展方法
@@ -33,4 +39,29 @@ inline fun View.setVisibility(boolean: Boolean) {
  */
 inline fun <T> PagedList<T>.toAnyType(): PagedList<Any> {
     return this as PagedList<Any>
+}
+
+inline fun RefreshStatus.bind(view: ListView) {
+    when (this) {
+        RefreshStatus.REFRESH_COMPLETE -> view.refreshComplete()
+        RefreshStatus.REFRESHING -> view.refreshing()
+    }
+}
+
+inline fun LoadMoreStatus.bind(view: ListView) {
+    when (this) {
+        LoadMoreStatus.LOAD_MORE_NO_MORE -> view.loadMoreNoMore()
+        LoadMoreStatus.LOAD_MORE_NORMAL -> view.loadMoreNormal()
+    }
+}
+
+inline fun NetworkStatus.bind(view: BaseView) {
+    when (this) {
+        NetworkStatus.LOADING -> view.showLoading()
+        NetworkStatus.SUCCESS -> view.showSuccess()
+        else -> when (statusCode) {
+            Gloading.STATUS_EMPTY_DATA -> view.showEmpty()
+            else -> view.showLoadFailed(statusCode)
+        }
+    }
 }

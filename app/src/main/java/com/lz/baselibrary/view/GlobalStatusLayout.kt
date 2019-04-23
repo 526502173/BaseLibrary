@@ -17,8 +17,8 @@ class GlobalStatusLayout(context: Context, retry: Runnable) : LibraryGlobalStatu
 
     init {
         //用于拦截事件，防止事件传递给底层 View
-        setBackgroundColor(Color.WHITE)
         isClickable = true
+        setBackgroundColor(Color.WHITE)
         mStatus2ViewBinderArray.put(LibraryGlobalStatusLayout.GLOADING_STATUS_NETWORK_ERROR, NetworkErrorViewBinder())
         mStatus2ViewBinderArray.put(LibraryGlobalStatusLayout.GLOADING_STATUS_INTERFACE_ERROR, InterfaceErrorViewBinder())
         mStatus2ViewBinderArray.put(LibraryGlobalStatusLayout.GLOADING_STATUS_HTTP_ERROR, HttpErrorViewBinder())

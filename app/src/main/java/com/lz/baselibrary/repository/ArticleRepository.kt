@@ -1,7 +1,6 @@
 package com.lz.baselibrary.repository
 
-import com.lz.baselibrary.model.wanandroid.Article
-import com.lz.baselibrary.network.PagingData
+import com.lz.baselibrary.network.PagedListData
 
 /**
  * @author linzheng
@@ -11,6 +10,6 @@ interface ArticleRepository {
     /**
      * 获取公众号文章列表
      */
-    fun getArticleList(subscriptionId: Int): PagingData<Article>
+    fun getArticleList(subscriptionId: Int): PagedListData
 
 }

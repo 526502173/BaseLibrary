@@ -1,8 +1,7 @@
 package com.lz.baselibrary.base.paging
 
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import com.lz.baselibrary.network.UIStatus
+import com.lz.baselibrary.network.UIStatusData
 
 /**
  * BasePageKeyedDataSource
@@ -10,7 +9,7 @@ import com.lz.baselibrary.network.UIStatus
  */
 abstract class LibraryBaseNetWorkPageKeyedDataSource<Key, Value> : PageKeyedDataSource<Key, Value>() {
 
-    val uiStatus = MutableLiveData<UIStatus>()
+    val uiStatusData = UIStatusData.create()
 
     override fun loadBefore(params: LoadParams<Key>, callback: LoadCallback<Key, Value>) {
         //ignore...
