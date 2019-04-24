@@ -11,6 +11,16 @@ abstract class LibraryBaseNetWorkPageKeyedDataSource<Key, Value> : PageKeyedData
 
     val uiStatusData = UIStatusData.create()
 
+    protected var retry: (() -> Any)? = null
+
+    fun retryAllFailed(){
+        val prevRetry = retry
+        retry = null
+        prevRetry?.let {
+            it.invoke()
+        }
+    }
+
     override fun loadBefore(params: LoadParams<Key>, callback: LoadCallback<Key, Value>) {
         //ignore...
     }

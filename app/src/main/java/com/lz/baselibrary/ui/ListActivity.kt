@@ -92,8 +92,8 @@ class ListActivity : LibraryBaseListActivity(), LoadMoreListener, SwipeRefreshLa
         loadData()
     }
 
-    override fun run() {
-        super.run()
+    override fun retry() {
+        super.retry()
         loadData()
     }
 

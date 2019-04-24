@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import me.drakeet.multitype.ItemViewBinder
 import me.drakeet.multitype.MultiTypeAdapter
+import me.drakeet.multitype.Types
 
 /**
  * MultiTypePagedListAdapter 继承 MultiType，既可以对接
@@ -14,7 +15,9 @@ import me.drakeet.multitype.MultiTypeAdapter
  */
 open class MultiTypePagedListAdapter : MultiTypeAdapter() {
 
-    private val mDiffer: AsyncPagedListDiffer<Any> = AsyncPagedListDiffer<Any>(this, MultiTypeDiffCallback())
+    private val mDiffer: AsyncPagedListDiffer<Any> by lazy {
+        AsyncPagedListDiffer<Any>(this, MultiTypeDiffCallback(types))
+    }
 
     override var items: List<Any>
         get() = mDiffer.currentList ?: emptyList()
@@ -41,8 +44,9 @@ open class MultiTypePagedListAdapter : MultiTypeAdapter() {
         return types.getType<Any>(holder.itemViewType).binder as ItemViewBinder<Any, RecyclerView.ViewHolder>
     }
 
-    //todo 取消掉 inner
-    inner class MultiTypeDiffCallback : DiffUtil.ItemCallback<Any>() {
+    class MultiTypeDiffCallback(
+            private val types: Types
+    ) : DiffUtil.ItemCallback<Any>() {
 
         override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
             return if (oldItem::class == newItem::class) {

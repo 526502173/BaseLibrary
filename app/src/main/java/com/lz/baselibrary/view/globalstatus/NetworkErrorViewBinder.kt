@@ -7,10 +7,11 @@ import kotlinx.android.synthetic.main.view_global_loading_status.view.*
 /**
  * @author linzheng
  */
-class NetworkErrorViewBinder : CommonViewBinder(){
+class NetworkErrorViewBinder : CommonViewBinder() {
     override fun bindView(layout: ViewGroup, retry: Runnable) {
         super.bindView(layout, retry)
         layout.iv_icon.visibility = View.VISIBLE
         layout.tv_text.text = "没有网络~"
+        layout.btn_retry.setOnClickListener { retry.run() }
     }
 }

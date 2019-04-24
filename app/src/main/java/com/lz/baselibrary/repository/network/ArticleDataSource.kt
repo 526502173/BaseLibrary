@@ -26,7 +26,13 @@ class ArticleDataSource(
                 .subscribeOn(Schedulers.io())
                 .map { it.data.datas }
                 .delay(2, TimeUnit.SECONDS)
+                .doOnError {
+                    retry = {
+                        loadAfter(params, callback)
+                    }
+                }
                 .subscribe(Consumer {
+                    retry = null
                     if (it.size < 20) {
                         uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NO_MORE)
                         callback.onResult(it, null)
@@ -48,7 +54,12 @@ class ArticleDataSource(
                 .doFinally {
                     uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NORMAL)
                     uiStatusData.postRefreshStatus(RefreshStatus.REFRESH_COMPLETE)
+                }.doOnError {
+                    retry = {
+                        loadInitial(params, callback)
+                    }
                 }.subscribe(Consumer {
+                    retry = null
                     uiStatusData.postNetworkStatus(NetworkStatus.SUCCESS)
                     if (it.size < 20) {
                         uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NO_MORE)

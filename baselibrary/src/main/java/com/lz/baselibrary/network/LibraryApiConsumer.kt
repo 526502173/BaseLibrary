@@ -5,7 +5,9 @@ import com.billy.android.loading.Gloading
 import com.lz.baselibrary.view.globalstatus.LibraryGlobalStatusLayout
 import io.reactivex.functions.Consumer
 import retrofit2.HttpException
+import timber.log.Timber
 import java.net.ConnectException
+import java.net.UnknownHostException
 
 /**
  * 接口的异常处理类
@@ -17,8 +19,9 @@ open class LibraryApiConsumer(
 ) : Consumer<Throwable> {
 
     override fun accept(t: Throwable) {
+        Timber.e(t)
         when (t) {
-            is ConnectException -> postFailedUIStatus(LibraryGlobalStatusLayout.GLOADING_STATUS_NETWORK_ERROR)
+            is ConnectException, is UnknownHostException -> postFailedUIStatus(LibraryGlobalStatusLayout.GLOADING_STATUS_NETWORK_ERROR)
             is HttpException -> postFailedUIStatus(LibraryGlobalStatusLayout.GLOADING_STATUS_HTTP_ERROR)
             else -> if (!handleOrderException(t)) postFailedUIStatus(Gloading.STATUS_LOAD_FAILED)
         }

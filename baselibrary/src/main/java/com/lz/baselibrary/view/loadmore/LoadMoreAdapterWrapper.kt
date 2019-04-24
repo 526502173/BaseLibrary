@@ -19,7 +19,7 @@ class LoadMoreAdapterWrapper(
         mListener: LoadMoreListener
 ) : MultiTypeAdapter(), LoadMore {
 
-    private val mDelegate: LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(
+    private val mDelegate: LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate.create(
             this, mWrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
     )
 

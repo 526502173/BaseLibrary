@@ -7,6 +7,8 @@ import com.lz.baselibrary.network.LoadMoreStatus
 import com.lz.baselibrary.network.NetworkStatus
 import com.lz.baselibrary.network.PagedListData
 import com.lz.baselibrary.network.RefreshStatus
+import io.reactivex.Completable
+import io.reactivex.schedulers.Schedulers
 
 /**
  * LibraryBasePagingViewModel
@@ -40,4 +42,11 @@ abstract class LibraryBasePagingViewModel : NetworkViewModel() {
         pagingData.value?.refresh?.invoke()
     }
 
+    //Paging 的错误重试需要调用此方法
+    override fun retry() {
+        Completable.create {
+            pagingData.value?.retry?.invoke()
+            it.onComplete()
+        }.subscribeOn(Schedulers.io()).subscribe()
+    }
 }

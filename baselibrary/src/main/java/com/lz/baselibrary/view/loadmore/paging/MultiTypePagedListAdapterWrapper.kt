@@ -28,9 +28,11 @@ class MultiTypePagedListAdapterWrapper(
         }
     }
 
-    private val mDelegate: LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(
-            this, mWrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
-    )
+    private val mDelegate: LoadMoreAdapterDelegate by lazy {
+        DefaultLoadMoreAdapterDelegate.create(
+                this, mWrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
+        )
+    }
 
     override fun noMore() = mDelegate.noMore()
 
@@ -53,11 +55,12 @@ class MultiTypePagedListAdapterWrapper(
     }
 
     override fun getItemCount(): Int {
-        return if (items.isNotEmpty()) items.size + 1 else super.getItemCount()
+        val itemCount = super.getItemCount()
+        return super.getItemCount()
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (itemCount != 0 && position == items.size)
+        return if (itemCount > 0 && position == itemCount)
             LoadMoreAdapterDelegate.ITEM_TYPE_LOAD_MORE
         else super.getItemViewType(position)
     }

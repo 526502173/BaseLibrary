@@ -7,6 +7,7 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
  * LibraryBaseFragment
  * @author linzheng
  */
+//todo 实现 Glading
 open abstract class LibraryBaseFragment : Fragment(), BaseView {
 
     /**
@@ -26,5 +27,9 @@ open abstract class LibraryBaseFragment : Fragment(), BaseView {
     }
 
     override fun showSuccess() {
+    }
+
+    override fun retry() {
+        showLoading()
     }
 }

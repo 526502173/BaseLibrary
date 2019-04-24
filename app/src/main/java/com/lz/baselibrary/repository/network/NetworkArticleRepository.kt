@@ -29,7 +29,7 @@ class NetworkArticleRepository(
                     factory.sourceLiveData.value?.invalidate()
                 },
                 retry = {
-                    //todo retry
+                    factory.sourceLiveData.value?.retryAllFailed()
                 }
         )
     }

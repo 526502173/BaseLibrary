@@ -15,4 +15,9 @@ abstract class NetworkViewModel : ViewModel() {
      */
     abstract val networkStatus: LiveData<NetworkStatus>
 
+    /**
+     * 重试
+     */
+    abstract fun retry()
+
 }
