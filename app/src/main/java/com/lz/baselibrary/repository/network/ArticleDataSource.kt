@@ -40,6 +40,7 @@ class ArticleDataSource(
                         callback.onResult(it, params.key + 1)
                         uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NORMAL)
                     }
+                    //todo loadAfter 的网络异常需要特殊处理
                 }, LibraryPagingApiConsumer(uiStatusData))
     }
 

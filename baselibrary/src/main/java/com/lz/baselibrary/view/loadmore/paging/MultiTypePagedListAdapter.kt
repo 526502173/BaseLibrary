@@ -15,7 +15,7 @@ import me.drakeet.multitype.Types
  */
 open class MultiTypePagedListAdapter : MultiTypeAdapter() {
 
-    private val mDiffer: AsyncPagedListDiffer<Any> by lazy {
+    protected val mDiffer: AsyncPagedListDiffer<Any> by lazy {
         AsyncPagedListDiffer<Any>(this, MultiTypeDiffCallback(types))
     }
 

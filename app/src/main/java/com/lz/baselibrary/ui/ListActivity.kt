@@ -61,7 +61,6 @@ class ListActivity : LibraryBaseListActivity(), LoadMoreListener, SwipeRefreshLa
         srl_list.setOnRefreshListener(this)
 
         mRefresh = srl_list
-        mLoadMore = mAdapterWrapper
         mAdapter.register(Article::class, ArticleItemViewBinder())
         showLoading()
         loadData()

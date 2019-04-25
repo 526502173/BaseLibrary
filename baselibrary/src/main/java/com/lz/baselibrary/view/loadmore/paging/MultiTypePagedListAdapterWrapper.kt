@@ -3,8 +3,8 @@ package com.lz.baselibrary.view.loadmore.paging
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.lz.baselibrary.network.NetworkStatus
 import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.delegate.DefaultLoadMoreAdapterDelegate
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
@@ -18,8 +18,8 @@ import me.drakeet.multitype.Types
  * @author linzheng
  */
 class MultiTypePagedListAdapterWrapper(
-        private val mWrapperAdapter: MultiTypeAdapter
-) : MultiTypePagedListAdapter(), LoadMore {
+        private val wrapperAdapter: MultiTypeAdapter
+) : MultiTypePagedListAdapter() {
 
     private val mListener = object : LoadMoreListener {
         override fun onLoadMore(view: View) {
@@ -30,15 +30,9 @@ class MultiTypePagedListAdapterWrapper(
 
     private val mDelegate: LoadMoreAdapterDelegate by lazy {
         DefaultLoadMoreAdapterDelegate.create(
-                this, mWrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
+                wrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
         )
     }
-
-    override fun noMore() = mDelegate.noMore()
-
-    override fun loading() = mDelegate.loading()
-
-    override fun normal() = mDelegate.normal()
 
     override fun onCreateViewHolder(parent: ViewGroup, indexViewType: Int) = mDelegate.onCreateViewHolder(parent, indexViewType)
 
@@ -54,13 +48,32 @@ class MultiTypePagedListAdapterWrapper(
         return if (itemCount != 0 && position == items.size) mDelegate.loadMoreItem else super.getItem(position)
     }
 
+    private var networkState: NetworkStatus? = null
+
     override fun getItemCount(): Int {
-        val itemCount = super.getItemCount()
-        return super.getItemCount()
+        return super.getItemCount() + if (hasExtraRow()) 1 else 0
     }
 
+    fun setNetworkState(newNetworkStatus: NetworkStatus) {
+        val previousState = this.networkState
+        val hadExtraRow = hasExtraRow()
+        this.networkState = newNetworkStatus
+        val hasExtraRow = hasExtraRow()
+        if (hadExtraRow != hasExtraRow) {
+            if (hadExtraRow) {
+                notifyItemRemoved(super.getItemCount())
+            } else {
+                notifyItemInserted(super.getItemCount())
+            }
+        } else if (hasExtraRow && previousState != newNetworkStatus) {
+            notifyItemChanged(itemCount - 1)
+        }
+    }
+
+    private fun hasExtraRow() = networkState != null && networkState == NetworkStatus.SUCCESS
+
     override fun getItemViewType(position: Int): Int {
-        return if (itemCount > 0 && position == itemCount)
+        return if (hasExtraRow() && position == itemCount - 1)
             LoadMoreAdapterDelegate.ITEM_TYPE_LOAD_MORE
         else super.getItemViewType(position)
     }
@@ -73,7 +86,7 @@ class MultiTypePagedListAdapterWrapper(
     }
 
     override var types: Types
-        get() = mWrapperAdapter.types
+        get() = wrapperAdapter.types
         set(value) {}
 
 }

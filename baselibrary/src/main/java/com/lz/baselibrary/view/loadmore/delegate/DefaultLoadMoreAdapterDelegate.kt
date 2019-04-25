@@ -14,7 +14,6 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author linzheng
  */
 class DefaultLoadMoreAdapterDelegate private constructor(
-        private val sourceAdapter: MultiTypeAdapter,
         private val wrapperAdapter: MultiTypeAdapter,
         private val loadMoreAdapterFactory: LoadMoreAdapterFactory,
         private val listener: LoadMoreListener
@@ -81,33 +80,12 @@ class DefaultLoadMoreAdapterDelegate private constructor(
         else wrapperAdapter.itemCount
     }
 
-    override fun noMore() {
-        updateLoadMoreItemIfNeed(LoadMoreItem.LOAD_MORE_STATUS_NO_MORE)
-    }
-
-    override fun loading() {
-        updateLoadMoreItemIfNeed(LoadMoreItem.LOAD_MORE_STATUS_LOADING)
-    }
-
-    override fun normal() {
-        updateLoadMoreItemIfNeed(LoadMoreItem.LOAD_MORE_STATUS_NORMAL)
-    }
-
-    private fun updateLoadMoreItemIfNeed(status: Int) {
-        if (status != loadMoreItem.status) {
-            loadMoreItem.status = status
-            sourceAdapter.notifyItemChanged(sourceAdapter.items.size)
-        }
-    }
-
     companion object {
         fun create(
-                sourceAdapter: MultiTypeAdapter,
                 wrapperAdapter: MultiTypeAdapter,
                 loadMoreAdapterFactory: LoadMoreAdapterFactory,
                 listener: LoadMoreListener
         ): LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(
-                sourceAdapter,
                 wrapperAdapter,
                 loadMoreAdapterFactory,
                 listener

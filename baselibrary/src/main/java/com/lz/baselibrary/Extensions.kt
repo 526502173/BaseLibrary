@@ -6,7 +6,6 @@ import androidx.paging.PagedList
 import com.billy.android.loading.Gloading
 import com.lz.baselibrary.base.BaseView
 import com.lz.baselibrary.base.ListView
-import com.lz.baselibrary.network.LoadMoreStatus
 import com.lz.baselibrary.network.NetworkStatus
 import com.lz.baselibrary.network.RefreshStatus
 
@@ -48,12 +47,6 @@ inline fun RefreshStatus.bind(view: ListView) {
     }
 }
 
-inline fun LoadMoreStatus.bind(view: ListView) {
-    when (this) {
-        LoadMoreStatus.LOAD_MORE_NO_MORE -> view.loadMoreNoMore()
-        LoadMoreStatus.LOAD_MORE_NORMAL -> view.loadMoreNormal()
-    }
-}
 
 inline fun NetworkStatus.bind(view: BaseView) {
     when (this) {

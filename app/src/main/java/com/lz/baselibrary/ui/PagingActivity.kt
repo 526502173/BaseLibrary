@@ -12,7 +12,9 @@ import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.bind
 import com.lz.baselibrary.dp2px
 import com.lz.baselibrary.model.wanandroid.Article
+import com.lz.baselibrary.network.NetworkStatus
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
+import com.lz.baselibrary.view.globalstatus.LibraryGlobalStatusLayout
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
 import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapter
 import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapterWrapper
@@ -26,7 +28,6 @@ class PagingActivity : LibraryBaseListActivity() {
         ViewModelProviders.of(this, PagingViewModelFactory())[ArticleViewModel::class.java]
     }
 
-    //todo 存在问题，断网后下拉刷新会报错,报错原因在 getItemCount() 方法中
     private val mAdapterWrapper by lazy {
         MultiTypePagedListAdapterWrapper(mAdapter)
     }
@@ -39,7 +40,6 @@ class PagingActivity : LibraryBaseListActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_paging)
         mRefresh = srl_article
-        mLoadMore = mAdapterWrapper
         showLoading()
         initRecyclerView()
         bindViewModel()
@@ -57,28 +57,22 @@ class PagingActivity : LibraryBaseListActivity() {
         rv_article.addItemDecoration(BaseItemDecoration.createFromBottom(0.5.dp2px(this), Color.BLACK))
         rv_article.adapter = mAdapterWrapper
         srl_article.setOnRefreshListener {
-            mAdapterWrapper.normal()
             mViewModel.refresh()
         }
     }
 
     private fun bindViewModel() {
         mViewModel.pagedList.observe(this, Observer {
-            //            Timber.d("PagedList Changed!")
-//            try {
             mAdapterWrapper.submitList(it)
-//            }catch (ex: Exception){
-//                print("1111")
-//            }
         })
         mViewModel.networkStatus.observe(this, Observer {
             it.bind(this)
+            mAdapterWrapper.setNetworkState(it)
         })
         mViewModel.refreshStatus.observe(this, Observer {
             it.bind(this)
         })
         mViewModel.loadMoreStatus.observe(this, Observer {
-            it.bind(this)
         })
     }
 

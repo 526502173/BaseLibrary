@@ -15,8 +15,6 @@ class PageTransformer<T>(
 ) : ObservableTransformer<RespWrapper<PageWrapper<T>>, List<T>> {
     override fun apply(upstream: Observable<RespWrapper<PageWrapper<T>>>): Observable<List<T>> = upstream.doAfterNext {
         //判断是否加载完所有数据
-        if (it.data.over) mListView.loadMoreNoMore()
-        else mListView.loadMoreNormal()
     }.doOnNext {
         //只有成功才会调用
         mListView.showSuccess()

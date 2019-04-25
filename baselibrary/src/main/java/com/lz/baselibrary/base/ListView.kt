@@ -15,14 +15,4 @@ interface ListView : BaseView {
      */
     fun refreshing()
 
-    /**
-     * 上拉加载-没有跟多
-     */
-    fun loadMoreNoMore()
-
-    /**
-     *上拉加载-恢复到可加载状态
-     */
-    fun loadMoreNormal()
-
 }

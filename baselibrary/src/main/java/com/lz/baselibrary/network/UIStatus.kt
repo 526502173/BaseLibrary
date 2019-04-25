@@ -48,6 +48,7 @@ data class RefreshStatus private constructor(val status: UIStatus) {
 /**
  * 加载更多状态
  */
+//todo 将 LoadMoreStatus 和 NetworkStatus 进行合并
 data class LoadMoreStatus private constructor(val status: UIStatus) {
     companion object {
 

@@ -3,7 +3,6 @@ package com.lz.baselibrary.view.loadmore
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.delegate.DefaultLoadMoreAdapterDelegate
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
@@ -17,10 +16,10 @@ import me.drakeet.multitype.Types
 class LoadMoreAdapterWrapper(
         private val mWrapperAdapter: MultiTypeAdapter,
         mListener: LoadMoreListener
-) : MultiTypeAdapter(), LoadMore {
+) : MultiTypeAdapter() {
 
     private val mDelegate: LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate.create(
-            this, mWrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
+            mWrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
     )
 
     override var items: List<Any>
@@ -34,7 +33,6 @@ class LoadMoreAdapterWrapper(
         set(value) {
             mWrapperAdapter.types = value
         }
-
 
     override fun getItemViewType(position: Int) = mDelegate.getItemViewType(position)
 
@@ -54,10 +52,5 @@ class LoadMoreAdapterWrapper(
 
     override fun getItemCount() = mDelegate.getItemCount()
 
-    override fun noMore() = mDelegate.noMore()
-
-    override fun loading() = mDelegate.loading()
-
-    override fun normal() = mDelegate.normal()
 
 }
