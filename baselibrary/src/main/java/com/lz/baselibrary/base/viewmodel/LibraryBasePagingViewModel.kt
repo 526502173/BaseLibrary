@@ -3,9 +3,9 @@ package com.lz.baselibrary.base.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.PagedList
+import com.lz.baselibrary.network.data.PagedListData
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.network.status.NetworkStatus
-import com.lz.baselibrary.network.data.PagedListData
 import com.lz.baselibrary.network.status.RefreshStatus
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers

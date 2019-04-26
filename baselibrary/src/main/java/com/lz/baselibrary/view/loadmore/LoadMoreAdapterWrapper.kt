@@ -13,6 +13,7 @@ import me.drakeet.multitype.Types
  * 基于 MultiTypeAdapter 实现的加载跟多
  * @author linzheng
  */
+//todo 这个的 LoadMore 机制要改，原因是 LoadMore 的机制根据 Paging 的机制进行了比较大的修改
 class LoadMoreAdapterWrapper(
         private val mWrapperAdapter: MultiTypeAdapter,
         mListener: LoadMoreListener

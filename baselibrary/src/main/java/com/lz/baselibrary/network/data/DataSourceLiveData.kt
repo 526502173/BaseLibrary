@@ -16,7 +16,6 @@ class DataSourceLiveData {
         val prevRetry = retry
         retry = null
         prevRetry?.let {
-            //todo 这里要使用子线程
             it.invoke()
         }
     }

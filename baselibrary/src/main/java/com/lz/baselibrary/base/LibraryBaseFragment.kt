@@ -1,13 +1,17 @@
 package com.lz.baselibrary.base
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.billy.android.loading.Gloading
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 
 /**
  * LibraryBaseFragment
  * @author linzheng
  */
-//todo 实现 Glading
 open abstract class LibraryBaseFragment : Fragment(), BaseView {
 
     /**
@@ -17,19 +21,47 @@ open abstract class LibraryBaseFragment : Fragment(), BaseView {
         AndroidLifecycleScopeProvider.from(this)
     }
 
+    /**
+     * Gloading Holder 对象
+     */
+    private lateinit var mHolder: Gloading.Holder
+
+    private val mDelegate: BaseViewDelegate by lazy {
+        val delegate = BaseViewDelegate()
+        delegate.holder = mHolder
+        delegate
+    }
+
     override fun showEmpty() {
+        mDelegate.showEmpty()
     }
 
     override fun showLoadFailed(status: Int) {
+        mDelegate.showLoadFailed(status)
     }
 
     override fun showLoading() {
+        mDelegate.showLoading()
     }
 
     override fun showSuccess() {
+        mDelegate.showSuccess()
     }
 
     override fun retry() {
         showLoading()
     }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        mHolder = Gloading.getDefault().wrap(onCreateContentView(inflater, container)).withRetry {
+            retry()
+        }
+        return mHolder.wrapper
+    }
+
+    /**
+     * 创建 Fragment 的 ContentView，如果继承该类必须实现此方法
+     */
+    abstract fun onCreateContentView(inflater: LayoutInflater, container: ViewGroup?): View
+
 }

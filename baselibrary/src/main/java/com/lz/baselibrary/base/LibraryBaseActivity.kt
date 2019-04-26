@@ -17,24 +17,29 @@ open class LibraryBaseActivity : AppCompatActivity(), BaseView {
         AndroidLifecycleScopeProvider.from(this)
     }
 
-    protected val mHolder: Gloading.Holder by lazy {
-        Gloading.getDefault().wrap(this).withRetry { retry() }
+    /**
+     * BaseView 的委托
+     */
+    private val mDelegate: BaseViewDelegate by lazy {
+        val delegate = BaseViewDelegate()
+        delegate.holder = Gloading.getDefault().wrap(this).withRetry { retry() }
+        delegate
     }
 
     override fun showLoading() {
-        mHolder.showLoading()
+        mDelegate.showLoading()
     }
 
     override fun showSuccess() {
-        mHolder.showLoadSuccess()
+        mDelegate.showSuccess()
     }
 
     override fun showLoadFailed(status: Int) {
-        mHolder.showLoadingStatus(status)
+        mDelegate.showLoadFailed(status)
     }
 
     override fun showEmpty() {
-        mHolder.showEmpty()
+        mDelegate.showEmpty()
     }
 
     override fun retry() {
