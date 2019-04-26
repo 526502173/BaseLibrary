@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
  * 实现懒加载的 Fragment
  * @author linzheng
  */
-open abstract class LibraryLazyLoadListFragment<T : LibraryBaseListViewModel> : LibraryBaseListFragment<T>(){
+open abstract class LibraryLazyLoadListFragment : LibraryBaseListFragment(){
 
     /**
      * 是否初始化

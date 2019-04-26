@@ -2,6 +2,7 @@ package com.lz.baselibrary.base
 
 import androidx.appcompat.app.AppCompatActivity
 import com.billy.android.loading.Gloading
+import com.lz.baselibrary.base.delegate.BaseViewDelegate
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 
 
@@ -20,7 +21,7 @@ open class LibraryBaseActivity : AppCompatActivity(), BaseView {
     /**
      * BaseView 的委托
      */
-    private val mDelegate: BaseViewDelegate by lazy {
+    protected val mDelegate: BaseViewDelegate by lazy {
         val delegate = BaseViewDelegate()
         delegate.holder = Gloading.getDefault().wrap(this).withRetry { retry() }
         delegate
@@ -43,7 +44,7 @@ open class LibraryBaseActivity : AppCompatActivity(), BaseView {
     }
 
     override fun retry() {
-        showLoading()
+        mDelegate.retry()
     }
 
 }

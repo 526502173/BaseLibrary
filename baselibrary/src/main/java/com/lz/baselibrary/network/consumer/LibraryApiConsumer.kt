@@ -22,6 +22,7 @@ open class LibraryApiConsumer(
     override fun accept(t: Throwable) {
         Timber.e(t)
         when (t) {
+            //todo 这里无网络异常可能还有别的，这里暂时只拦截这两个
             is ConnectException, is UnknownHostException -> postFailedUIStatus(LibraryGlobalStatusLayout.GLOADING_STATUS_NETWORK_ERROR)
             is HttpException -> postFailedUIStatus(LibraryGlobalStatusLayout.GLOADING_STATUS_HTTP_ERROR)
             else -> if (!handleOrderException(t)) postFailedUIStatus(Gloading.STATUS_LOAD_FAILED)

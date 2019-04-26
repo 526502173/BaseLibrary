@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.billy.android.loading.Gloading
+import com.lz.baselibrary.base.delegate.BaseViewDelegate
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 
 /**
@@ -26,7 +27,10 @@ open abstract class LibraryBaseFragment : Fragment(), BaseView {
      */
     private lateinit var mHolder: Gloading.Holder
 
-    private val mDelegate: BaseViewDelegate by lazy {
+    /**
+     * Delegate
+     */
+    protected val mDelegate: BaseViewDelegate by lazy {
         val delegate = BaseViewDelegate()
         delegate.holder = mHolder
         delegate
@@ -49,7 +53,7 @@ open abstract class LibraryBaseFragment : Fragment(), BaseView {
     }
 
     override fun retry() {
-        showLoading()
+        mDelegate.retry()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

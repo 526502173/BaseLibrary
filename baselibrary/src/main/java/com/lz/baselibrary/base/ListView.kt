@@ -15,4 +15,6 @@ interface ListView : BaseView {
      */
     fun refreshing()
 
+    //todo loadMore 相关方法
+
 }

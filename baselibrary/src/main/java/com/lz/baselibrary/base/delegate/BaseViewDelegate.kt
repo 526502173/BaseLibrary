@@ -1,6 +1,7 @@
-package com.lz.baselibrary.base
+package com.lz.baselibrary.base.delegate
 
 import com.billy.android.loading.Gloading
+import com.lz.baselibrary.base.BaseView
 
 /**
  * BaseView 的委托
@@ -27,6 +28,6 @@ class BaseViewDelegate: BaseView {
     }
 
     override fun retry() {
-        //ignore
+        showLoading()
     }
 }
