@@ -3,6 +3,7 @@ package com.lz.baselibrary.view.itemdecoration.loadmore
 import android.content.Context
 import android.view.View
 import android.widget.ProgressBar
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.lz.baselibrary.dp2px
@@ -14,7 +15,8 @@ import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
  * @author linzheng
  */
 class SimpleLoadMoreView(
-        context: Context
+        context: Context,
+        private val mRetry: () -> Unit
 ) : ConstraintLayout(context), LoadMore {
 
     /**
@@ -23,7 +25,7 @@ class SimpleLoadMoreView(
     private val mConfig = LibraryLoadMoreInitialize.sSimpleLoadMoreViewConfig
 
     init {
-        //防止时间传到 RecyclerView 的 onItemTouchEvent 中
+        //防止事件传递到 RecyclerView 的 onItemTouchEvent 中从而导致索引异常
         isClickable = true
     }
 
@@ -55,7 +57,7 @@ class SimpleLoadMoreView(
             layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
                 topToTop = LayoutParams.PARENT_ID
                 bottomToBottom = LayoutParams.PARENT_ID
-                rightToRight = LayoutParams.PARENT_ID
+                rightToLeft = VIEW_ID_BTN_RETRY
                 leftToRight = VIEW_ID_PB_LOADING
                 textSize = mConfig.textSize
                 setTextColor(mConfig.textColor)
@@ -64,18 +66,54 @@ class SimpleLoadMoreView(
         }
     }
 
+    /**
+     * 重试 Button
+     */
+    private val mRetryButton by lazy {
+        AppCompatButton(context).apply {
+            id = VIEW_ID_BTN_RETRY
+            layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
+                topToTop = LayoutParams.PARENT_ID
+                bottomToBottom = LayoutParams.PARENT_ID
+                rightToRight = LayoutParams.PARENT_ID
+                leftToRight = VIEW_ID_TV_LOADING
+                textSize = mConfig.textSize
+            }
+            text = "点我点我"
+            setOnClickListener {
+                mRetry.invoke()
+            }
+        }
+    }
+
     override fun noMore() {
-        mProgressBar.visibility = View.GONE
+        resetAllView()
         mTextView.text = mConfig.noMoreText
     }
 
     override fun loading() {
+        resetAllView()
         mProgressBar.visibility = View.VISIBLE
         mTextView.text = mConfig.loadingText
     }
 
+    override fun fail(code: Int) {
+        resetAllView()
+        mTextView.text = when (code) {
+            LOAD_MORE_FAIL_CODE_NOT_NETWORK -> "没有网络了..."
+            LOAD_MORE_FAIL_CODE_HTTP -> "HTTP 异常..."
+            else -> "未知的异常..."
+        }
+        mRetryButton.visibility = View.VISIBLE
+    }
+
     override fun normal() {
-        //nothing
+        //ignore
+    }
+
+    private fun resetAllView() {
+        mProgressBar.visibility = View.GONE
+        mRetryButton.visibility = View.GONE
     }
 
     companion object {
@@ -86,13 +124,20 @@ class SimpleLoadMoreView(
         //ProgressBar 的 id
         const val VIEW_ID_PB_LOADING = 2333335
 
+        //Button 的 id
+        const val VIEW_ID_BTN_RETRY = 2333336
+
         /**
          * 创建 LoadMoreView 对象
          */
-        fun create(context: Context) = SimpleLoadMoreView(context).apply {
+        fun create(
+                context: Context,
+                retry: () -> Unit
+        ) = SimpleLoadMoreView(context, retry).apply {
             layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, mConfig.layoutHeight.dp2px(context))
             addView(mProgressBar)
             addView(mTextView)
+            addView(mRetryButton)
         }
 
     }

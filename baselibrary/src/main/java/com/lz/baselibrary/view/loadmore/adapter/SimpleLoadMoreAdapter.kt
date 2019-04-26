@@ -9,10 +9,13 @@ import com.lz.baselibrary.view.itemdecoration.loadmore.SimpleLoadMoreView
  * SimpleLoadMoreAdapter
  * @author linzheng
  */
-class SimpleLoadMoreAdapter(override val mContext: Context) : LoadMoreAdapter(mContext) {
+class SimpleLoadMoreAdapter(
+        override val context: Context,
+        override val retry: () -> Unit
+) : LoadMoreAdapter(context, retry) {
 
     override val mItemView: View by lazy {
-        SimpleLoadMoreView.create(mContext)
+        SimpleLoadMoreView.create(context, retry)
     }
 
     override fun noMore() {
@@ -25,6 +28,10 @@ class SimpleLoadMoreAdapter(override val mContext: Context) : LoadMoreAdapter(mC
 
     override fun normal() {
         (mItemView as LoadMore).normal()
+    }
+
+    override fun fail(code: Int) {
+        (mItemView as LoadMore).fail(code)
     }
 
 }

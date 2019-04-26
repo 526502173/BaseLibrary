@@ -1,7 +1,7 @@
 package com.lz.baselibrary.base.paging
 
 import androidx.paging.ItemKeyedDataSource
-import com.lz.baselibrary.network.DataSourceLiveData
+import com.lz.baselibrary.network.data.DataSourceLiveData
 
 /**
  * LibraryBaseNetWorkItemKeyedDataSource

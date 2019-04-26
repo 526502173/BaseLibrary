@@ -4,7 +4,6 @@ package com.lz.baselibrary.view.itemdecoration.loadmore
  * 加载更多接口
  * @author linzheng
  */
-//todo 删除这个类，使用 NetworkStatus 来替换这个接口的作用
 interface LoadMore {
 
     /**
@@ -22,4 +21,24 @@ interface LoadMore {
      */
     fun normal()
 
+    /**
+     * 加载失败
+     */
+    fun fail(code: Int)
+
 }
+
+/**
+ * 网络异常
+ */
+const val LOAD_MORE_FAIL_CODE_NOT_NETWORK = 2333331
+
+/**
+ * Http 异常
+ */
+const val LOAD_MORE_FAIL_CODE_HTTP = 2333332
+
+/**
+ * 其他异常
+ */
+const val LOAD_MORE_FAIL_CODE_OTHER = 2333333

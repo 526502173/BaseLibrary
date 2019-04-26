@@ -1,4 +1,4 @@
-package com.lz.baselibrary.network
+package com.lz.baselibrary.network.status
 
 import com.billy.android.loading.Gloading
 
@@ -10,6 +10,7 @@ enum class UIStatus {
     LOAD_MORE_NO_MORE,//无更多数据
     LOAD_MORE_NORMAL,//加载更多普通状态
     LOAD_MORE_LOADING,//加载更多加载中
+    LOAD_MORE_FAIL,//加载更多失败
     REFRESH_COMPLETE,//下拉刷新完成
     REFRESHING,//开始下拉刷新
 }
@@ -26,6 +27,8 @@ data class NetworkStatus private constructor(
         val LOADING by lazy { code(Gloading.STATUS_LOADING) }
 
         val SUCCESS by lazy { code(Gloading.STATUS_LOAD_SUCCESS) }
+
+        val LOADED by lazy { code(1) }
 
         fun code(statusCode: Int) = NetworkStatus(statusCode)
 
@@ -48,15 +51,31 @@ data class RefreshStatus private constructor(val status: UIStatus) {
 /**
  * 加载更多状态
  */
-//todo 将 LoadMoreStatus 和 NetworkStatus 进行合并
-data class LoadMoreStatus private constructor(val status: UIStatus) {
+data class LoadMoreStatus constructor(
+        val status: UIStatus,
+        val failCode: Int = -1
+) {
     companion object {
 
+        /**
+         * 没有更多
+         */
         val LOAD_MORE_NO_MORE = LoadMoreStatus(UIStatus.LOAD_MORE_NO_MORE)
 
+        /**
+         * 普通状态
+         */
         val LOAD_MORE_NORMAL = LoadMoreStatus(UIStatus.LOAD_MORE_NORMAL)
 
+        /**
+         * 加载中
+         */
         val LOAD_MORE_LOADING = LoadMoreStatus(UIStatus.LOAD_MORE_LOADING)
+
+        /**
+         * 加载失败
+         */
+        fun code(code: Int) = LoadMoreStatus(UIStatus.LOAD_MORE_FAIL, code)
 
     }
 }

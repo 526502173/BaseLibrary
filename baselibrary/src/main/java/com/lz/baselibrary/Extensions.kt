@@ -6,8 +6,8 @@ import androidx.paging.PagedList
 import com.billy.android.loading.Gloading
 import com.lz.baselibrary.base.BaseView
 import com.lz.baselibrary.base.ListView
-import com.lz.baselibrary.network.NetworkStatus
-import com.lz.baselibrary.network.RefreshStatus
+import com.lz.baselibrary.network.status.NetworkStatus
+import com.lz.baselibrary.network.status.RefreshStatus
 
 /**
  * 扩展方法

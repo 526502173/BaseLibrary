@@ -1,7 +1,7 @@
 package com.lz.baselibrary.base.paging
 
 import androidx.paging.PageKeyedDataSource
-import com.lz.baselibrary.network.UIStatusData
+import com.lz.baselibrary.network.status.UIStatusData
 
 /**
  * BasePageKeyedDataSource

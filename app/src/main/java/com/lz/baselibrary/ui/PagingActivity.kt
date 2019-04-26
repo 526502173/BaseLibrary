@@ -12,9 +12,8 @@ import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.bind
 import com.lz.baselibrary.dp2px
 import com.lz.baselibrary.model.wanandroid.Article
-import com.lz.baselibrary.network.NetworkStatus
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
-import com.lz.baselibrary.view.globalstatus.LibraryGlobalStatusLayout
+import com.lz.baselibrary.utils.ToastUtils
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
 import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapter
 import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapterWrapper
@@ -29,7 +28,9 @@ class PagingActivity : LibraryBaseListActivity() {
     }
 
     private val mAdapterWrapper by lazy {
-        MultiTypePagedListAdapterWrapper(mAdapter)
+        MultiTypePagedListAdapterWrapper(mAdapter) {
+            mViewModel.retry()
+        }
     }
 
     private val mPagedListAdapter by lazy {
@@ -67,12 +68,12 @@ class PagingActivity : LibraryBaseListActivity() {
         })
         mViewModel.networkStatus.observe(this, Observer {
             it.bind(this)
-            mAdapterWrapper.setNetworkState(it)
         })
         mViewModel.refreshStatus.observe(this, Observer {
             it.bind(this)
         })
         mViewModel.loadMoreStatus.observe(this, Observer {
+            mAdapterWrapper.bind(it)
         })
     }
 

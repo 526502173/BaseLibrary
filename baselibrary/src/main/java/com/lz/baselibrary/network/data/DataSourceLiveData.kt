@@ -1,4 +1,4 @@
-package com.lz.baselibrary.network
+package com.lz.baselibrary.network.data
 
 /**
  * PagingLiveData

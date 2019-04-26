@@ -3,7 +3,7 @@ package com.lz.baselibrary.repository.network
 import androidx.lifecycle.Transformations
 import androidx.paging.toLiveData
 import com.lz.baselibrary.api.WanAndroidApi
-import com.lz.baselibrary.network.PagedListData
+import com.lz.baselibrary.network.data.PagedListData
 import com.lz.baselibrary.repository.ArticleRepository
 
 /**

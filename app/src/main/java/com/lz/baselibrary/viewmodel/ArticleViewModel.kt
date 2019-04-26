@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.lz.baselibrary.base.viewmodel.LibraryBasePagingViewModel
-import com.lz.baselibrary.network.PagedListData
+import com.lz.baselibrary.network.data.PagedListData
 import com.lz.baselibrary.repository.ArticleRepository
 
 /**

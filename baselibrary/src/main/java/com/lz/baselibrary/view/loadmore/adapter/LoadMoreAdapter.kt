@@ -6,11 +6,11 @@ import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 
 /**
  * LoadMoreItemView
- * 用于 [LoadMoreItemViewBinder.LoadMoreViewHolder] 的 itemView
  * @author linzheng
  */
 abstract class LoadMoreAdapter(
-        open val mContext: Context
+        open val context: Context,
+        open val retry: () -> Unit
 ) : LoadMore {
 
     /**

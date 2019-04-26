@@ -8,5 +8,5 @@ import com.lz.baselibrary.view.loadmore.adapter.SimpleLoadMoreAdapter
  * @author linzheng
  */
 class SimpleLoadMoreAdapterFactory : LoadMoreAdapterFactory {
-    override fun create(context: Context) = SimpleLoadMoreAdapter(context)
+    override fun create(context: Context, retry: () -> Unit) = SimpleLoadMoreAdapter(context,retry)
 }

@@ -14,14 +14,15 @@ import me.drakeet.multitype.ItemViewBinder
  * @author linzheng
  */
 class LoadMoreItemViewBinder(
-        private val mAdapterFactory: LoadMoreAdapterFactory,
-        private val mListener: LoadMoreListener
+        private val adapterFactory: LoadMoreAdapterFactory,
+        private val listener: LoadMoreListener,
+        private val retry: () -> Unit
 ) : ItemViewBinder<LoadMoreItem, LoadMoreItemViewBinder.LoadMoreViewHolder>() {
 
     override fun onBindViewHolder(holder: LoadMoreViewHolder, item: LoadMoreItem) = holder.bind(item)
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): LoadMoreViewHolder =
-            LoadMoreViewHolder(mAdapterFactory.create(parent.context), mListener)
+            LoadMoreViewHolder(adapterFactory.create(parent.context, retry), listener)
 
     /*
      * LoadMoreViewHolder
@@ -33,16 +34,14 @@ class LoadMoreItemViewBinder(
 
         override fun bind(item: LoadMoreItem) {
             when (item.status) {
-                LoadMoreItem.LOAD_MORE_STATUS_NO_MORE -> {
-                    mAdapter.noMore()
-                }
-                LoadMoreItem.LOAD_MORE_STATUS_LOADING -> {
-                    //nothing
-                }
+                LoadMoreItem.LOAD_MORE_STATUS_NO_MORE -> mAdapter.noMore()
+                LoadMoreItem.LOAD_MORE_STATUS_LOADING -> mAdapter.loading()
                 LoadMoreItem.LOAD_MORE_STATUS_NORMAL -> {
-                    item.status = LoadMoreItem.LOAD_MORE_STATUS_LOADING
-                    mAdapter.loading()
+                    mAdapter.normal()
                     mLoadMoreListener.onLoadMore(itemView)
+                }
+                LoadMoreItem.LOAD_MORE_STATUS_FAIL -> {
+                    mAdapter.fail(item.failCode)
                 }
             }
         }

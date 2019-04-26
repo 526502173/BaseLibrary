@@ -1,6 +1,6 @@
 package com.lz.baselibrary.repository
 
-import com.lz.baselibrary.network.PagedListData
+import com.lz.baselibrary.network.data.PagedListData
 
 /**
  * @author linzheng

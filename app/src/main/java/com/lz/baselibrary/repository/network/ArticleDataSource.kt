@@ -3,16 +3,18 @@ package com.lz.baselibrary.repository.network
 import com.lz.baselibrary.EmptyDataException
 import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.base.paging.LibraryBaseNetWorkPageKeyedDataSource
-import com.lz.baselibrary.network.LibraryPagingApiConsumer
-import com.lz.baselibrary.network.LoadMoreStatus
-import com.lz.baselibrary.network.NetworkStatus
-import com.lz.baselibrary.network.RefreshStatus
+import com.lz.baselibrary.network.consumer.paging.LibraryLoadAfterApiConsumer
+import com.lz.baselibrary.network.consumer.paging.LibraryLoadInitialApiConsumer
+import com.lz.baselibrary.network.status.LoadMoreStatus
+import com.lz.baselibrary.network.status.NetworkStatus
+import com.lz.baselibrary.network.status.RefreshStatus
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 /**
+ * ArticleDataSource
  * @author linzheng
  */
 class ArticleDataSource(
@@ -25,23 +27,21 @@ class ArticleDataSource(
         api.getSubscriptionList(params.key, subscriptionId)
                 .subscribeOn(Schedulers.io())
                 .map { it.data.datas }
-                .delay(2, TimeUnit.SECONDS)
-                .doOnError {
+                .doOnSubscribe {
+                    uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_LOADING)
+                }.doOnError {
                     retry = {
                         loadAfter(params, callback)
                     }
                 }
+                .delay(2, TimeUnit.SECONDS)
                 .subscribe(Consumer {
                     retry = null
                     if (it.size < 20) {
                         uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NO_MORE)
                         callback.onResult(it, null)
-                    } else {
-                        callback.onResult(it, params.key + 1)
-                        uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NORMAL)
-                    }
-                    //todo loadAfter 的网络异常需要特殊处理
-                }, LibraryPagingApiConsumer(uiStatusData))
+                    } else callback.onResult(it, params.key + 1)
+                }, LibraryLoadAfterApiConsumer(uiStatusData))
     }
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Any>) {
@@ -53,7 +53,6 @@ class ArticleDataSource(
                     if (it.isEmpty()) throw EmptyDataException()
                 }
                 .doFinally {
-                    uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NORMAL)
                     uiStatusData.postRefreshStatus(RefreshStatus.REFRESH_COMPLETE)
                 }.doOnError {
                     retry = {
@@ -66,9 +65,10 @@ class ArticleDataSource(
                         uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NO_MORE)
                         callback.onResult(it, null, null)
                     } else {
+                        uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NORMAL)
                         callback.onResult(it, null, 2)
                     }
-                }, LibraryPagingApiConsumer(uiStatusData))
+                }, LibraryLoadInitialApiConsumer(uiStatusData))
     }
 
 }

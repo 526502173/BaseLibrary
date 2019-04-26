@@ -12,6 +12,6 @@ interface LoadMoreAdapterFactory{
      * 创建 LoadMoreAdapter 对象，
      * [context] 必须是 Activity 类型
      */
-    fun create(context: Context): LoadMoreAdapter
+    fun create(context: Context,retry: () -> Unit): LoadMoreAdapter
 
 }

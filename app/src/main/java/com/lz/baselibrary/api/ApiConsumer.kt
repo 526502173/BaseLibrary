@@ -1,6 +1,6 @@
 package com.lz.baselibrary.api
 
-import com.lz.baselibrary.network.DataSourceLiveData
+import com.lz.baselibrary.network.data.DataSourceLiveData
 import io.reactivex.functions.Consumer
 
 /**

@@ -16,15 +16,17 @@ import me.drakeet.multitype.MultiTypeAdapter
 class DefaultLoadMoreAdapterDelegate private constructor(
         private val wrapperAdapter: MultiTypeAdapter,
         private val loadMoreAdapterFactory: LoadMoreAdapterFactory,
-        private val listener: LoadMoreListener
+        private val listener: LoadMoreListener,
+        private val retry: () -> Unit
 ) : LoadMoreAdapterDelegate {
 
     override val loadMoreItem: LoadMoreItem by lazy {
         LoadMoreItem()
     }
 
-    override val loadMoreItemViewBinder: LoadMoreItemViewBinder
-        get() = LoadMoreItemViewBinder(loadMoreAdapterFactory, listener)
+    override val loadMoreItemViewBinder: LoadMoreItemViewBinder by lazy {
+        LoadMoreItemViewBinder(loadMoreAdapterFactory, listener, retry)
+    }
 
     override fun getItemViewType(position: Int) =
             if (wrapperAdapter.itemCount == position) {
@@ -84,11 +86,13 @@ class DefaultLoadMoreAdapterDelegate private constructor(
         fun create(
                 wrapperAdapter: MultiTypeAdapter,
                 loadMoreAdapterFactory: LoadMoreAdapterFactory,
-                listener: LoadMoreListener
+                listener: LoadMoreListener,
+                retry: () -> Unit = {}
         ): LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(
                 wrapperAdapter,
                 loadMoreAdapterFactory,
-                listener
+                listener,
+                retry
         )
     }
 

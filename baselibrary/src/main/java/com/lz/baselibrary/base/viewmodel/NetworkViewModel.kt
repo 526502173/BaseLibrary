@@ -2,7 +2,7 @@ package com.lz.baselibrary.base.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.lz.baselibrary.network.NetworkStatus
+import com.lz.baselibrary.network.status.NetworkStatus
 
 /**
  * LiveDataViewModel

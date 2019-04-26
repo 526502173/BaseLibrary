@@ -1,7 +1,10 @@
-package com.lz.baselibrary.network
+package com.lz.baselibrary.network.data
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.lz.baselibrary.network.status.LoadMoreStatus
+import com.lz.baselibrary.network.status.NetworkStatus
+import com.lz.baselibrary.network.status.RefreshStatus
 
 /**
  * PagingData

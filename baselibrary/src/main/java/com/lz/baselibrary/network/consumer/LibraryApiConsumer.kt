@@ -1,7 +1,8 @@
-package com.lz.baselibrary.network
+package com.lz.baselibrary.network.consumer
 
 import androidx.lifecycle.MutableLiveData
 import com.billy.android.loading.Gloading
+import com.lz.baselibrary.network.status.NetworkStatus
 import com.lz.baselibrary.view.globalstatus.LibraryGlobalStatusLayout
 import io.reactivex.functions.Consumer
 import retrofit2.HttpException
