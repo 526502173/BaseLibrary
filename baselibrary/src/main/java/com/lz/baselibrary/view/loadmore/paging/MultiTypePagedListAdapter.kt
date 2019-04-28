@@ -13,9 +13,9 @@ import me.drakeet.multitype.Types
  * Jetpack 中的 Paging 又可以拥有 MultiType 的特性
  * @author linzheng
  */
-open class MultiTypePagedListAdapter : MultiTypeAdapter() {
+open class MultiTypePagedListAdapter : MultiTypeAdapter(), SubmitListAdapter<Any> {
 
-    protected val mDiffer: AsyncPagedListDiffer<Any> by lazy {
+    private val mDiffer: AsyncPagedListDiffer<Any> by lazy {
         AsyncPagedListDiffer<Any>(this, MultiTypeDiffCallback(types))
     }
 
@@ -34,11 +34,11 @@ open class MultiTypePagedListAdapter : MultiTypeAdapter() {
         getOutBinderByViewHolder(holder).onBindViewHolder(holder, item, payloads)
     }
 
-    open fun getItem(position: Int) = mDiffer.getItem(position)!!
-
-    open fun submitList(pagedList: PagedList<Any>) {
+    override fun submitList(pagedList: PagedList<Any>) {
         mDiffer.submitList(pagedList)
     }
+
+    open fun getItem(position: Int) = mDiffer.getItem(position)!!
 
     open fun getOutBinderByViewHolder(holder: RecyclerView.ViewHolder): ItemViewBinder<Any, RecyclerView.ViewHolder> {
         return types.getType<Any>(holder.itemViewType).binder as ItemViewBinder<Any, RecyclerView.ViewHolder>

@@ -39,16 +39,19 @@ object Api {
     }
 
     /**
-     * Retrofit 对象
+     * 异步 Retrofit 对象，用于异步执行请求
      */
-    private val RETROFIT by lazy { buildRetrofit() }
+    private val ASYNC_RETROFIT by lazy { buildRetrofit() }
 
     /**
      * 同步 Retrofit 对象，用于同步执行请求
      */
     private val SYNC_RETROFIT by lazy { buildRetrofit(true) }
 
-    //todo 需要考虑自定义的 CallAdapter 这里假设 CallAdapter 的实现只有 RxJavaCallAdapter
+    /**
+     * 构建 Retrofit 对象
+     * [isSync] true 表示构建的 Retrofit 对象是同步的，false 表示是异步的，默认使用 RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io())
+     */
     private fun buildRetrofit(isSync: Boolean = false) = if (!this::sApiConfig.isInitialized)
         throw ApiConfigNotInitException()
     else sApiConfig.retrofitConfig.run {
@@ -64,7 +67,7 @@ object Api {
     /**
      * 将 Retrofit 中的 create() 转换到 Kotlin 中
      */
-    fun <T : Any> createApi(clazz: KClass<out T>) = RETROFIT.create(clazz.java)!!
+    fun <T : Any> createApi(clazz: KClass<out T>) = ASYNC_RETROFIT.create(clazz.java)!!
 
     /**
      * 通过同步 Retrofit 创建 Api 对象

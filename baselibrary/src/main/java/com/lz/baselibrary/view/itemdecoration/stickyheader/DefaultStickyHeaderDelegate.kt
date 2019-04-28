@@ -8,6 +8,7 @@ import com.lz.baselibrary.LibraryApplication
 import com.lz.baselibrary.dp2px
 
 /**
+ * [StickyHeaderDelegate] 的默认实现
  * @author linzheng
  */
 open class DefaultStickyHeaderDelegate<T : StickyHeader>(
@@ -40,8 +41,8 @@ open class DefaultStickyHeaderDelegate<T : StickyHeader>(
 
         private val COLOR_HEADER_TEXT = Color.parseColor("#242424")
 
-        private val HEADER_TEXT_PADDING = 10.dp2px(LibraryApplication.app())
-
     }
+
+    private val HEADER_TEXT_PADDING = 10.dp2px(LibraryApplication.app())
 
 }

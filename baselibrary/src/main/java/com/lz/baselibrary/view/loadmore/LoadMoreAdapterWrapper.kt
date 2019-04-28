@@ -7,7 +7,6 @@ import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.delegate.DefaultLoadMoreAdapterDelegate
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
 import me.drakeet.multitype.MultiTypeAdapter
-import me.drakeet.multitype.Types
 
 /**
  * 基于 MultiTypeAdapter 实现的加载跟多
@@ -15,25 +14,16 @@ import me.drakeet.multitype.Types
  */
 //todo 这个的 LoadMore 机制要改，原因是 LoadMore 的机制根据 Paging 的机制进行了比较大的修改
 class LoadMoreAdapterWrapper(
-        private val mWrapperAdapter: MultiTypeAdapter,
+        wrapperAdapter: MultiTypeAdapter,
         mListener: LoadMoreListener
 ) : MultiTypeAdapter() {
 
+    /**
+     * Delegate 对象
+     */
     private val mDelegate: LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate.create(
-            mWrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
+            wrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener
     )
-
-    override var items: List<Any>
-        get() = mWrapperAdapter.items
-        set(value) {
-            mWrapperAdapter.items = value
-        }
-
-    override var types: Types
-        get() = mWrapperAdapter.types
-        set(value) {
-            mWrapperAdapter.types = value
-        }
 
     override fun getItemViewType(position: Int) = mDelegate.getItemViewType(position)
 

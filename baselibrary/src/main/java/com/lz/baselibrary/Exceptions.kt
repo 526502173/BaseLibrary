@@ -11,12 +11,6 @@ class LibraryAppInstanceNullException : RuntimeException(
         "LibraryApplication 的 sInstance 为 null，Application 类需要基础 LibraryApplicaton 类。"
 )
 
-class ListActivityViewModelNotInitException : java.lang.RuntimeException(
-        "必须初始化 mViewModel 对象"
-)
-
-class LoadMoreItemNotFoundException : RuntimeException("LoadMoreItem 没有找到!")
-
 /**
  * LoadMoreViewHolder 的 ItemView 没有实现 LoadMore 接口
  */

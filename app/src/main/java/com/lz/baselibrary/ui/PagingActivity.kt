@@ -4,16 +4,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import androidx.core.os.postDelayed
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lz.baselibrary.R
+import com.lz.baselibrary.*
 import com.lz.baselibrary.base.LibraryBaseListActivity
-import com.lz.baselibrary.bind
-import com.lz.baselibrary.dp2px
 import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
-import com.lz.baselibrary.utils.ToastUtils
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
 import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapter
 import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapterWrapper
@@ -63,18 +59,10 @@ class PagingActivity : LibraryBaseListActivity() {
     }
 
     private fun bindViewModel() {
-        mViewModel.pagedList.observe(this, Observer {
-            mAdapterWrapper.submitList(it)
-        })
-        mViewModel.networkStatus.observe(this, Observer {
-            it.bind(this)
-        })
-        mViewModel.refreshStatus.observe(this, Observer {
-            it.bind(this)
-        })
-        mViewModel.loadMoreStatus.observe(this, Observer {
-            mAdapterWrapper.bind(it)
-        })
+        mViewModel.networkStatus.bindNetworkStatus(this)
+        mViewModel.refreshStatus.bindRefreshStatus(this)
+        mViewModel.loadMoreStatus.bindLoadMoreStatus(this, mAdapterWrapper)
+        mViewModel.pagedList.bindPagedList(this,mAdapterWrapper)
     }
 
     override fun retry() {

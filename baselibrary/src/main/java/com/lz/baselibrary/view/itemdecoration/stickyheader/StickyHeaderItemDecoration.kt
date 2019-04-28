@@ -114,5 +114,4 @@ class StickyHeaderItemDecoration<T : StickyHeader>(
             item != lastItem
         }
     }
-
 }

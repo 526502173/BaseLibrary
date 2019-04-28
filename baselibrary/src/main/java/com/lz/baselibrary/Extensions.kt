@@ -2,12 +2,18 @@ package com.lz.baselibrary
 
 import android.content.Context
 import android.view.View
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.billy.android.loading.Gloading
-import com.lz.baselibrary.base.BaseView
-import com.lz.baselibrary.base.ListView
+import com.lz.baselibrary.base.LibraryBaseActivity
+import com.lz.baselibrary.base.LibraryBaseListActivity
+import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.network.status.NetworkStatus
 import com.lz.baselibrary.network.status.RefreshStatus
+import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapterWrapper
+import com.lz.baselibrary.view.loadmore.paging.SubmitListAdapter
 
 /**
  * 扩展方法
@@ -40,21 +46,52 @@ inline fun <T> PagedList<T>.toAnyType(): PagedList<Any> {
     return this as PagedList<Any>
 }
 
-inline fun RefreshStatus.bind(view: ListView) {
-    when (this) {
-        RefreshStatus.REFRESH_COMPLETE -> view.refreshComplete()
-        RefreshStatus.REFRESHING -> view.refreshing()
-    }
+inline fun <reified T> List<Any>.getTypeList() = filter { it is T }.map { it as T }
+
+inline fun <reified T> List<Any>.getTypeListQuick() = map { it as T }
+
+/**
+ * 绑定 [RefreshStatus]
+ */
+inline fun LiveData<RefreshStatus>.bindRefreshStatus(baseActivity: LibraryBaseListActivity) {
+    observe(baseActivity, Observer {
+        when (it) {
+            RefreshStatus.REFRESH_COMPLETE -> baseActivity.refreshComplete()
+            RefreshStatus.REFRESHING -> baseActivity.refreshing()
+        }
+    })
 }
 
-
-inline fun NetworkStatus.bind(view: BaseView) {
-    when (this) {
-        NetworkStatus.LOADING -> view.showLoading()
-        NetworkStatus.SUCCESS -> view.showSuccess()
-        else -> when (statusCode) {
-            Gloading.STATUS_EMPTY_DATA -> view.showEmpty()
-            else -> view.showLoadFailed(statusCode)
+/**
+ * 绑定 [NetworkStatus]
+ */
+inline fun LiveData<NetworkStatus>.bindNetworkStatus(baseActivity: LibraryBaseActivity) {
+    observe(baseActivity, Observer {
+        when (it) {
+            NetworkStatus.LOADING -> baseActivity.showLoading()
+            NetworkStatus.SUCCESS -> baseActivity.showSuccess()
+            else -> when (it.statusCode) {
+                Gloading.STATUS_EMPTY_DATA -> baseActivity.showEmpty()
+                else -> baseActivity.showLoadFailed(it.statusCode)
+            }
         }
-    }
+    })
+}
+
+/**
+ * 绑定 [LoadMoreStatus]
+ */
+inline fun LiveData<LoadMoreStatus>.bindLoadMoreStatus(owner: LifecycleOwner, adapter: MultiTypePagedListAdapterWrapper) {
+    observe(owner, Observer {
+        adapter.bind(it)
+    })
+}
+
+/**
+ * 绑定 [PagedList]
+ */
+inline fun <T> LiveData<PagedList<T>>.bindPagedList(owner: LifecycleOwner, adapter: SubmitListAdapter<T>) {
+    observe(owner, Observer {
+        adapter.submitList(it)
+    })
 }
