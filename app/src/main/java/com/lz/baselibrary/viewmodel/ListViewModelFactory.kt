@@ -1,15 +1,18 @@
 package com.lz.baselibrary.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.lz.baselibrary.base.viewmodel.LibraryBaseListViewModelFactory
+import androidx.lifecycle.ViewModelProvider
+import com.lz.baselibrary.api.WanAndroidApi
+import com.lz.baselibrary.network.Api
+import com.lz.baselibrary.repository.network.NetworkArticleRepository
 
 /**
  * @author linzheng
  */
-class ListViewModelFactory : LibraryBaseListViewModelFactory() {
-
+class ListViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return ListViewModel() as T
+        val repository = NetworkArticleRepository(Api.createSyncApi(WanAndroidApi::class))
+        return ArticlePagingViewModel(repository) as T
     }
 
 }

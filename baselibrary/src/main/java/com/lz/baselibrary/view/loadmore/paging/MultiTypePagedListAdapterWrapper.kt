@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.delegate.DefaultLoadMoreAdapterDelegate
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
@@ -20,7 +21,7 @@ import me.drakeet.multitype.Types
 class MultiTypePagedListAdapterWrapper(
         private val wrapperAdapter: MultiTypeAdapter,
         private val retry: () -> Unit
-) : MultiTypePagedListAdapter() {
+) : MultiTypePagedListAdapter(), LoadMore {
 
     private val mListener = object : LoadMoreListener {
         override fun onLoadMore(view: View) {
@@ -92,5 +93,21 @@ class MultiTypePagedListAdapterWrapper(
         set(value) {
             wrapperAdapter.types = value
         }
+
+    override fun noMore() {
+        bind(LoadMoreStatus.LOAD_MORE_NORMAL)
+    }
+
+    override fun loading() {
+        bind(LoadMoreStatus.LOAD_MORE_LOADING)
+    }
+
+    override fun normal() {
+        bind(LoadMoreStatus.LOAD_MORE_NORMAL)
+    }
+
+    override fun fail(code: Int) {
+        bind(LoadMoreStatus.code(code))
+    }
 
 }

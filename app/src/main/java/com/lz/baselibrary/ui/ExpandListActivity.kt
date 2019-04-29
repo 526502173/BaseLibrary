@@ -2,7 +2,6 @@ package com.lz.baselibrary.ui
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lz.baselibrary.R
 import com.lz.baselibrary.base.LibraryBaseListActivity
@@ -12,8 +11,6 @@ import com.lz.baselibrary.ui.multitype.CustomChildItemViewBinder
 import com.lz.baselibrary.ui.multitype.CustomParentItemViewBinder
 import com.lz.baselibrary.view.expand.ExpandAdapter
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
-import com.lz.baselibrary.viewmodel.ListViewModel
-import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import kotlinx.android.synthetic.main.activity_expand_list.*
 
 /**
@@ -21,11 +18,9 @@ import kotlinx.android.synthetic.main.activity_expand_list.*
  */
 class ExpandListActivity : LibraryBaseListActivity() {
 
-    val mViewModel: ListViewModel
-        get() = ViewModelProviders.of(this, ListViewModelFactory()).get(ListViewModel::class.java)
 
     private val mExpandAdapter: ExpandAdapter<CustomParent> by lazy {
-        ExpandAdapter<CustomParent>(mViewModel.mItems, mAdapter)
+        ExpandAdapter<CustomParent>(mAdapter.items.toMutableList(), mAdapter)
     }
 
     private val mTestList = listOf(

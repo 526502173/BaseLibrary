@@ -15,6 +15,25 @@ interface ListView : BaseView {
      */
     fun refreshing()
 
-    //todo loadMore 相关方法
+    /**
+     * 上拉加载失败
+     * [code] 失败原因
+     */
+    fun loadMoreFial(code: Int)
+
+    /**
+     * 上拉加载没有更多
+     */
+    fun loadMoreNoMore()
+
+    /**
+     * 上拉加载普通状态
+     */
+    fun loadMoreNormal()
+
+    /**
+     * 上拉加载中...
+     */
+    fun loadingMore()
 
 }

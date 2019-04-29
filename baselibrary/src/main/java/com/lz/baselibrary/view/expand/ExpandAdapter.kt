@@ -10,7 +10,7 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author linzheng
  */
 class ExpandAdapter<T : Parent>(
-        private val items: ArrayList<Any>,
+        private val items: MutableList<Any>,
         private val adapter: MultiTypeAdapter
 ) : OnParentClickListener<T> {
 

@@ -39,6 +39,7 @@ class SimpleLoadMoreView(
                     mConfig.progressBarWidth.dp2px(context),
                     mConfig.progressBarHeight.dp2px(context)
             ).apply {
+                visibility = View.GONE
                 leftToLeft = LayoutParams.PARENT_ID
                 topToTop = LayoutParams.PARENT_ID
                 bottomToBottom = LayoutParams.PARENT_ID
@@ -73,6 +74,7 @@ class SimpleLoadMoreView(
         AppCompatButton(context).apply {
             id = VIEW_ID_BTN_RETRY
             layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
+                visibility = View.GONE
                 topToTop = LayoutParams.PARENT_ID
                 bottomToBottom = LayoutParams.PARENT_ID
                 rightToRight = LayoutParams.PARENT_ID
@@ -108,7 +110,7 @@ class SimpleLoadMoreView(
     }
 
     override fun normal() {
-        //ignore
+        mTextView.text = ""
     }
 
     private fun resetAllView() {

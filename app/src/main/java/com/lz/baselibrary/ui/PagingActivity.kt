@@ -13,14 +13,14 @@ import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
 import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapter
 import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapterWrapper
-import com.lz.baselibrary.viewmodel.ArticleViewModel
+import com.lz.baselibrary.viewmodel.ArticlePagingViewModel
 import com.lz.baselibrary.viewmodel.PagingViewModelFactory
 import kotlinx.android.synthetic.main.activity_paging.*
 
 class PagingActivity : LibraryBaseListActivity() {
 
     private val mViewModel by lazy {
-        ViewModelProviders.of(this, PagingViewModelFactory())[ArticleViewModel::class.java]
+        ViewModelProviders.of(this, PagingViewModelFactory())[ArticlePagingViewModel::class.java]
     }
 
     private val mAdapterWrapper by lazy {
@@ -37,6 +37,7 @@ class PagingActivity : LibraryBaseListActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_paging)
         mRefresh = srl_article
+        mLoadMore = mAdapterWrapper
         showLoading()
         initRecyclerView()
         bindViewModel()
@@ -61,8 +62,8 @@ class PagingActivity : LibraryBaseListActivity() {
     private fun bindViewModel() {
         mViewModel.networkStatus.bindNetworkStatus(this)
         mViewModel.refreshStatus.bindRefreshStatus(this)
-        mViewModel.loadMoreStatus.bindLoadMoreStatus(this, mAdapterWrapper)
-        mViewModel.pagedList.bindPagedList(this,mAdapterWrapper)
+        mViewModel.loadMoreStatus.bindLoadMoreStatus(this)
+        mViewModel.pagedList.bindPagedList(this, mAdapterWrapper)
     }
 
     override fun retry() {

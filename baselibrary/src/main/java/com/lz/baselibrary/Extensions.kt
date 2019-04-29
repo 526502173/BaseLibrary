@@ -12,7 +12,6 @@ import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.network.status.NetworkStatus
 import com.lz.baselibrary.network.status.RefreshStatus
-import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapterWrapper
 import com.lz.baselibrary.view.loadmore.paging.SubmitListAdapter
 
 /**
@@ -81,9 +80,14 @@ inline fun LiveData<NetworkStatus>.bindNetworkStatus(baseActivity: LibraryBaseAc
 /**
  * 绑定 [LoadMoreStatus]
  */
-inline fun LiveData<LoadMoreStatus>.bindLoadMoreStatus(owner: LifecycleOwner, adapter: MultiTypePagedListAdapterWrapper) {
-    observe(owner, Observer {
-        adapter.bind(it)
+inline fun LiveData<LoadMoreStatus>.bindLoadMoreStatus(baseActivity: LibraryBaseListActivity) {
+    observe(baseActivity, Observer {
+        when (it) {
+            LoadMoreStatus.LOAD_MORE_LOADING -> baseActivity.loadingMore()
+            LoadMoreStatus.LOAD_MORE_NORMAL -> baseActivity.loadMoreNormal()
+            LoadMoreStatus.LOAD_MORE_NO_MORE -> baseActivity.loadMoreNoMore()
+            else -> baseActivity.loadMoreFial(it.failCode)
+        }
     })
 }
 

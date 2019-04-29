@@ -1,6 +1,7 @@
 package com.lz.baselibrary.base.delegate
 
 import com.lz.baselibrary.base.ListView
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.refresh.Refresh
 
 /**
@@ -12,6 +13,8 @@ class ListViewDelegate(
 ) : ListView {
 
     lateinit var refresh: Refresh
+
+    lateinit var loadMore: LoadMore
 
     override fun refreshComplete() {
         if (this::refresh.isInitialized) refresh.complete()
@@ -39,5 +42,21 @@ class ListViewDelegate(
 
     override fun retry() {
         baseViewDelegate.retry()
+    }
+
+    override fun loadMoreFial(code: Int) {
+        if (this::loadMore.isInitialized) loadMore.fail(code)
+    }
+
+    override fun loadMoreNoMore() {
+        if (this::loadMore.isInitialized) loadMore.noMore()
+    }
+
+    override fun loadMoreNormal() {
+        if (this::loadMore.isInitialized) loadMore.normal()
+    }
+
+    override fun loadingMore() {
+        if (this::loadMore.isInitialized) loadMore.loading()
     }
 }

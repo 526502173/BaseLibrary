@@ -1,6 +1,7 @@
 package com.lz.baselibrary.base
 
 import com.lz.baselibrary.base.delegate.ListViewDelegate
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.refresh.Refresh
 import me.drakeet.multitype.MultiTypeAdapter
 
@@ -15,6 +16,11 @@ open abstract class LibraryBaseListFragment : LibraryBaseFragment(), ListView {
      * Refresh
      */
     protected open lateinit var mRefresh: Refresh
+
+    /**
+     * LoadMore
+     */
+    protected open lateinit var mLoadMore: LoadMore
 
     /**
      * Delegate
@@ -38,4 +44,19 @@ open abstract class LibraryBaseListFragment : LibraryBaseFragment(), ListView {
         mListViewDelegate.refreshing()
     }
 
+    override fun loadMoreFial(code: Int) {
+        mListViewDelegate.loadMoreFial(code)
+    }
+
+    override fun loadMoreNoMore() {
+        mListViewDelegate.loadMoreNoMore()
+    }
+
+    override fun loadMoreNormal() {
+        mListViewDelegate.loadMoreNormal()
+    }
+
+    override fun loadingMore() {
+        mListViewDelegate.loadingMore()
+    }
 }

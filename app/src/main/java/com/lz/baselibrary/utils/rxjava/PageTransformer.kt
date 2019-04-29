@@ -11,16 +11,18 @@ import io.reactivex.ObservableTransformer
  * @author linzheng
  */
 class PageTransformer<T>(
-        private val mListView: ListView
+        private val listView: ListView,
+        private val isRefresh: Boolean
 ) : ObservableTransformer<RespWrapper<PageWrapper<T>>, List<T>> {
     override fun apply(upstream: Observable<RespWrapper<PageWrapper<T>>>): Observable<List<T>> = upstream.doAfterNext {
         //判断是否加载完所有数据
     }.doOnNext {
         //只有成功才会调用
-        mListView.showSuccess()
+        listView.showSuccess()
     }.doFinally {
         //无论报错还是没有报错都要调用
-        mListView.refreshComplete()
+        listView.refreshComplete()
+        listView.loadMoreNormal()
     }.map {
         //剔除无用字段
         it.data.datas

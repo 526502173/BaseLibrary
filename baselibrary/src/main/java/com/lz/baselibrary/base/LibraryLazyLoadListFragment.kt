@@ -1,6 +1,5 @@
 package com.lz.baselibrary.base
 
-import com.lz.baselibrary.base.viewmodel.LibraryBaseListViewModel
 import com.uber.autodispose.autoDisposable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
