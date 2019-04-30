@@ -61,4 +61,5 @@ abstract class LibraryBaseListActivity : LibraryBaseActivity(), ListView {
     override fun loadingMore() {
         mListViewDelegate.loadingMore()
     }
+
 }

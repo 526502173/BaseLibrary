@@ -29,7 +29,6 @@ class MutableListDelegate(
         }
 
     override fun refresh() {
-        listData.value?.refresh?.invoke()
     }
 
     override fun retry() {

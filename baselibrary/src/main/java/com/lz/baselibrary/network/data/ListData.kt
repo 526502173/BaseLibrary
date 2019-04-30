@@ -28,6 +28,18 @@ data class ListData private constructor(
         ) = ListData(
                 list, networkStatus, refreshStatus, loadMoreStatus, refresh, retry
         )
+
+        fun createLiveData(
+                list: MutableLiveData<MutableList<Any>> = MutableLiveData(),
+                networkStatus: MutableLiveData<NetworkStatus> = MutableLiveData(),
+                refreshStatus: MutableLiveData<RefreshStatus> = MutableLiveData(),
+                loadMoreStatus: MutableLiveData<LoadMoreStatus> = MutableLiveData(),
+                refresh: () -> Unit = {},
+                retry: () -> Unit = {}
+        ) = MutableLiveData<ListData>().apply {
+            value = create(list,networkStatus,refreshStatus,loadMoreStatus,refresh,retry)
+        }
+
     }
 
 }

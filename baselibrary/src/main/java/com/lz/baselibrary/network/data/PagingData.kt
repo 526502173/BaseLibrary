@@ -10,7 +10,7 @@ import com.lz.baselibrary.network.status.RefreshStatus
  * PagingData
  * @author linzheng
  */
-data class PagedListData private constructor(
+data class PagingData private constructor(
         val pagedList: LiveData<PagedList<Any>>,
         val networkStatus: LiveData<NetworkStatus>,
         val refreshStatus: LiveData<RefreshStatus>,
@@ -26,7 +26,7 @@ data class PagedListData private constructor(
                 loadMoreStatus: LiveData<LoadMoreStatus>,
                 refresh: () -> Unit,
                 retry: () -> Unit
-        ) = PagedListData(
+        ) = PagingData(
                 pagedList,
                 networkStatus,
                 refreshStatus,

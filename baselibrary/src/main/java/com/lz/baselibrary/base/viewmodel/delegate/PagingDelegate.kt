@@ -2,7 +2,7 @@ package com.lz.baselibrary.base.viewmodel.delegate
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.lz.baselibrary.network.data.PagedListData
+import com.lz.baselibrary.network.data.PagingData
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.network.status.NetworkStatus
 import com.lz.baselibrary.network.status.RefreshStatus
@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
  * @author linzheng
  */
 class PagingDelegate(
-        private val pagingData: LiveData<PagedListData>
+        private val pagingData: LiveData<PagingData>
 ) : ListDelegate {
 
     override val networkStatus: LiveData<NetworkStatus>

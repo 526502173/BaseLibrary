@@ -11,8 +11,8 @@ import com.lz.baselibrary.repository.network.NetworkArticleRepository
  */
 class ListViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        val repository = NetworkArticleRepository(Api.createSyncApi(WanAndroidApi::class))
-        return ArticlePagingViewModel(repository) as T
+        val repository = NetworkArticleRepository(Api.createApi(WanAndroidApi::class))
+        return ArticleListViewModel(repository) as T
     }
 
 }

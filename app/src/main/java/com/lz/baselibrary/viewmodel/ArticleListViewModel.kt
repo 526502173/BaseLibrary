@@ -1,23 +1,22 @@
 package com.lz.baselibrary.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.lz.baselibrary.base.viewmodel.LibraryBaseListViewModel
-import com.lz.baselibrary.network.data.ListData
 import com.lz.baselibrary.repository.ArticleRepository
 
 /**
  * @author linzheng
  */
 class ArticleListViewModel(
-        private val mArticleRepository: ArticleRepository
+        private val repository: ArticleRepository
 ) : LibraryBaseListViewModel() {
 
-    val subscriptionId: MutableLiveData<Int> = MutableLiveData()
-
-    override val listData: LiveData<ListData> = Transformations.map(subscriptionId) {
-        mArticleRepository.getArticleList(it)
+    //todo 暂时想出这么一个损招，一定有更好的解决方案(对一定有)
+    fun bindPage(lifecycleOwner: LifecycleOwner) {
+        page.observe(lifecycleOwner, Observer {
+            repository.getArticleList(408, it, listData.value!!)
+        })
     }
 
 }
