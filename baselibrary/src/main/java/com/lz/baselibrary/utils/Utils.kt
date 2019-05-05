@@ -8,7 +8,7 @@ import android.content.pm.PackageManager
 import android.widget.EditText
 
 /**
- * Uitls 大炸毁
+ * Uitls 大杂烩
  * @author linzheng
  */
 object Utils {

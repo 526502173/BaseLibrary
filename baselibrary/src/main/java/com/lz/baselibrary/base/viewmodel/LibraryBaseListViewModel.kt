@@ -1,11 +1,9 @@
 package com.lz.baselibrary.base.viewmodel
 
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.lz.baselibrary.base.viewmodel.delegate.MutableListDelegate
+import com.lz.baselibrary.base.viewmodel.delegate.SimpleListViewModelDelegate
 import com.lz.baselibrary.network.data.ListData
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 
@@ -19,7 +17,7 @@ open class LibraryBaseListViewModel(
         val list: LiveData<MutableList<Any>> = Transformations.switchMap(listData) {
             it.list
         }
-) : CommonListViewModel(MutableListDelegate(listData)), SwipeRefreshLayout.OnRefreshListener, LoadMoreListener {
+) : CommonListViewModel(SimpleListViewModelDelegate(listData)), SwipeRefreshLayout.OnRefreshListener, LoadMoreListener {
 
     override fun refresh() {
         page.value = 1
@@ -32,5 +30,13 @@ open class LibraryBaseListViewModel(
     override fun onLoadMore(view: View) {
         page.value = page.value?.plus(1)
     }
+
+    open fun bindPage(lifecycleOwner: LifecycleOwner) {
+        page.observe(lifecycleOwner, Observer {
+            loadPageData(it, listData.value!!)
+        })
+    }
+
+    open fun loadPageData(page: Int, listData: ListData) {}
 
 }

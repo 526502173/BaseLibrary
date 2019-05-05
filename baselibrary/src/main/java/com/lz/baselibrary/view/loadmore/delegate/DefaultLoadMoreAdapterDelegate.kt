@@ -13,7 +13,7 @@ import me.drakeet.multitype.MultiTypeAdapter
  * DefaultLoadMoreAdapterDelegate
  * @author linzheng
  */
-class DefaultLoadMoreAdapterDelegate private constructor(
+class DefaultLoadMoreAdapterDelegate constructor(
         private val wrapperAdapter: MultiTypeAdapter,
         private val loadMoreAdapterFactory: LoadMoreAdapterFactory,
         private val listener: LoadMoreListener,

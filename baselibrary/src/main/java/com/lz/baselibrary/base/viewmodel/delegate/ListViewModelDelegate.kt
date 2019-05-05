@@ -8,7 +8,7 @@ import com.lz.baselibrary.network.status.RefreshStatus
 /**
  * @author linzheng
  */
-interface ListDelegate {
+interface ListViewModelDelegate {
 
     val networkStatus: LiveData<NetworkStatus>
 

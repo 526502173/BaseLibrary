@@ -6,13 +6,15 @@ import android.os.Handler
 import androidx.core.os.postDelayed
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lz.baselibrary.*
+import com.lz.baselibrary.R
 import com.lz.baselibrary.base.LibraryBaseListActivity
+import com.lz.baselibrary.bind
+import com.lz.baselibrary.bindPagedList
+import com.lz.baselibrary.dp2px
 import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
-import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapter
-import com.lz.baselibrary.view.loadmore.paging.MultiTypePagedListAdapterWrapper
+import com.lz.baselibrary.view.loadmore.diff.paging.PagedListLoadMoreAdapterWrapper
 import com.lz.baselibrary.viewmodel.ArticlePagingViewModel
 import com.lz.baselibrary.viewmodel.PagingViewModelFactory
 import kotlinx.android.synthetic.main.activity_paging.*
@@ -24,13 +26,9 @@ class PagingActivity : LibraryBaseListActivity() {
     }
 
     private val mAdapterWrapper by lazy {
-        MultiTypePagedListAdapterWrapper(mAdapter) {
+        PagedListLoadMoreAdapterWrapper(mAdapter) {
             mViewModel.retry()
         }
-    }
-
-    private val mPagedListAdapter by lazy {
-        MultiTypePagedListAdapter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +48,6 @@ class PagingActivity : LibraryBaseListActivity() {
      */
     private fun initRecyclerView() {
         mAdapter.register(Article::class, ArticleItemViewBinder())
-        mPagedListAdapter.register(Article::class, ArticleItemViewBinder())
         rv_article.layoutManager = LinearLayoutManager(this)
         rv_article.addItemDecoration(BaseItemDecoration.createFromBottom(0.5.dp2px(this), Color.BLACK))
         rv_article.adapter = mAdapterWrapper
@@ -60,9 +57,7 @@ class PagingActivity : LibraryBaseListActivity() {
     }
 
     private fun bindViewModel() {
-        mViewModel.networkStatus.bindNetworkStatus(this)
-        mViewModel.refreshStatus.bindRefreshStatus(this)
-        mViewModel.loadMoreStatus.bindLoadMoreStatus(this)
+        mViewModel.bind(this)
         mViewModel.pagedList.bindPagedList(this, mAdapterWrapper)
     }
 

@@ -1,4 +1,4 @@
-package com.lz.baselibrary.view.loadmore.paging
+package com.lz.baselibrary.view.loadmore.diff.paging
 
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +15,13 @@ import me.drakeet.multitype.Types
 
 /**
  * MultiTypePagedListAdapterWrapper
- * 用于给一个 MultiType 类型的 Adapter 添加  Paging 实现的 LoadMore 功能
+ * 用于给一个 MultiType 类型的 Adapter 添加 Paging 实现的 LoadMore 功能
  * @author linzheng
  */
-class MultiTypePagedListAdapterWrapper(
-        private val wrapperAdapter: MultiTypeAdapter,
-        private val retry: () -> Unit
-) : MultiTypePagedListAdapter(), LoadMore {
+class PagedListLoadMoreAdapterWrapper(
+        private val mWrapperAdapter: MultiTypeAdapter,
+        private val mRetry: () -> Unit
+) : PagedListAdapterWrapper(mWrapperAdapter), LoadMore {
 
     private val mListener = object : LoadMoreListener {
         override fun onLoadMore(view: View) {
@@ -32,7 +32,7 @@ class MultiTypePagedListAdapterWrapper(
 
     private val mDelegate: LoadMoreAdapterDelegate by lazy {
         DefaultLoadMoreAdapterDelegate.create(
-                wrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener, retry
+                mWrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener, mRetry
         )
     }
 
@@ -53,6 +53,7 @@ class MultiTypePagedListAdapterWrapper(
             notifyItemChanged(itemCount - 1)
     }
 
+    //todo rename
     private fun hasExtraRow() = mLoadMoreStatus != null && mLoadMoreStatus != LoadMoreStatus.LOAD_MORE_NORMAL
 
     override fun onCreateViewHolder(parent: ViewGroup, indexViewType: Int) = mDelegate.onCreateViewHolder(parent, indexViewType)
@@ -66,7 +67,7 @@ class MultiTypePagedListAdapterWrapper(
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) = mDelegate.onViewRecycled(holder)
 
     override fun getItem(position: Int): Any {
-        return if (itemCount != 0 && position == items.size) mDelegate.loadMoreItem else super.getItem(position)
+        return if (hasExtraRow() && position == items.size) mDelegate.loadMoreItem else super.getItem(position)
     }
 
     private var mLoadMoreStatus: LoadMoreStatus? = null
@@ -89,9 +90,9 @@ class MultiTypePagedListAdapterWrapper(
     }
 
     override var types: Types
-        get() = wrapperAdapter.types
+        get() = mWrapperAdapter.types
         set(value) {
-            wrapperAdapter.types = value
+            mWrapperAdapter.types = value
         }
 
     override fun noMore() {

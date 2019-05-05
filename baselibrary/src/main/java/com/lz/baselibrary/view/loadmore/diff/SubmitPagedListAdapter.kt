@@ -1,4 +1,4 @@
-package com.lz.baselibrary.view.loadmore.paging
+package com.lz.baselibrary.view.loadmore.diff
 
 import androidx.paging.PagedList
 
@@ -7,7 +7,7 @@ import androidx.paging.PagedList
  * 所以这里自定义一个接口，只为方便扩展
  * @author linzheng
  */
-interface SubmitListAdapter<T>{
+interface SubmitPagedListAdapter<T>{
 
     fun submitList(pagedList: PagedList<T>)
 

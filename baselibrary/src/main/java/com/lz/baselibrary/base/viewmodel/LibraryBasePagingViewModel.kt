@@ -3,7 +3,7 @@ package com.lz.baselibrary.base.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.PagedList
-import com.lz.baselibrary.base.viewmodel.delegate.PagingDelegate
+import com.lz.baselibrary.base.viewmodel.delegate.PagingListViewModelDelegate
 import com.lz.baselibrary.network.data.PagingData
 
 /**
@@ -13,7 +13,7 @@ import com.lz.baselibrary.network.data.PagingData
 abstract class LibraryBasePagingViewModel(
         pagingData: LiveData<PagingData>
 ) : CommonListViewModel(
-        PagingDelegate(pagingData)
+        PagingListViewModelDelegate(pagingData)
 ) {
 
     val pagedList: LiveData<PagedList<Any>> by lazy {

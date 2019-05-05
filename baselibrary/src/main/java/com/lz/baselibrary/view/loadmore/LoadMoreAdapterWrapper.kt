@@ -1,6 +1,5 @@
 package com.lz.baselibrary.view.loadmore
 
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.network.status.LoadMoreStatus
@@ -15,30 +14,26 @@ import me.drakeet.multitype.MultiTypeAdapter
  * 基于 MultiTypeAdapter 实现的加载跟多
  * @author linzheng
  */
-class LoadMoreAdapterWrapper(
-        private val wrapperAdapter: MultiTypeAdapter,
-        listener: LoadMoreListener
-) : MultiTypeAdapter(), LoadMore{
+open class LoadMoreAdapterWrapper(
+        protected open val mWrapperAdapter: MultiTypeAdapter,
+        protected open val mListener: LoadMoreListener
+) : MultiTypeAdapter(), LoadMore {
 
     /**
      * Delegate 对象
      */
-    private val mDelegate: LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate.create(
-            wrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, object : LoadMoreListener {
-        override fun onLoadMore(view: View) {
-            listener.onLoadMore(view)
-            //这里必须使用 post() 方法来执行 loading() 方法，因为 onLoadMore() 方法是在 Adapter 的 onBinderViewHolder() 中执行的。
-            //在 Adapter 的 onBinderViewHolder() 中不能调用 notify() 方法。
-            view.post{
-                loading()
-            }
-        }
-    })
+    protected val mDelegate: LoadMoreAdapterDelegate by lazy {
+        DefaultLoadMoreAdapterDelegate.create(
+                mWrapperAdapter,
+                LibraryLoadMoreInitialize.sLoadMoreAdapterFactory,
+                LoadMoreListenerWrapper(mListener, this)
+        )
+    }
 
     override var items: List<Any>
-        get() = wrapperAdapter.items
+        get() = mWrapperAdapter.items
         set(value) {
-            wrapperAdapter.items = value
+            mWrapperAdapter.items = value
         }
 
     override fun getItemViewType(position: Int) = mDelegate.getItemViewType(position)
@@ -72,7 +67,6 @@ class LoadMoreAdapterWrapper(
     }
 
     override fun fail(code: Int) {
-
         setLoadMoreItemStatus(LoadMoreStatus.code(code))
     }
 
@@ -80,5 +74,7 @@ class LoadMoreAdapterWrapper(
         mDelegate.loadMoreItem.bind(status)
         notifyItemChanged(if (itemCount > 0) itemCount - 1 else 0)
     }
+
+    fun testA(position: Int) = super.getItemViewType(position)
 
 }

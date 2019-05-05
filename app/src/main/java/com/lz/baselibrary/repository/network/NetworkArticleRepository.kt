@@ -21,10 +21,16 @@ class NetworkArticleRepository(
         private val api: WanAndroidApi
 ) : ArticleRepository {
 
+    /**
+     * 使用非 Paging 的方式获取数据
+     */
     override fun getArticleList(subscriptionId: Int, page: Int, listData: ListData) {
         api.getSubscriptionList(page, subscriptionId)
                 .delay(1, TimeUnit.SECONDS)
                 .map { it.data.datas }
+                .doOnSubscribe {
+                    listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_LOADING)
+                }
                 .doOnNext {
                     if (it.isEmpty()) throw EmptyDataException()
                 }
@@ -43,35 +49,8 @@ class NetworkArticleRepository(
                 })
     }
 
-
-//    override fun getArticleList(page: Int): ListData {
-//        val listData = ListData.create()
-//        //todo retry 和 refresh 的实现
-//        //Pageing 的方法应该和非 Paging 的分开实现
-//        api.getSubscriptionList(1, page)
-//                .delay(2, TimeUnit.SECONDS)
-//                .map { it.data.datas }
-//                .doOnNext {
-//                    if (it.isEmpty()) throw EmptyDataException()
-//                }
-//                .observeOn(mainThreadScheduler)
-//                .doFinally {
-//                    listData.refreshStatus.postValue(RefreshStatus.REFRESH_COMPLETE)
-//                }.subscribe(Consumer {
-//                    listData.networkStatus.postValue(NetworkStatus.SUCCESS)
-//                    if (it.size < 20) listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_NO_MORE)
-//                    else listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_NORMAL)
-//                    val list = ArrayList(listData.list.value ?: emptyList())
-//                    list.addAll(it)
-//                    listData.list.postValue(list)
-//                }, Consumer {
-//                    //todo 待实现
-//                })
-//        return listData
-//    }
-
     /**
-     * Paging 中的
+     * 使用 Paging 的方式获取数据
      */
     override fun getArticlePagedList(subscriptionId: Int): PagingData {
         val factory = ArticleDataSourceFactory(api, subscriptionId)

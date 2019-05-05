@@ -9,10 +9,11 @@ import androidx.paging.PagedList
 import com.billy.android.loading.Gloading
 import com.lz.baselibrary.base.LibraryBaseActivity
 import com.lz.baselibrary.base.LibraryBaseListActivity
+import com.lz.baselibrary.base.viewmodel.CommonListViewModel
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.network.status.NetworkStatus
 import com.lz.baselibrary.network.status.RefreshStatus
-import com.lz.baselibrary.view.loadmore.paging.SubmitListAdapter
+import com.lz.baselibrary.view.loadmore.diff.SubmitPagedListAdapter
 
 /**
  * 扩展方法
@@ -48,6 +49,16 @@ inline fun <T> PagedList<T>.toAnyType(): PagedList<Any> {
 inline fun <reified T> List<Any>.getTypeList() = filter { it is T }.map { it as T }
 
 inline fun <reified T> List<Any>.getTypeListQuick() = map { it as T }
+
+
+/**
+ * 绑定 [NetworkStatus],[RefreshStatus] 和 [LoadMoreStatus]
+ */
+inline fun CommonListViewModel.bind(baseActivity: LibraryBaseListActivity) {
+    networkStatus.bindNetworkStatus(baseActivity)
+    loadMoreStatus.bindLoadMoreStatus(baseActivity)
+    refreshStatus.bindRefreshStatus(baseActivity)
+}
 
 /**
  * 绑定 [RefreshStatus]
@@ -94,7 +105,7 @@ inline fun LiveData<LoadMoreStatus>.bindLoadMoreStatus(baseActivity: LibraryBase
 /**
  * 绑定 [PagedList]
  */
-inline fun <T> LiveData<PagedList<T>>.bindPagedList(owner: LifecycleOwner, adapter: SubmitListAdapter<T>) {
+inline fun <T> LiveData<PagedList<T>>.bindPagedList(owner: LifecycleOwner, adapter: SubmitPagedListAdapter<T>) {
     observe(owner, Observer {
         adapter.submitList(it)
     })

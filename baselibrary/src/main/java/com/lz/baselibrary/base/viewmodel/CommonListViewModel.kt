@@ -1,10 +1,10 @@
 package com.lz.baselibrary.base.viewmodel
 
-import com.lz.baselibrary.base.viewmodel.delegate.ListDelegate
+import com.lz.baselibrary.base.viewmodel.delegate.ListViewModelDelegate
 
 /**
  * @author linzheng
  */
 open class CommonListViewModel(
-        private val delegate: ListDelegate
-) : NetworkViewModel(), ListDelegate by delegate
+        private val delegate: ListViewModelDelegate
+) : NetworkViewModel(), ListViewModelDelegate by delegate

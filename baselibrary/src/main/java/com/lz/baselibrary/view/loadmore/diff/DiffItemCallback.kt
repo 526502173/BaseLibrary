@@ -1,4 +1,4 @@
-package com.lz.baselibrary.view.loadmore.paging
+package com.lz.baselibrary.view.loadmore.diff
 
 /**
  * 因为 DiffUtil.ItemCallback 不是接口而是抽象类
