@@ -61,7 +61,7 @@ class StickyHeaderActivity : AppCompatActivity() {
         val items = mProductList.sortedBy { it.stickySortValue }
         mAdapter.items = items
         rv_sticky_header.layoutManager = LinearLayoutManager(this)
-        rv_sticky_header.addItemDecoration(StickyHeaderItemDecoration(mDelegate = DefaultStickyHeaderDelegate(items)))
+        rv_sticky_header.addItemDecoration(StickyHeaderItemDecoration(delegate = DefaultStickyHeaderDelegate(items)))
         rv_sticky_header.adapter = mAdapter
 
     }

@@ -8,7 +8,6 @@ import com.lz.baselibrary.network.status.RefreshStatus
 /**
  * @author linzheng
  */
-//todo rename
 interface ListDelegate {
 
     val networkStatus: LiveData<NetworkStatus>
