@@ -1,50 +1,43 @@
-package com.lz.baselibrary.view.loadmore.diff.paging
+package com.lz.baselibrary.view.adapter.loadmore
 
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
+import com.lz.baselibrary.view.adapter.CommonDiffAdapter
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.delegate.DefaultLoadMoreAdapterDelegate
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
 import me.drakeet.multitype.ItemViewBinder
 import me.drakeet.multitype.MultiTypeAdapter
-import me.drakeet.multitype.Types
 
 /**
- * MultiTypePagedListAdapterWrapper
- * 用于给一个 MultiType 类型的 Adapter 添加 Paging 实现的 LoadMore 功能
  * @author linzheng
  */
-class PagedListLoadMoreAdapterWrapper(
-        private val mWrapperAdapter: MultiTypeAdapter,
-        private val mRetry: () -> Unit
-) : PagedListAdapterWrapper(mWrapperAdapter), LoadMore {
-
-    private val mListener = object : LoadMoreListener {
-        override fun onLoadMore(view: View) {
-            //ignore
-            //使用 Paging 不需用此方法
-        }
-    }
-
-    private val mDelegate: LoadMoreAdapterDelegate by lazy {
-        DefaultLoadMoreAdapterDelegate.create(
-                mWrapperAdapter, LibraryLoadMoreInitialize.sLoadMoreAdapterFactory, mListener, mRetry
+abstract class CommonDiffLoadMoreAdapter<T>(
+        override val mWrapperAdapter: MultiTypeAdapter,
+        protected open val mListener: LoadMoreListener,
+        protected open val mRetry: () -> Unit,
+        private val mDelegate: LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate.create(
+                mWrapperAdapter,
+                LibraryLoadMoreInitialize.sLoadMoreAdapterFactory,
+                mListener,
+                mRetry
         )
-    }
+) : CommonDiffAdapter<T>(mWrapperAdapter), LoadMore {
+
+    private var mLoadMoreStatus: LoadMoreStatus? = null
 
     /**
      * 将 Adapter 和 [LoadMoreStatus] 进行绑定，
-     * 更具不同的状态调整 getItemCount() 的返回值
+     * 更具不同的状态调整 getItemCount() 的返回值以及 LoadMoreItemView 的显示状态
      */
     fun bind(newLoadMoreStatus: LoadMoreStatus) {
         val previousState = this.mLoadMoreStatus
-        val hadExtraRow = hasExtraRow()
+        val hadExtraRow = hasLoadMoreItem()
         this.mLoadMoreStatus = newLoadMoreStatus
-        val hasExtraRow = hasExtraRow()
+        val hasExtraRow = hasLoadMoreItem()
         mDelegate.loadMoreItem.bind(newLoadMoreStatus)
         if (hadExtraRow != hasExtraRow) {
             if (hadExtraRow) notifyItemRemoved(super.getItemCount())
@@ -53,8 +46,10 @@ class PagedListLoadMoreAdapterWrapper(
             notifyItemChanged(itemCount - 1)
     }
 
-    //todo rename
-    private fun hasExtraRow() = mLoadMoreStatus != null && mLoadMoreStatus != LoadMoreStatus.LOAD_MORE_NORMAL
+    /**
+     * 是否需要 LoadMoreItem
+     */
+    private fun hasLoadMoreItem() = mLoadMoreStatus != null && mLoadMoreStatus != LoadMoreStatus.LOAD_MORE_NORMAL
 
     override fun onCreateViewHolder(parent: ViewGroup, indexViewType: Int) = mDelegate.onCreateViewHolder(parent, indexViewType)
 
@@ -66,18 +61,17 @@ class PagedListLoadMoreAdapterWrapper(
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) = mDelegate.onViewRecycled(holder)
 
-    override fun getItem(position: Int): Any {
-        return if (hasExtraRow() && position == items.size) mDelegate.loadMoreItem else super.getItem(position)
+    override fun getItem(position: Int): Any? {
+        return if (hasLoadMoreItem() && position == items.size) mDelegate.loadMoreItem else super.getItem(position)
     }
 
-    private var mLoadMoreStatus: LoadMoreStatus? = null
-
     override fun getItemCount(): Int {
-        return super.getItemCount() + if (hasExtraRow()) 1 else 0
+        val itemCount = super.getItemCount() + if (hasLoadMoreItem()) 1 else 0
+        return itemCount
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (hasExtraRow() && position == itemCount - 1)
+        return if (hasLoadMoreItem() && position == itemCount - 1)
             LoadMoreAdapterDelegate.ITEM_TYPE_LOAD_MORE
         else super.getItemViewType(position)
     }
@@ -88,12 +82,6 @@ class PagedListLoadMoreAdapterWrapper(
             mDelegate.loadMoreItemViewBinder as ItemViewBinder<Any, RecyclerView.ViewHolder>
         else super.getOutBinderByViewHolder(holder)
     }
-
-    override var types: Types
-        get() = mWrapperAdapter.types
-        set(value) {
-            mWrapperAdapter.types = value
-        }
 
     override fun noMore() {
         bind(LoadMoreStatus.LOAD_MORE_NORMAL)

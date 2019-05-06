@@ -35,13 +35,11 @@ class LoadMoreItemViewBinder(
         override fun bind(item: LoadMoreItem) {
             when (item.status) {
                 LoadMoreItem.LOAD_MORE_STATUS_NO_MORE -> mAdapter.noMore()
-                LoadMoreItem.LOAD_MORE_STATUS_LOADING -> mAdapter.loading()
-                LoadMoreItem.LOAD_MORE_STATUS_NORMAL -> {
-                    mAdapter.normal()
+                LoadMoreItem.LOAD_MORE_STATUS_NORMAL -> mAdapter.normal()
+                LoadMoreItem.LOAD_MORE_STATUS_FAIL -> mAdapter.fail(item.failCode)
+                LoadMoreItem.LOAD_MORE_STATUS_LOADING -> {
+                    mAdapter.loading()
                     mLoadMoreListener.onLoadMore(itemView)
-                }
-                LoadMoreItem.LOAD_MORE_STATUS_FAIL -> {
-                    mAdapter.fail(item.failCode)
                 }
             }
         }

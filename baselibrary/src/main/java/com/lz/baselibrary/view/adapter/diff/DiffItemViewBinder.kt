@@ -1,4 +1,4 @@
-package com.lz.baselibrary.view.loadmore.diff
+package com.lz.baselibrary.view.adapter.diff
 
 import androidx.recyclerview.widget.RecyclerView
 import me.drakeet.multitype.ItemViewBinder

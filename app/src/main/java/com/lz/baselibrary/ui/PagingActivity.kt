@@ -13,8 +13,9 @@ import com.lz.baselibrary.bindPagedList
 import com.lz.baselibrary.dp2px
 import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
+import com.lz.baselibrary.view.adapter.DiffPagedListAdapter
+import com.lz.baselibrary.view.adapter.loadmore.DiffPagedListLoadMoreAdapter
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
-import com.lz.baselibrary.view.loadmore.diff.paging.PagedListLoadMoreAdapterWrapper
 import com.lz.baselibrary.viewmodel.ArticlePagingViewModel
 import com.lz.baselibrary.viewmodel.PagingViewModelFactory
 import kotlinx.android.synthetic.main.activity_paging.*
@@ -25,8 +26,14 @@ class PagingActivity : LibraryBaseListActivity() {
         ViewModelProviders.of(this, PagingViewModelFactory())[ArticlePagingViewModel::class.java]
     }
 
+    //Paging + MultiType
     private val mAdapterWrapper by lazy {
-        PagedListLoadMoreAdapterWrapper(mAdapter) {
+        DiffPagedListAdapter(mAdapter)
+    }
+
+    //Paging + MultiType + LoadMore
+    private val mLoadMoreAdapterWrapper by lazy {
+        DiffPagedListLoadMoreAdapter(mAdapter) {
             mViewModel.retry()
         }
     }
@@ -35,7 +42,7 @@ class PagingActivity : LibraryBaseListActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_paging)
         mRefresh = srl_article
-        mLoadMore = mAdapterWrapper
+        mLoadMore = mLoadMoreAdapterWrapper
         showLoading()
         initRecyclerView()
         bindViewModel()
@@ -50,7 +57,7 @@ class PagingActivity : LibraryBaseListActivity() {
         mAdapter.register(Article::class, ArticleItemViewBinder())
         rv_article.layoutManager = LinearLayoutManager(this)
         rv_article.addItemDecoration(BaseItemDecoration.createFromBottom(0.5.dp2px(this), Color.BLACK))
-        rv_article.adapter = mAdapterWrapper
+        rv_article.adapter = mLoadMoreAdapterWrapper
         srl_article.setOnRefreshListener {
             mViewModel.refresh()
         }
@@ -58,7 +65,7 @@ class PagingActivity : LibraryBaseListActivity() {
 
     private fun bindViewModel() {
         mViewModel.bind(this)
-        mViewModel.pagedList.bindPagedList(this, mAdapterWrapper)
+        mViewModel.pagedList.bindPagedList(this, mLoadMoreAdapterWrapper)
     }
 
     override fun retry() {

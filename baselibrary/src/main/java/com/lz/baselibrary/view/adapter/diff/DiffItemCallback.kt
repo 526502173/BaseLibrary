@@ -1,4 +1,4 @@
-package com.lz.baselibrary.view.loadmore.diff
+package com.lz.baselibrary.view.adapter.diff
 
 /**
  * 因为 DiffUtil.ItemCallback 不是接口而是抽象类

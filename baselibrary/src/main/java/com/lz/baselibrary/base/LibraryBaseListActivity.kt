@@ -25,8 +25,8 @@ abstract class LibraryBaseListActivity : LibraryBaseActivity(), ListView {
      */
     private val mListViewDelegate: ListViewDelegate by lazy {
         val delegate = ListViewDelegate(mDelegate)
-        delegate.refresh = mRefresh
-        delegate.loadMore = mLoadMore
+        if (this::mRefresh.isInitialized) delegate.refresh = mRefresh
+        if (this::mLoadMore.isInitialized) delegate.loadMore = mLoadMore
         delegate
     }
 

@@ -13,7 +13,7 @@ import com.lz.baselibrary.base.viewmodel.CommonListViewModel
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.network.status.NetworkStatus
 import com.lz.baselibrary.network.status.RefreshStatus
-import com.lz.baselibrary.view.loadmore.diff.SubmitPagedListAdapter
+import com.lz.baselibrary.view.adapter.submit.SubmitDelegate
 
 /**
  * 扩展方法
@@ -105,8 +105,10 @@ inline fun LiveData<LoadMoreStatus>.bindLoadMoreStatus(baseActivity: LibraryBase
 /**
  * 绑定 [PagedList]
  */
-inline fun <T> LiveData<PagedList<T>>.bindPagedList(owner: LifecycleOwner, adapter: SubmitPagedListAdapter<T>) {
+inline fun <T> LiveData<PagedList<T>>.bindPagedList(owner: LifecycleOwner, adapter: SubmitDelegate<PagedList<T>>) {
     observe(owner, Observer {
         adapter.submitList(it)
     })
 }
+
+//todo 实现普通 List 的 bind() 方法

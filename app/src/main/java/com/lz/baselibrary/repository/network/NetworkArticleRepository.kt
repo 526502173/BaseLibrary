@@ -28,22 +28,21 @@ class NetworkArticleRepository(
         api.getSubscriptionList(page, subscriptionId)
                 .delay(1, TimeUnit.SECONDS)
                 .map { it.data.datas }
-                .doOnSubscribe {
-                    listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_LOADING)
-                }
                 .doOnNext {
                     if (it.isEmpty()) throw EmptyDataException()
-                }
-                .doFinally {
+                }.doOnComplete {
+                    listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_LOADING)
+                }.doFinally {
                     listData.refreshStatus.postValue(RefreshStatus.REFRESH_COMPLETE)
                 }.subscribe(Consumer {
                     listData.networkStatus.postValue(NetworkStatus.SUCCESS)
                     listData.list.postValue(it.toMutableList())
-                    if (it.size < 20) listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_NO_MORE)
-                    else listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_NORMAL)
+//                    if (it.size < 20) listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_NO_MORE)
+//                    else listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_NORMAL)
                     val list = ArrayList(listData.list.value ?: emptyList())
                     list.addAll(it)
                     listData.list.postValue(list)
+
                 }, Consumer {
                     print("11")
                 })
