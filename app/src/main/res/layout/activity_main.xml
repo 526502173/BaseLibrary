@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -7,15 +8,23 @@
         android:orientation="vertical">
 
     <Button
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_to_paging"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="API"
-            android:onClick="api"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="Paging Sample"
+            android:onClick="toPagingActivity"/>
 
     <Button
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_to_list"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="LazyLoadFragment"
-            android:onClick="viewPagerActivity"/>
+            app:layout_constraintTop_toBottomOf="@id/btn_to_paging"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="List Sample"
+            android:onClick="toListActivity"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

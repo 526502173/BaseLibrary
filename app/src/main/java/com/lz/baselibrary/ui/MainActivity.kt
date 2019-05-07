@@ -1,28 +1,25 @@
 package com.lz.baselibrary.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.lz.baselibrary.R
 import com.lz.baselibrary.base.LibraryBaseActivity
-import okhttp3.Request
+import com.lz.baselibrary.setVisibility
+import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 
 
 class MainActivity : LibraryBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Request.Builder()
-                .url("www.baidu.com")
-                .build()
     }
 
-    fun api(view: View) {
-
+    fun toPagingActivity(view: View) {
+        startActivity<PagingActivity>()
     }
 
-    fun viewPagerActivity(view: View) {
-        startActivity(Intent(this, ViewPagerActivity::class.java))
+    fun toListActivity(view: View) {
+        startActivity<ListActivity>()
     }
-
 }

@@ -18,12 +18,12 @@ import com.lz.baselibrary.view.adapter.DiffListAdapter
 import com.lz.baselibrary.view.adapter.loadmore.DiffListLoadMoreAdapter
 import com.lz.baselibrary.view.adapter.loadmore.LoadMoreAdapter
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.recyclerview.RecyclerViewItemClickListener
 import com.lz.baselibrary.view.recyclerview.SimpleOnItemClickListener
 import com.lz.baselibrary.viewmodel.ArticleListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import kotlinx.android.synthetic.main.activity_list.*
+import timber.log.Timber
 
 /**
  * @author linzheng
@@ -40,20 +40,10 @@ class ListActivity : LibraryBaseListActivity() {
     }
 
     //LoadMore + MultiType
-    //todo 因为 DiffListLoadMoreAdapter 的原因，原本的 OnLoadMore 的回调时机被修改
     private val mLoadMoreAdapterWrapper: LoadMoreAdapter by lazy {
-        LoadMoreAdapter(mAdapter, object : LoadMoreListener {
-            override fun onLoadMore(view: View) {
-                mViewModel.onLoadMore(view)
-                view.post {
-                    loadingMore()
-                }
-            }
-
-        })
+        LoadMoreAdapter(mAdapter, mViewModel)
     }
 
-    //todo 存在重复触发回调的问题
     private val mDiffLoadMoreAdapterWrapper: DiffListLoadMoreAdapter by lazy {
         DiffListLoadMoreAdapter(mAdapter, mViewModel) {
             //retry
@@ -63,22 +53,25 @@ class ListActivity : LibraryBaseListActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
+
+        //测试用的
+        val realAdapter = mLoadMoreAdapterWrapper
+
         rv_list.layoutManager = LinearLayoutManager(this)
         rv_list.addItemDecoration(BaseItemDecoration.createFromBottom(0.5.dp2px(this), Color.parseColor("#e0e0e0")) { _, position ->
-            position != mAdapterWrapper.items.size
+            position != realAdapter.items.size
         })
-        rv_list.adapter = mDiffLoadMoreAdapterWrapper
+        rv_list.adapter = realAdapter
         rv_list.addOnItemTouchListener(RecyclerViewItemClickListener(rv_list, object : SimpleOnItemClickListener() {
             override fun onItemClick(view: View, position: Int) {
-                val article = mAdapterWrapper.items[position] as Article
+                val article = realAdapter.items[position] as Article
                 startActivity(Intent(Intent.ACTION_VIEW, article.link.toUri()))
             }
         }))
-
         srl_list.setOnRefreshListener(mViewModel)
 
         mRefresh = srl_list
-        mLoadMore = mDiffLoadMoreAdapterWrapper
+        mLoadMore = realAdapter
         mAdapter.register(Article::class, ArticleItemViewBinder())
         showLoading()
         bindViewModel()
@@ -88,9 +81,9 @@ class ListActivity : LibraryBaseListActivity() {
 
     private fun bindViewModel() {
         mViewModel.list.observe(this, Observer {
-//            mLoadMoreAdapterWrapper.items = it
-//            mLoadMoreAdapterWrapper.notifyDataSetChanged()
-            mDiffLoadMoreAdapterWrapper.submitList(it)
+            mLoadMoreAdapterWrapper.items = it
+            mLoadMoreAdapterWrapper.notifyDataSetChanged()
+//            mDiffLoadMoreAdapterWrapper.submitList(it)
         })
         mViewModel.bind(this)
     }

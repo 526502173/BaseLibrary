@@ -110,7 +110,7 @@ class SimpleLoadMoreView(
     }
 
     override fun normal() {
-        mTextView.text = ""
+        //noting
     }
 
     private fun resetAllView() {

@@ -78,4 +78,14 @@ data class LoadMoreStatus constructor(
         fun code(code: Int) = LoadMoreStatus(UIStatus.LOAD_MORE_FAIL, code)
 
     }
+
+    override fun toString(): String {
+        return when (status) {
+            UIStatus.LOAD_MORE_LOADING -> "加载中..."
+            UIStatus.LOAD_MORE_NORMAL -> "普通状态"
+            UIStatus.LOAD_MORE_FAIL -> "失败"
+            UIStatus.LOAD_MORE_NO_MORE -> "没有更多"
+            else -> "未知 Status"
+        }
+    }
 }

@@ -11,10 +11,12 @@ import com.lz.baselibrary.view.loadmore.delegate.DefaultLoadMoreAdapterDelegate
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
 import me.drakeet.multitype.ItemViewBinder
 import me.drakeet.multitype.MultiTypeAdapter
+import timber.log.Timber
 
 /**
  * @author linzheng
  */
+//todo 将 LoadMore 先关的方法抽离出来.使用 LoadMoreStatus 这个类来控制 LoadMore 的显示。
 abstract class CommonDiffLoadMoreAdapter<T>(
         override val mWrapperAdapter: MultiTypeAdapter,
         protected open val mListener: LoadMoreListener,
@@ -34,16 +36,23 @@ abstract class CommonDiffLoadMoreAdapter<T>(
      * 更具不同的状态调整 getItemCount() 的返回值以及 LoadMoreItemView 的显示状态
      */
     fun bind(newLoadMoreStatus: LoadMoreStatus) {
-        val previousState = this.mLoadMoreStatus
-        val hadExtraRow = hasLoadMoreItem()
+        val previousStatus = this.mLoadMoreStatus
+        val previousHasLoadMoreItem = hasLoadMoreItem()
         this.mLoadMoreStatus = newLoadMoreStatus
-        val hasExtraRow = hasLoadMoreItem()
+        val hasLoadMoreItem = hasLoadMoreItem()
         mDelegate.loadMoreItem.bind(newLoadMoreStatus)
-        if (hadExtraRow != hasExtraRow) {
-            if (hadExtraRow) notifyItemRemoved(super.getItemCount())
-            else notifyItemInserted(super.getItemCount())
-        } else if (hasExtraRow && previousState != newLoadMoreStatus)
+        if (previousHasLoadMoreItem != hasLoadMoreItem) {
+            if (previousHasLoadMoreItem) {
+                Timber.d("CommonDiffLoadMoreAdapter => bind() => notifyItemRemoved()")
+                notifyItemRemoved(super.getItemCount())
+            } else {
+                Timber.d("CommonDiffLoadMoreAdapter => bind() => notifyItemInserted()")
+                notifyItemInserted(super.getItemCount())
+            }
+        } else if (hasLoadMoreItem && previousStatus != newLoadMoreStatus) {
+            Timber.d("CommonDiffLoadMoreAdapter => bind() => notifyItemChanged()")
             notifyItemChanged(itemCount - 1)
+        }
     }
 
     /**
@@ -65,10 +74,7 @@ abstract class CommonDiffLoadMoreAdapter<T>(
         return if (hasLoadMoreItem() && position == items.size) mDelegate.loadMoreItem else super.getItem(position)
     }
 
-    override fun getItemCount(): Int {
-        val itemCount = super.getItemCount() + if (hasLoadMoreItem()) 1 else 0
-        return itemCount
-    }
+    override fun getItemCount() = super.getItemCount() + if (hasLoadMoreItem()) 1 else 0
 
     override fun getItemViewType(position: Int): Int {
         return if (hasLoadMoreItem() && position == itemCount - 1)
@@ -84,7 +90,7 @@ abstract class CommonDiffLoadMoreAdapter<T>(
     }
 
     override fun noMore() {
-        bind(LoadMoreStatus.LOAD_MORE_NORMAL)
+        bind(LoadMoreStatus.LOAD_MORE_NO_MORE)
     }
 
     override fun loading() {

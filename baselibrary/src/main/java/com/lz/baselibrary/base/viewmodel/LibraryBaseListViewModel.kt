@@ -6,6 +6,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lz.baselibrary.base.viewmodel.delegate.SimpleListViewModelDelegate
 import com.lz.baselibrary.network.data.ListData
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
+import timber.log.Timber
 
 /**
  * LibraryBaseListViewModel
@@ -13,7 +14,7 @@ import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
  */
 open class LibraryBaseListViewModel(
         val page: MutableLiveData<Int> = MutableLiveData(),
-        val listData: LiveData<ListData> = ListData.createLiveData(),
+        private val listData: LiveData<ListData> = ListData.createLiveData(),
         val list: LiveData<MutableList<Any>> = Transformations.switchMap(listData) {
             it.list
         }
@@ -28,6 +29,7 @@ open class LibraryBaseListViewModel(
     }
 
     override fun onLoadMore(view: View) {
+        Timber.d("LibraryBaseListViewModel => onLoadMore()")
         page.value = page.value?.plus(1)
     }
 

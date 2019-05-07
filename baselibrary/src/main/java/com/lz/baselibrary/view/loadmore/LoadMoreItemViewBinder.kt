@@ -8,21 +8,22 @@ import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.adapter.LoadMoreAdapter
 import com.lz.baselibrary.view.loadmore.adapter.factory.LoadMoreAdapterFactory
 import me.drakeet.multitype.ItemViewBinder
+import timber.log.Timber
 
 /**
  * LoadMoreItemViewBinder
  * @author linzheng
  */
 class LoadMoreItemViewBinder(
-        private val adapterFactory: LoadMoreAdapterFactory,
-        private val listener: LoadMoreListener,
-        private val retry: () -> Unit
+        private val mFactory: LoadMoreAdapterFactory,
+        private val mListener: LoadMoreListener,
+        private val mRetry: () -> Unit
 ) : ItemViewBinder<LoadMoreItem, LoadMoreItemViewBinder.LoadMoreViewHolder>() {
 
     override fun onBindViewHolder(holder: LoadMoreViewHolder, item: LoadMoreItem) = holder.bind(item)
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): LoadMoreViewHolder =
-            LoadMoreViewHolder(adapterFactory.create(parent.context, retry), listener)
+            LoadMoreViewHolder(mFactory.create(parent.context, mRetry), mListener)
 
     /*
      * LoadMoreViewHolder
@@ -33,6 +34,7 @@ class LoadMoreItemViewBinder(
     ) : BaseViewHolder<LoadMoreItem>(mAdapter.mItemView) {
 
         override fun bind(item: LoadMoreItem) {
+            Timber.d("LoadMoreItemViewBinder => bind() $item")
             when (item.status) {
                 LoadMoreItem.LOAD_MORE_STATUS_NO_MORE -> mAdapter.noMore()
                 LoadMoreItem.LOAD_MORE_STATUS_NORMAL -> mAdapter.normal()
@@ -40,6 +42,7 @@ class LoadMoreItemViewBinder(
                 LoadMoreItem.LOAD_MORE_STATUS_LOADING -> {
                     mAdapter.loading()
                     mLoadMoreListener.onLoadMore(itemView)
+                    item.status = LoadMoreItem.LOAD_MORE_STATUS_NORMAL
                 }
             }
         }
