@@ -109,7 +109,12 @@ class SimpleLoadMoreView(
         mRetryButton.visibility = View.VISIBLE
     }
 
-    override fun normal() {
+    override fun disable() {
+        //noting
+        //一般情况下，触发这个状态的时候，该 Item 都是不可见的，所以不用改变 UI
+    }
+
+    override fun readly() {
         //noting
     }
 

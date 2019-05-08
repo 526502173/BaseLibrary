@@ -19,7 +19,7 @@ interface ListView : BaseView {
      * 上拉加载失败
      * [code] 失败原因
      */
-    fun loadMoreFial(code: Int)
+    fun loadMoreFail(code: Int)
 
     /**
      * 上拉加载没有更多
@@ -35,5 +35,10 @@ interface ListView : BaseView {
      * 上拉加载中...
      */
     fun loadingMore()
+
+    /**
+     * 可以触发上拉加载
+     */
+    fun loadMoreReady()
 
 }

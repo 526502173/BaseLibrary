@@ -8,7 +8,8 @@ import com.billy.android.loading.Gloading
  */
 enum class UIStatus {
     LOAD_MORE_NO_MORE,//无更多数据
-    LOAD_MORE_NORMAL,//加载更多普通状态
+    LOAD_MORE_DISABLE,//不启用加载更多
+    LOAD_MORE_READY,//可触发加载更多
     LOAD_MORE_LOADING,//加载更多加载中
     LOAD_MORE_FAIL,//加载更多失败
     REFRESH_COMPLETE,//下拉刷新完成
@@ -52,7 +53,7 @@ data class RefreshStatus private constructor(val status: UIStatus) {
  * 加载更多状态
  */
 data class LoadMoreStatus constructor(
-        val status: UIStatus,
+        var status: UIStatus,
         val failCode: Int = -1
 ) {
     companion object {
@@ -63,9 +64,15 @@ data class LoadMoreStatus constructor(
         val LOAD_MORE_NO_MORE = LoadMoreStatus(UIStatus.LOAD_MORE_NO_MORE)
 
         /**
-         * 普通状态
+         * 禁用加载更多
          */
-        val LOAD_MORE_NORMAL = LoadMoreStatus(UIStatus.LOAD_MORE_NORMAL)
+        val LOAD_MORE_DISABLE = LoadMoreStatus(UIStatus.LOAD_MORE_DISABLE)
+
+        /**
+         * 可触发加载更多
+         * 此状态只会在 LoadMoreAdapter 中需要使用，在 Paging 中不用管这个
+         */
+        val LOAD_MORE_READY = LoadMoreStatus(UIStatus.LOAD_MORE_READY)
 
         /**
          * 加载中
@@ -82,7 +89,8 @@ data class LoadMoreStatus constructor(
     override fun toString(): String {
         return when (status) {
             UIStatus.LOAD_MORE_LOADING -> "加载中..."
-            UIStatus.LOAD_MORE_NORMAL -> "普通状态"
+            UIStatus.LOAD_MORE_DISABLE -> "禁用加载更多..."
+            UIStatus.LOAD_MORE_READY -> "可以触发加载更多..."
             UIStatus.LOAD_MORE_FAIL -> "失败"
             UIStatus.LOAD_MORE_NO_MORE -> "没有更多"
             else -> "未知 Status"

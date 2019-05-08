@@ -44,8 +44,8 @@ open abstract class LibraryBaseListFragment : LibraryBaseFragment(), ListView {
         mListViewDelegate.refreshing()
     }
 
-    override fun loadMoreFial(code: Int) {
-        mListViewDelegate.loadMoreFial(code)
+    override fun loadMoreFail(code: Int) {
+        mListViewDelegate.loadMoreFail(code)
     }
 
     override fun loadMoreNoMore() {

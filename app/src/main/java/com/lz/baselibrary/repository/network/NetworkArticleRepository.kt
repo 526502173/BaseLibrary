@@ -32,7 +32,7 @@ class NetworkArticleRepository(
                     if (it.isEmpty()) throw EmptyDataException()
                 }.doOnComplete {
                     listData.networkStatus.postValue(NetworkStatus.SUCCESS)
-                    listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_LOADING)
+                    listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_READY)
                 }.doFinally {
                     listData.refreshStatus.postValue(RefreshStatus.REFRESH_COMPLETE)
                 }.subscribe(Consumer {
@@ -40,6 +40,7 @@ class NetworkArticleRepository(
                     list.addAll(it)
                     listData.list.postValue(list)
                     if (it.size < 20) listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_NO_MORE)
+                    //todo 下拉刷新需要发送 DISABLE status
                 }, Consumer {
                     print("11")
                 })

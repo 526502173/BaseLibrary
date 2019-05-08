@@ -16,7 +16,7 @@ open class LibraryLoadInitialApiConsumer(
 ) : LibraryApiConsumer(uiStatusData.networkStatus) {
     override fun accept(t: Throwable) {
         //重置状态
-        uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NORMAL)
+        uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_DISABLE)
         when (t) {
             is EmptyDataException -> {
                 postFailedUIStatus(Gloading.STATUS_EMPTY_DATA)

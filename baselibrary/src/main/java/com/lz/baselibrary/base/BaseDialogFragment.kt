@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.*
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.lz.baselibrary.R
 
 
@@ -32,7 +33,7 @@ open abstract class BaseDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(androidx.fragment.app.DialogFragment.STYLE_NO_TITLE, R.style.BaseDialogFramgent)
+        setStyle(STYLE_NO_TITLE, R.style.BaseDialogFramgent)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -66,7 +67,7 @@ open abstract class BaseDialogFragment : DialogFragment() {
 
     protected abstract fun initViewsAndEvents()
 
-    fun show(fragmentTransaction: androidx.fragment.app.FragmentManager) {
+    fun show(fragmentTransaction: FragmentManager) {
         show(fragmentTransaction, SystemClock.currentThreadTimeMillis().toString())
     }
 

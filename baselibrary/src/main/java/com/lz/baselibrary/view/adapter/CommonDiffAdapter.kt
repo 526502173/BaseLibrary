@@ -11,7 +11,7 @@ import me.drakeet.multitype.MultiTypeAdapter
  */
 abstract class CommonDiffAdapter<T>(
         override val mWrapperAdapter: MultiTypeAdapter
-) : BaseAdapterWrapper(mWrapperAdapter),SubmitDelegate<T> {
+) : BaseAdapter(mWrapperAdapter),SubmitDelegate<T> {
 
     abstract val mDiffer: Differ<T>
 

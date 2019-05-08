@@ -19,7 +19,12 @@ interface LoadMore {
     /**
      * 普通状态
      */
-    fun normal()
+    fun disable()
+
+    /**
+     * 准备就绪
+     */
+    fun readly()
 
     /**
      * 加载失败

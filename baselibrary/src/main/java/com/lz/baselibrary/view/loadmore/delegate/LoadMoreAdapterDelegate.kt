@@ -1,41 +1,31 @@
 package com.lz.baselibrary.view.loadmore.delegate
 
-import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreItem
+import com.lz.baselibrary.network.status.LoadMoreStatus
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.loadmore.LoadMoreItemViewBinder
 
 /**
  * LoadMoreAdapterDelegate
  * @author linzheng
  */
-interface LoadMoreAdapterDelegate {
+interface LoadMoreAdapterDelegate: LoadMore {
 
-    val loadMoreItem: LoadMoreItem
+    var loadMoreStatus: LoadMoreStatus?
 
     val loadMoreItemViewBinder: LoadMoreItemViewBinder
 
     fun getItemViewType(position: Int): Int
 
-    fun onCreateViewHolder(parent: ViewGroup, indexViewType: Int): RecyclerView.ViewHolder
-
     fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>)
 
-    fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int)
+    fun hasLoadMoreItem(): Boolean
 
-    fun onFailedToRecycleView(holder: RecyclerView.ViewHolder): Boolean
+    fun bindLoadMoreStatus(newStatus: LoadMoreStatus)
 
-    fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder)
+    fun getItemId(position: Int): Long
 
-    fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder)
+    fun isLoadMoreItemPosition(position: Int): Boolean
 
-    fun onViewRecycled(holder: RecyclerView.ViewHolder)
-
-    fun getItemCount(): Int
-
-    companion object {
-        const val ITEM_TYPE_LOAD_MORE = 233331
-
-    }
-
+    fun getItemCount():Int
 }

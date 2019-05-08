@@ -41,9 +41,12 @@ class ListActivity : LibraryBaseListActivity() {
 
     //LoadMore + MultiType
     private val mLoadMoreAdapterWrapper: LoadMoreAdapter by lazy {
-        LoadMoreAdapter(mAdapter, mViewModel)
+        LoadMoreAdapter(mAdapter, mViewModel) {
+            //retry
+        }
     }
 
+    //LoadMore + MultiType + Diff
     private val mDiffLoadMoreAdapterWrapper: DiffListLoadMoreAdapter by lazy {
         DiffListLoadMoreAdapter(mAdapter, mViewModel) {
             //retry
@@ -55,7 +58,7 @@ class ListActivity : LibraryBaseListActivity() {
         setContentView(R.layout.activity_list)
 
         //测试用的
-        val realAdapter = mLoadMoreAdapterWrapper
+        val realAdapter = mDiffLoadMoreAdapterWrapper
 
         rv_list.layoutManager = LinearLayoutManager(this)
         rv_list.addItemDecoration(BaseItemDecoration.createFromBottom(0.5.dp2px(this), Color.parseColor("#e0e0e0")) { _, position ->
@@ -81,9 +84,9 @@ class ListActivity : LibraryBaseListActivity() {
 
     private fun bindViewModel() {
         mViewModel.list.observe(this, Observer {
-            mLoadMoreAdapterWrapper.items = it
-            mLoadMoreAdapterWrapper.notifyDataSetChanged()
-//            mDiffLoadMoreAdapterWrapper.submitList(it)
+            //            mLoadMoreAdapterWrapper.items = it
+//            mLoadMoreAdapterWrapper.notifyDataSetChanged()
+            mDiffLoadMoreAdapterWrapper.submitList(it)
         })
         mViewModel.bind(this)
     }

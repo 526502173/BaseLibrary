@@ -46,8 +46,8 @@ abstract class LibraryBaseListActivity : LibraryBaseActivity(), ListView {
         mListViewDelegate.refreshing()
     }
 
-    override fun loadMoreFial(code: Int) {
-        mListViewDelegate.loadMoreFial(code)
+    override fun loadMoreFail(code: Int) {
+        mListViewDelegate.loadMoreFail(code)
     }
 
     override fun loadMoreNoMore() {
@@ -59,6 +59,10 @@ abstract class LibraryBaseListActivity : LibraryBaseActivity(), ListView {
     }
 
     override fun loadingMore() {
+        mListViewDelegate.loadingMore()
+    }
+
+    override fun loadMoreReady() {
         mListViewDelegate.loadingMore()
     }
 

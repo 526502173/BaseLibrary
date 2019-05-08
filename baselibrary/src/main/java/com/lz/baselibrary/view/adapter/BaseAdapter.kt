@@ -6,7 +6,7 @@ import me.drakeet.multitype.Types
 /**
  * @author linzheng
  */
-open class BaseAdapterWrapper(
+open class BaseAdapter(
         protected open val mWrapperAdapter: MultiTypeAdapter
 ) : MultiTypeAdapter() {
 

@@ -95,9 +95,10 @@ inline fun LiveData<LoadMoreStatus>.bindLoadMoreStatus(baseActivity: LibraryBase
     observe(baseActivity, Observer {
         when (it) {
             LoadMoreStatus.LOAD_MORE_LOADING -> baseActivity.loadingMore()
-            LoadMoreStatus.LOAD_MORE_NORMAL -> baseActivity.loadMoreNormal()
+            LoadMoreStatus.LOAD_MORE_DISABLE -> baseActivity.loadMoreNormal()
             LoadMoreStatus.LOAD_MORE_NO_MORE -> baseActivity.loadMoreNoMore()
-            else -> baseActivity.loadMoreFial(it.failCode)
+            LoadMoreStatus.LOAD_MORE_READY -> baseActivity.loadMoreReady()
+            else -> baseActivity.loadMoreFail(it.failCode)
         }
     })
 }

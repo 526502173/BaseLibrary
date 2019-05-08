@@ -26,12 +26,16 @@ class SimpleLoadMoreAdapter(
         (mItemView as LoadMore).loading()
     }
 
-    override fun normal() {
-        (mItemView as LoadMore).normal()
+    override fun disable() {
+        (mItemView as LoadMore).disable()
     }
 
     override fun fail(code: Int) {
         (mItemView as LoadMore).fail(code)
+    }
+
+    override fun readly() {
+        (mItemView as LoadMore).readly()
     }
 
 }
