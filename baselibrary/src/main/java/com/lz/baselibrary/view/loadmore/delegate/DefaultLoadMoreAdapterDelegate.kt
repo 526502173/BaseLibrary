@@ -15,16 +15,15 @@ import timber.log.Timber
  */
 //todo 优化参数
 class DefaultLoadMoreAdapterDelegate private constructor(
+        loadMoreAdapterFactory: LoadMoreAdapterFactory,
+        listener: LoadMoreListener,
+        retry: () -> Unit,
         private val adapter: MultiTypeAdapter,
-        private val loadMoreAdapterFactory: LoadMoreAdapterFactory,
-        private val listener: LoadMoreListener,
         private val getDataItem: (position: Int) -> Any?,
-        private val getDataItemCount: () -> Int,
-        private val retry: () -> Unit
+        private val getDataItemCount: () -> Int
 ) : LoadMoreAdapterDelegate {
-
     init {
-        adapter.register(LoadMoreStatus::class, LoadMoreItemViewBinder(loadMoreAdapterFactory, listener, retry))
+        adapter.register(LoadMoreStatus::class, LoadMoreItemViewBinder(loadMoreAdapterFactory, listener, this, retry))
     }
 
     override fun getItemCount() = getDataItemCount() + if (hasLoadMoreItem()) 1 else 0
@@ -72,10 +71,6 @@ class DefaultLoadMoreAdapterDelegate private constructor(
 
     override var loadMoreStatus: LoadMoreStatus? = null
 
-    override val loadMoreItemViewBinder: LoadMoreItemViewBinder by lazy {
-        LoadMoreItemViewBinder(loadMoreAdapterFactory, listener, retry)
-    }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
         val item = getItem(position) ?: throw NullPointerException()
         getOutBinderByViewHolder(holder).onBindViewHolder(holder, item, payloads)
@@ -121,12 +116,12 @@ class DefaultLoadMoreAdapterDelegate private constructor(
                 getItemCount: () -> Int,
                 retry: () -> Unit
         ): LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(
-                adapter,
                 loadMoreAdapterFactory,
                 listener,
+                retry,
+                adapter,
                 getItem,
-                getItemCount,
-                retry
+                getItemCount
         )
     }
 

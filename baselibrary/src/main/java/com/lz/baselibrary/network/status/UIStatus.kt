@@ -29,8 +29,6 @@ data class NetworkStatus private constructor(
 
         val SUCCESS by lazy { code(Gloading.STATUS_LOAD_SUCCESS) }
 
-        val LOADED by lazy { code(1) }
-
         fun code(statusCode: Int) = NetworkStatus(statusCode)
 
     }
@@ -53,7 +51,7 @@ data class RefreshStatus private constructor(val status: UIStatus) {
  * 加载更多状态
  */
 data class LoadMoreStatus constructor(
-        var status: UIStatus,
+        val status: UIStatus,
         val failCode: Int = -1
 ) {
     companion object {
@@ -88,9 +86,9 @@ data class LoadMoreStatus constructor(
 
     override fun toString(): String {
         return when (status) {
-            UIStatus.LOAD_MORE_LOADING -> "加载中..."
-            UIStatus.LOAD_MORE_DISABLE -> "禁用加载更多..."
-            UIStatus.LOAD_MORE_READY -> "可以触发加载更多..."
+            UIStatus.LOAD_MORE_LOADING -> "加载中"
+            UIStatus.LOAD_MORE_DISABLE -> "禁用加载更多"
+            UIStatus.LOAD_MORE_READY -> "可以触发加载更多"
             UIStatus.LOAD_MORE_FAIL -> "失败"
             UIStatus.LOAD_MORE_NO_MORE -> "没有更多"
             else -> "未知 Status"

@@ -25,8 +25,4 @@ class DiffPagedListLoadMoreAdapter(
     override val mDiffer: Differ<PagedList<Any>> by lazy {
         PagedListDiffer(this)
     }
-
-    override fun submitList(list: PagedList<Any>) {
-        mDiffer.submitList(list)
-    }
 }

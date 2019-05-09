@@ -6,16 +6,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lz.baselibrary.base.viewmodel.delegate.SimpleListViewModelDelegate
 import com.lz.baselibrary.network.data.ListData
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
-import timber.log.Timber
 
 /**
  * LibraryBaseListViewModel
  * @author linzheng
  */
+//todo 将 OnRefresh LoadMoreListener 从此类分离，减轻 ViewModel 职责
 open class LibraryBaseListViewModel(
         val page: MutableLiveData<Int> = MutableLiveData(),
         private val listData: LiveData<ListData> = ListData.createLiveData(),
-        val list: LiveData<MutableList<Any>> = Transformations.switchMap(listData) {
+        val list: LiveData<List<Any>> = Transformations.switchMap(listData) {
             it.list
         }
 ) : CommonListViewModel(SimpleListViewModelDelegate(listData)), SwipeRefreshLayout.OnRefreshListener, LoadMoreListener {
@@ -29,7 +29,6 @@ open class LibraryBaseListViewModel(
     }
 
     override fun onLoadMore(view: View) {
-        Timber.d("LibraryBaseListViewModel => onLoadMore()")
         page.value = page.value?.plus(1)
     }
 

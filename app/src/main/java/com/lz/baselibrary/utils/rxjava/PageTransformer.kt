@@ -22,7 +22,7 @@ class PageTransformer<T>(
     }.doFinally {
         //无论报错还是没有报错都要调用
         listView.refreshComplete()
-        listView.loadMoreNormal()
+        listView.disableLoadMore()
     }.map {
         //剔除无用字段
         it.data.datas

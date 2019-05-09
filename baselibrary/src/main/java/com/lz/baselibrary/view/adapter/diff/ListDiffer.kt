@@ -10,6 +10,10 @@ class ListDiffer(
         private val mAdapter: MultiTypeAdapter
 ) : SimpleDiffer<List<Any>>() {
 
+    override fun submitList(newList: List<Any>, callback: Runnable) {
+        mAsyncListDiffer.submitList(newList, callback)
+    }
+
     private val mAsyncListDiffer: AsyncListDiffer<Any> by lazy {
         AsyncListDiffer(mAdapter, MultiTypeDiffCallback(mAdapter))
     }

@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lz.baselibrary.R
 import com.lz.baselibrary.base.LibraryBaseListActivity
-import com.lz.baselibrary.bind
-import com.lz.baselibrary.bindPagedList
+import com.lz.baselibrary.bindUIStatus
+import com.lz.baselibrary.bindPagedListAdapter
 import com.lz.baselibrary.dp2px
 import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
@@ -64,8 +64,8 @@ class PagingActivity : LibraryBaseListActivity() {
     }
 
     private fun bindViewModel() {
-        mViewModel.bind(this)
-        mViewModel.pagedList.bindPagedList(this, mLoadMoreAdapterWrapper)
+        mViewModel.bindUIStatus(this)
+        mViewModel.pagedList.bindPagedListAdapter(this, mLoadMoreAdapterWrapper)
     }
 
     override fun retry() {

@@ -16,7 +16,7 @@ import java.net.UnknownHostException
  * @author linzheng
  */
 open class LibraryLoadAfterApiConsumer(
-        private val uiStatusData: UIStatusData
+        private val mUIStatusData: UIStatusData
 ) : Consumer<Throwable> {
     override fun accept(t: Throwable) {
         Thread.sleep(3000)
@@ -25,7 +25,7 @@ open class LibraryLoadAfterApiConsumer(
             is HttpException -> LOAD_MORE_FAIL_CODE_HTTP
             else -> LOAD_MORE_FAIL_CODE_OTHER
         }
-        uiStatusData.postLoadMoreStatus(LoadMoreStatus.code(failCode))
+        mUIStatusData.postLoadMoreStatus(LoadMoreStatus.code(failCode))
 
     }
 

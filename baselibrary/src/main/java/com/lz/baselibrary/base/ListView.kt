@@ -27,9 +27,9 @@ interface ListView : BaseView {
     fun loadMoreNoMore()
 
     /**
-     * 上拉加载普通状态
+     * 禁用 LoadMore
      */
-    fun loadMoreNormal()
+    fun disableLoadMore()
 
     /**
      * 上拉加载中...

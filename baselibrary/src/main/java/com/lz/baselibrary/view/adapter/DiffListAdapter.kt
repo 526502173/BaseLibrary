@@ -15,8 +15,4 @@ class DiffListAdapter(
         ListDiffer(this)
     }
 
-    override fun submitList(list: List<Any>) {
-        mDiffer.submitList(list)
-    }
-
 }

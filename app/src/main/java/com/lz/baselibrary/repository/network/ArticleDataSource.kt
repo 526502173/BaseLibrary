@@ -3,8 +3,7 @@ package com.lz.baselibrary.repository.network
 import com.lz.baselibrary.EmptyDataException
 import com.lz.baselibrary.api.WanAndroidApi
 import com.lz.baselibrary.base.paging.LibraryBaseNetWorkPageKeyedDataSource
-import com.lz.baselibrary.network.consumer.paging.LibraryLoadAfterApiConsumer
-import com.lz.baselibrary.network.consumer.paging.LibraryLoadInitialApiConsumer
+import com.lz.baselibrary.network.consumer.paging.LibraryLoadMoreApiConsumer
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.network.status.NetworkStatus
 import com.lz.baselibrary.network.status.RefreshStatus
@@ -39,7 +38,7 @@ class ArticleDataSource(
                         uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NO_MORE)
                         callback.onResult(it, null)
                     } else callback.onResult(it, params.key + 1)
-                }, LibraryLoadAfterApiConsumer(uiStatusData))
+                }, LibraryLoadMoreApiConsumer(uiStatusData, false))
     }
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Any>) {
@@ -62,10 +61,9 @@ class ArticleDataSource(
                         uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NO_MORE)
                         callback.onResult(it, null, null)
                     } else {
-                        uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_DISABLE)
                         callback.onResult(it, null, 2)
                     }
-                }, LibraryLoadInitialApiConsumer(uiStatusData))
+                }, LibraryLoadMoreApiConsumer(uiStatusData))
     }
 
 }

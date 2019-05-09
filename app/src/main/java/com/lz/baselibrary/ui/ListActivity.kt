@@ -5,12 +5,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.net.toUri
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lz.baselibrary.R
 import com.lz.baselibrary.base.LibraryBaseListActivity
-import com.lz.baselibrary.bind
+import com.lz.baselibrary.bindDiffListLoadMoreAdapter
+import com.lz.baselibrary.bindUIStatus
 import com.lz.baselibrary.dp2px
 import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
@@ -23,7 +23,6 @@ import com.lz.baselibrary.view.recyclerview.SimpleOnItemClickListener
 import com.lz.baselibrary.viewmodel.ArticleListViewModel
 import com.lz.baselibrary.viewmodel.ListViewModelFactory
 import kotlinx.android.synthetic.main.activity_list.*
-import timber.log.Timber
 
 /**
  * @author linzheng
@@ -35,19 +34,19 @@ class ListActivity : LibraryBaseListActivity() {
     }
 
     //Diff + MultiType
-    private val mAdapterWrapper: DiffListAdapter by lazy {
+    private val mDiffListAdapter: DiffListAdapter by lazy {
         DiffListAdapter(mAdapter)
     }
 
     //LoadMore + MultiType
-    private val mLoadMoreAdapterWrapper: LoadMoreAdapter by lazy {
+    private val mLoadMoreAdapter: LoadMoreAdapter by lazy {
         LoadMoreAdapter(mAdapter, mViewModel) {
             //retry
         }
     }
 
     //LoadMore + MultiType + Diff
-    private val mDiffLoadMoreAdapterWrapper: DiffListLoadMoreAdapter by lazy {
+    private val mDiffLoadMoreAdapter: DiffListLoadMoreAdapter by lazy {
         DiffListLoadMoreAdapter(mAdapter, mViewModel) {
             //retry
         }
@@ -58,7 +57,7 @@ class ListActivity : LibraryBaseListActivity() {
         setContentView(R.layout.activity_list)
 
         //测试用的
-        val realAdapter = mDiffLoadMoreAdapterWrapper
+        val realAdapter = mDiffLoadMoreAdapter
 
         rv_list.layoutManager = LinearLayoutManager(this)
         rv_list.addItemDecoration(BaseItemDecoration.createFromBottom(0.5.dp2px(this), Color.parseColor("#e0e0e0")) { _, position ->
@@ -83,12 +82,10 @@ class ListActivity : LibraryBaseListActivity() {
     }
 
     private fun bindViewModel() {
-        mViewModel.list.observe(this, Observer {
-            //            mLoadMoreAdapterWrapper.items = it
-//            mLoadMoreAdapterWrapper.notifyDataSetChanged()
-            mDiffLoadMoreAdapterWrapper.submitList(it)
-        })
-        mViewModel.bind(this)
+        mViewModel.bindUIStatus(this)
+        mViewModel.list.bindDiffListLoadMoreAdapter(this, mDiffLoadMoreAdapter)
+//        mViewModel.list.bindLoadMoreAdapter(this,mLoadMoreAdapter)
+//        mViewModel.list.bindDiffListAdapter(this,mDiffListAdapter)
     }
 
 }

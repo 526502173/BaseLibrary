@@ -3,7 +3,6 @@ package com.lz.baselibrary.view.loadmore.delegate
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
-import com.lz.baselibrary.view.loadmore.LoadMoreItemViewBinder
 
 /**
  * LoadMoreAdapterDelegate
@@ -12,8 +11,6 @@ import com.lz.baselibrary.view.loadmore.LoadMoreItemViewBinder
 interface LoadMoreAdapterDelegate: LoadMore {
 
     var loadMoreStatus: LoadMoreStatus?
-
-    val loadMoreItemViewBinder: LoadMoreItemViewBinder
 
     fun getItemViewType(position: Int): Int
 

@@ -1,9 +1,9 @@
 package com.lz.baselibrary.repository.network
 
-import androidx.lifecycle.Transformations
 import androidx.paging.toLiveData
 import com.lz.baselibrary.EmptyDataException
 import com.lz.baselibrary.api.WanAndroidApi
+import com.lz.baselibrary.network.consumer.paging.LibraryLoadMoreApiConsumer
 import com.lz.baselibrary.network.data.ListData
 import com.lz.baselibrary.network.data.PagingData
 import com.lz.baselibrary.network.status.LoadMoreStatus
@@ -26,24 +26,25 @@ class NetworkArticleRepository(
      */
     override fun getArticleList(subscriptionId: Int, page: Int, listData: ListData) {
         api.getSubscriptionList(page, subscriptionId)
-                .delay(2, TimeUnit.SECONDS)
+                .delay(if (page == 1) 1L else 2L, TimeUnit.SECONDS)
                 .map { it.data.datas }
                 .doOnNext {
                     if (it.isEmpty()) throw EmptyDataException()
                 }.doOnComplete {
-                    listData.networkStatus.postValue(NetworkStatus.SUCCESS)
-                    listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_READY)
+                    listData.uiStatus.postNetworkStatus(NetworkStatus.SUCCESS)
                 }.doFinally {
-                    listData.refreshStatus.postValue(RefreshStatus.REFRESH_COMPLETE)
+                    listData.uiStatus.postRefreshStatus(RefreshStatus.REFRESH_COMPLETE)
+                }.doOnError {
+                    //todo retry
+                }.map {
+                    if (page == 1) it
+                    else ArrayList(listData.list.value ?: mutableListOf()).apply {
+                        addAll(it)
+                    } //todo 这里的逻辑可以尝试通过读 PagedList 的源码来进行优化
                 }.subscribe(Consumer {
-                    val list = ArrayList(listData.list.value ?: emptyList())
-                    list.addAll(it)
-                    listData.list.postValue(list)
-                    if (it.size < 20) listData.loadMoreStatus.postValue(LoadMoreStatus.LOAD_MORE_NO_MORE)
-                    //todo 下拉刷新需要发送 DISABLE status
-                }, Consumer {
-                    print("11")
-                })
+                    listData.list.postValue(it)
+                    if (it.size < 20) listData.uiStatus.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NO_MORE)
+                }, LibraryLoadMoreApiConsumer(listData.uiStatus, page))
     }
 
     /**
@@ -51,21 +52,11 @@ class NetworkArticleRepository(
      */
     override fun getArticlePagedList(subscriptionId: Int): PagingData {
         val factory = ArticleDataSourceFactory(api, subscriptionId)
-
         //toLiveData 返回的对象其实就是 ComputableLiveData 中的 mLiveDate
         val livePagedList = factory.toLiveData(pageSize = 20)
-
-        return PagingData.create(
+        return PagingData.createFromPageKeyedDataSourceFactory(
                 pagedList = livePagedList,
-                networkStatus = Transformations.switchMap(factory.sourceLiveData) { it.uiStatusData.networkStatus },
-                refreshStatus = Transformations.switchMap(factory.sourceLiveData) { it.uiStatusData.refreshStatus },
-                loadMoreStatus = Transformations.switchMap(factory.sourceLiveData) { it.uiStatusData.loadMoreStatus },
-                refresh = {
-                    factory.sourceLiveData.value?.invalidate()
-                },
-                retry = {
-                    factory.sourceLiveData.value?.retryAllFailed()
-                }
+                factory = factory
         )
     }
 

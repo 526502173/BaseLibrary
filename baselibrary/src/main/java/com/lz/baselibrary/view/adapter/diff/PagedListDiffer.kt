@@ -11,6 +11,10 @@ class PagedListDiffer(
         private val mAdapter: MultiTypeAdapter
 ) : SimpleDiffer<PagedList<Any>>() {
 
+    override fun submitList(newList: PagedList<Any>, callback: Runnable) {
+        mAsyncPagedListDiffer.submitList(newList, callback)
+    }
+
     private val mAsyncPagedListDiffer: AsyncPagedListDiffer<Any> by lazy {
         AsyncPagedListDiffer(mAdapter, MultiTypeDiffCallback(mAdapter))
     }

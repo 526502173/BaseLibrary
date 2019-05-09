@@ -52,7 +52,7 @@ class ListViewDelegate(
         if (this::loadMore.isInitialized) loadMore.noMore()
     }
 
-    override fun loadMoreNormal() {
+    override fun disableLoadMore() {
         if (this::loadMore.isInitialized) loadMore.disable()
     }
 

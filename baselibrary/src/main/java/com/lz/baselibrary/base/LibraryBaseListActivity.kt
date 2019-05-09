@@ -54,8 +54,8 @@ abstract class LibraryBaseListActivity : LibraryBaseActivity(), ListView {
         mListViewDelegate.loadMoreNoMore()
     }
 
-    override fun loadMoreNormal() {
-        mListViewDelegate.loadMoreNormal()
+    override fun disableLoadMore() {
+        mListViewDelegate.disableLoadMore()
     }
 
     override fun loadingMore() {
@@ -63,7 +63,7 @@ abstract class LibraryBaseListActivity : LibraryBaseActivity(), ListView {
     }
 
     override fun loadMoreReady() {
-        mListViewDelegate.loadingMore()
+        mListViewDelegate.loadMoreReady()
     }
 
 }

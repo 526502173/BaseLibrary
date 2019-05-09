@@ -13,6 +13,7 @@ import com.lz.baselibrary.base.viewmodel.CommonListViewModel
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.network.status.NetworkStatus
 import com.lz.baselibrary.network.status.RefreshStatus
+import com.lz.baselibrary.view.adapter.loadmore.LoadMoreAdapter
 import com.lz.baselibrary.view.adapter.submit.SubmitDelegate
 
 /**
@@ -54,7 +55,7 @@ inline fun <reified T> List<Any>.getTypeListQuick() = map { it as T }
 /**
  * 绑定 [NetworkStatus],[RefreshStatus] 和 [LoadMoreStatus]
  */
-inline fun CommonListViewModel.bind(baseActivity: LibraryBaseListActivity) {
+inline fun CommonListViewModel.bindUIStatus(baseActivity: LibraryBaseListActivity) {
     networkStatus.bindNetworkStatus(baseActivity)
     loadMoreStatus.bindLoadMoreStatus(baseActivity)
     refreshStatus.bindRefreshStatus(baseActivity)
@@ -95,7 +96,7 @@ inline fun LiveData<LoadMoreStatus>.bindLoadMoreStatus(baseActivity: LibraryBase
     observe(baseActivity, Observer {
         when (it) {
             LoadMoreStatus.LOAD_MORE_LOADING -> baseActivity.loadingMore()
-            LoadMoreStatus.LOAD_MORE_DISABLE -> baseActivity.loadMoreNormal()
+            LoadMoreStatus.LOAD_MORE_DISABLE -> baseActivity.disableLoadMore()
             LoadMoreStatus.LOAD_MORE_NO_MORE -> baseActivity.loadMoreNoMore()
             LoadMoreStatus.LOAD_MORE_READY -> baseActivity.loadMoreReady()
             else -> baseActivity.loadMoreFail(it.failCode)
@@ -104,12 +105,40 @@ inline fun LiveData<LoadMoreStatus>.bindLoadMoreStatus(baseActivity: LibraryBase
 }
 
 /**
- * 绑定 [PagedList]
+ * 在使用 DiffPagedListAdapter 和 DiffPagedListLoadMoreAdapter 的时候使用此方法绑定 LiveData
  */
-inline fun <T> LiveData<PagedList<T>>.bindPagedList(owner: LifecycleOwner, adapter: SubmitDelegate<PagedList<T>>) {
+inline fun <T> LiveData<PagedList<T>>.bindPagedListAdapter(owner: LifecycleOwner, adapter: SubmitDelegate<PagedList<T>>) {
     observe(owner, Observer {
         adapter.submitList(it)
     })
 }
 
-//todo 实现普通 List 的 bind() 方法
+/**
+ * 在使用 DiffListAdapter 的时候
+ */
+inline fun <T> LiveData<List<T>>.bindDiffListAdapter(owner: LifecycleOwner, adapter: SubmitDelegate<List<T>>) {
+    observe(owner, Observer {
+        adapter.submitList(it)
+    })
+}
+
+/**
+ * 在使用 DiffLoadMoreAdapter 的时候，需要使用此方法来绑定 LiveData
+ */
+inline fun <T> LiveData<List<T>>.bindDiffListLoadMoreAdapter(baseActivity: LibraryBaseListActivity, adapter: SubmitDelegate<List<T>>) {
+    observe(baseActivity, Observer {
+        adapter.submitList(it, Runnable {
+            baseActivity.loadMoreReady()
+        })
+    })
+}
+
+/**
+ * 在使用 LoadMoreAdapter 的时候需要使用此方法来绑定 LiveData
+ */
+inline fun LiveData<List<Any>>.bindLoadMoreAdapter(baseActivity: LibraryBaseListActivity, adapter: LoadMoreAdapter) {
+    observe(baseActivity, Observer {
+        adapter.items = it
+        adapter.notifyDataSetChanged()
+    })
+}

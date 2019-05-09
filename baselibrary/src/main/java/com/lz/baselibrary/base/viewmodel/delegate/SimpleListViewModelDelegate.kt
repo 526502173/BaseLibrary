@@ -15,19 +15,22 @@ class SimpleListViewModelDelegate(
         private val listData: LiveData<ListData>
 ) : ListViewModelDelegate {
 
-    override val networkStatus: LiveData<NetworkStatus>
-        get() = Transformations.switchMap(listData) {
-            it.networkStatus
+    override val networkStatus: LiveData<NetworkStatus> by lazy {
+        Transformations.switchMap(listData) {
+            it.uiStatus.networkStatus
         }
-    override val refreshStatus: LiveData<RefreshStatus>
-        get() = Transformations.switchMap(listData) {
-            it.refreshStatus
+    }
+    override val refreshStatus: LiveData<RefreshStatus> by lazy {
+        Transformations.switchMap(listData) {
+            it.uiStatus.refreshStatus
         }
+    }
 
-    override val loadMoreStatus: LiveData<LoadMoreStatus>
-        get() = Transformations.switchMap(listData) {
-            it.loadMoreStatus
+    override val loadMoreStatus: LiveData<LoadMoreStatus> by lazy {
+        Transformations.switchMap(listData) {
+            it.uiStatus.loadMoreStatus
         }
+    }
 
     override fun refresh() {
     }

@@ -1,7 +1,10 @@
 package com.lz.baselibrary.network.data
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import androidx.paging.PagedList
+import com.lz.baselibrary.base.paging.LibraryBaseDataSourceFactory
+import com.lz.baselibrary.base.paging.LibraryBaseNetWorkPageKeyedDataSource
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.network.status.NetworkStatus
 import com.lz.baselibrary.network.status.RefreshStatus
@@ -34,5 +37,18 @@ data class PagingData private constructor(
                 refresh,
                 retry
         )
+
+        fun <T : LibraryBaseNetWorkPageKeyedDataSource<Int, Any>> createFromPageKeyedDataSourceFactory(
+                pagedList: LiveData<PagedList<Any>>,
+                factory: LibraryBaseDataSourceFactory<Int, Any, T>
+        ) = create(
+                pagedList,
+                Transformations.switchMap(factory.sourceLiveData) { it.uiStatusData.networkStatus },
+                Transformations.switchMap(factory.sourceLiveData) { it.uiStatusData.refreshStatus },
+                Transformations.switchMap(factory.sourceLiveData) { it.uiStatusData.loadMoreStatus },
+                { factory.sourceLiveData.value?.invalidate() },
+                { factory.sourceLiveData.value?.retryAllFailed() }
+        )
+
     }
 }

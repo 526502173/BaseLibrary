@@ -58,4 +58,13 @@ abstract class CommonDiffLoadMoreAdapter<T>(
     override fun fail(code: Int) {
         mDelegate.fail(code)
     }
+
+    override fun submitList(list: T) {
+        mDiffer.submitList(list)
+    }
+
+    override fun submitList(list: T, callback: Runnable) {
+        mDiffer.submitList(list, callback)
+    }
+
 }

@@ -52,8 +52,8 @@ open abstract class LibraryBaseListFragment : LibraryBaseFragment(), ListView {
         mListViewDelegate.loadMoreNoMore()
     }
 
-    override fun loadMoreNormal() {
-        mListViewDelegate.loadMoreNormal()
+    override fun disableLoadMore() {
+        mListViewDelegate.disableLoadMore()
     }
 
     override fun loadingMore() {

@@ -11,7 +11,7 @@ import me.drakeet.multitype.MultiTypeAdapter
  */
 abstract class CommonDiffAdapter<T>(
         override val mWrapperAdapter: MultiTypeAdapter
-) : BaseAdapter(mWrapperAdapter),SubmitDelegate<T> {
+) : BaseAdapter(mWrapperAdapter), SubmitDelegate<T> {
 
     abstract val mDiffer: Differ<T>
 
@@ -23,6 +23,14 @@ abstract class CommonDiffAdapter<T>(
 
     override fun getItemCount(): Int {
         return mDiffer.getItemCount()
+    }
+
+    override fun submitList(list: T) {
+        mDiffer.submitList(list)
+    }
+
+    override fun submitList(list: T, callback: Runnable) {
+        mDiffer.submitList(list, callback)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
