@@ -19,20 +19,20 @@ abstract class LibraryGlobalStatusLayout(context: Context, val retry: Runnable) 
     /**
      * key status value [GlobalStatusViewBinder]
      */
-    protected val mStatus2ViewBinderArray = SparseArray<GlobalStatusViewBinder>(10)
+    protected val status2ViewBinderArray = SparseArray<GlobalStatusViewBinder>(10)
 
     init {
         LayoutInflater.from(context).inflate(getContentViewResId(), this, true)
-        mStatus2ViewBinderArray.put(Gloading.STATUS_LOAD_SUCCESS, LoadSuccessViewBinder())
+        status2ViewBinderArray.put(Gloading.STATUS_LOAD_SUCCESS, LoadSuccessViewBinder())
     }
 
     /**
      * 根据 status 调用不同的 StatusViewBinder 的 bindView() 方法
      */
     fun setStatus(status: Int) {
-        if (mStatus2ViewBinderArray.contains(status)) {
+        if (status2ViewBinderArray.contains(status)) {
             resetAllView()
-            mStatus2ViewBinderArray[status].bindView(this, retry)
+            status2ViewBinderArray[status].bindView(this, retry)
         }
     }
 

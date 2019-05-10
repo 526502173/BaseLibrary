@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.lz.baselibrary.R
 import com.lz.baselibrary.base.LibraryBaseActivity
-import com.lz.baselibrary.setVisibility
-import kotlinx.android.synthetic.main.activity_main.*
+import com.lz.baselibrary.view.wrapper.CustomWrapperView
 import org.jetbrains.anko.startActivity
 
 
@@ -21,5 +20,9 @@ class MainActivity : LibraryBaseActivity() {
 
     fun toListActivity(view: View) {
         startActivity<ListActivity>()
+    }
+
+    fun showWrapperView(view: View) {
+        CustomWrapperView(this).show()
     }
 }

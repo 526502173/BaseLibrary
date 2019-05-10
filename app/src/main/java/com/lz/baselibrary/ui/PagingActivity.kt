@@ -28,12 +28,12 @@ class PagingActivity : LibraryBaseListActivity() {
 
     //Paging + MultiType
     private val mAdapterWrapper by lazy {
-        DiffPagedListAdapter(mAdapter)
+        DiffPagedListAdapter(adapter)
     }
 
     //Paging + MultiType + LoadMore
     private val mLoadMoreAdapterWrapper by lazy {
-        DiffPagedListLoadMoreAdapter(mAdapter) {
+        DiffPagedListLoadMoreAdapter(adapter) {
             mViewModel.retry()
         }
     }
@@ -41,8 +41,8 @@ class PagingActivity : LibraryBaseListActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_paging)
-        mRefresh = srl_article
-        mLoadMore = mLoadMoreAdapterWrapper
+        refresh = srl_article
+        loadMore = mLoadMoreAdapterWrapper
         showLoading()
         initRecyclerView()
         bindViewModel()
@@ -54,13 +54,11 @@ class PagingActivity : LibraryBaseListActivity() {
      * 初始化 RecyclerView
      */
     private fun initRecyclerView() {
-        mAdapter.register(Article::class, ArticleItemViewBinder())
+        adapter.register(Article::class, ArticleItemViewBinder())
         rv_article.layoutManager = LinearLayoutManager(this)
         rv_article.addItemDecoration(BaseItemDecoration.createFromBottom(0.5.dp2px(this), Color.BLACK))
         rv_article.adapter = mLoadMoreAdapterWrapper
-        srl_article.setOnRefreshListener {
-            mViewModel.refresh()
-        }
+        srl_article.setOnRefreshListener(mViewModel)
     }
 
     private fun bindViewModel() {

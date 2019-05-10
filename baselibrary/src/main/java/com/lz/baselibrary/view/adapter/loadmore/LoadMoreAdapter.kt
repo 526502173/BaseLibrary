@@ -1,13 +1,13 @@
 package com.lz.baselibrary.view.adapter.loadmore
 
 import androidx.recyclerview.widget.RecyclerView
-import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
 import com.lz.baselibrary.view.adapter.BaseAdapter
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.LoadMoreListenerWrapper
 import com.lz.baselibrary.view.loadmore.delegate.DefaultLoadMoreAdapterDelegate
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
+import com.lz.baselibrary.view.loadmore.delegate.LoadMoreDelegateCallback
 import me.drakeet.multitype.MultiTypeAdapter
 
 /**
@@ -15,54 +15,56 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author linzheng
  */
 class LoadMoreAdapter(
-        override val mWrapperAdapter: MultiTypeAdapter,
+        override val wrapperAdapter: MultiTypeAdapter,
         private val mListener: LoadMoreListener,
-        private val mRetry: () -> Unit
-) : BaseAdapter(mWrapperAdapter), LoadMore {
+        private val retry: () -> Unit
+) : BaseAdapter(wrapperAdapter), LoadMore, LoadMoreDelegateCallback {
 
     override var items: List<Any>
-        get() = mWrapperAdapter.items
+        get() = wrapperAdapter.items
         set(value) {
-            mWrapperAdapter.items = value
+            wrapperAdapter.items = value
         }
 
-    private val mDelegate: LoadMoreAdapterDelegate by lazy {
+    private val delegate: LoadMoreAdapterDelegate by lazy {
         DefaultLoadMoreAdapterDelegate.create(
                 this,
-                LibraryLoadMoreInitialize.sLoadMoreAdapterFactory,
                 LoadMoreListenerWrapper(mListener, this),
-                { items[it] },
-                { items.size },
-                mRetry
+                this,
+                retry
         )
     }
 
-    override fun getItemCount() = mDelegate.getItemCount()
+    override fun getItemCount() = delegate.getItemCount()
 
-    override fun getItemViewType(position: Int) = mDelegate.getItemViewType(position)
+    override fun getItemViewType(position: Int) = delegate.getItemViewType(position)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
-        mDelegate.onBindViewHolder(holder, position, payloads)
+        delegate.onBindViewHolder(holder, position, payloads)
     }
 
     override fun noMore() {
-        mDelegate.noMore()
+        delegate.noMore()
     }
 
     override fun loading() {
-        mDelegate.loading()
+        delegate.loading()
     }
 
     override fun disable() {
-        mDelegate.disable()
+        delegate.disable()
     }
 
     override fun fail(code: Int) {
-        mDelegate.fail(code)
+        delegate.fail(code)
     }
 
     override fun readly() {
-        mDelegate.readly()
+        delegate.readly()
     }
+
+    override fun getDataItem(position: Int) = items[position]
+
+    override fun getDataItemCount() = items.size
 
 }

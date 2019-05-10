@@ -10,7 +10,7 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author linzheng
  */
 class MultiTypeDiffCallback(
-        private val mAdapter: MultiTypeAdapter
+        private val adapter: MultiTypeAdapter
 ) : DiffUtil.ItemCallback<Any>() {
 
     override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
@@ -28,8 +28,8 @@ class MultiTypeDiffCallback(
     }
 
     private fun <T> getItemViewBinderByClazz(clazz: Class<T>): DiffItemViewBinder<Any, out RecyclerView.ViewHolder> {
-        val index = mAdapter.types.firstIndexOf(clazz)
-        val itemViewBinder = mAdapter.types.getType<Any>(index).binder
+        val index = adapter.types.firstIndexOf(clazz)
+        val itemViewBinder = adapter.types.getType<Any>(index).binder
         return if (itemViewBinder is DiffItemViewBinder) itemViewBinder
         else throw ClassCastException("ItemViewBinder 必须要继承 DiffItemViewBinder")
     }

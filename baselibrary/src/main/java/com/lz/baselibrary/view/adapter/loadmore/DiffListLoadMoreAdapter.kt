@@ -9,12 +9,12 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author linzheng
  */
 class DiffListLoadMoreAdapter(
-        override val mWrapperAdapter: MultiTypeAdapter,
-        override val mListener: LoadMoreListener,
-        override val mRetry: () -> Unit
-) : CommonDiffLoadMoreAdapter<List<Any>>(mWrapperAdapter, mListener, mRetry) {
+        override val wrapperAdapter: MultiTypeAdapter,
+        override val listener: LoadMoreListener,
+        override val retry: () -> Unit
+) : CommonDiffLoadMoreAdapter<List<Any>>(wrapperAdapter, listener, retry) {
 
-    override val mDiffer: Differ<List<Any>> by lazy {
+    override val differ: Differ<List<Any>> by lazy {
         ListDiffer(this)
     }
 

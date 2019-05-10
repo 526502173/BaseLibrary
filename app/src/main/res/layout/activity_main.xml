@@ -27,4 +27,14 @@
             android:text="List Sample"
             android:onClick="toListActivity"/>
 
+    <Button
+            android:id="@+id/btn_show_wrapper_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/btn_to_list"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="List Sample"
+            android:onClick="showWrapperView"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

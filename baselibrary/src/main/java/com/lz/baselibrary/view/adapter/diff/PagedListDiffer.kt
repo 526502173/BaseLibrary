@@ -8,7 +8,7 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author linzheng
  */
 class PagedListDiffer(
-        private val mAdapter: MultiTypeAdapter
+        private val adapter: MultiTypeAdapter
 ) : SimpleDiffer<PagedList<Any>>() {
 
     override fun submitList(newList: PagedList<Any>, callback: Runnable) {
@@ -16,7 +16,7 @@ class PagedListDiffer(
     }
 
     private val mAsyncPagedListDiffer: AsyncPagedListDiffer<Any> by lazy {
-        AsyncPagedListDiffer(mAdapter, MultiTypeDiffCallback(mAdapter))
+        AsyncPagedListDiffer(adapter, MultiTypeDiffCallback(adapter))
     }
 
     override fun submitList(newList: PagedList<Any>) {

@@ -20,7 +20,7 @@ class ExpandListActivity : LibraryBaseListActivity() {
 
 
     private val mExpandAdapter: ExpandAdapter<CustomParent> by lazy {
-        ExpandAdapter<CustomParent>(mAdapter.items.toMutableList(), mAdapter)
+        ExpandAdapter<CustomParent>(adapter.items.toMutableList(), adapter)
     }
 
     private val mTestList = listOf(
@@ -38,15 +38,15 @@ class ExpandListActivity : LibraryBaseListActivity() {
 
         CustomParentItemViewBinder.onParentClickListener = mExpandAdapter
 
-        mAdapter.register(CustomParent::class, CustomParentItemViewBinder())
-        mAdapter.register(CustomChild::class, CustomChildItemViewBinder())
+        adapter.register(CustomParent::class, CustomParentItemViewBinder())
+        adapter.register(CustomChild::class, CustomChildItemViewBinder())
 
         rv_expand_list.layoutManager = LinearLayoutManager(this)
         rv_expand_list.addItemDecoration(BaseItemDecoration.createFromBottom(2, Color.GRAY))
-        rv_expand_list.adapter = mAdapter
+        rv_expand_list.adapter = adapter
 
         mExpandAdapter.init(mTestList)
-        mAdapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
 
     }
 

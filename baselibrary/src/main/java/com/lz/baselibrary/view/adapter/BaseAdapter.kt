@@ -9,13 +9,13 @@ import me.drakeet.multitype.Types
  * @author linzheng
  */
 open class BaseAdapter(
-        protected open val mWrapperAdapter: MultiTypeAdapter
+        protected open val wrapperAdapter: MultiTypeAdapter
 ) : MultiTypeAdapter() {
 
     override var types: Types
-        get() = mWrapperAdapter.types
+        get() = wrapperAdapter.types
         set(value) {
-            mWrapperAdapter.types = value
+            wrapperAdapter.types = value
         }
 
 }

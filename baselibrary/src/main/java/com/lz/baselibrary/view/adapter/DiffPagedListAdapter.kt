@@ -9,15 +9,15 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author linzheng
  */
 class DiffPagedListAdapter(
-        override val mWrapperAdapter: MultiTypeAdapter
-) : CommonDiffAdapter<PagedList<Any>>(mWrapperAdapter) {
+        override val wrapperAdapter: MultiTypeAdapter
+) : CommonDiffAdapter<PagedList<Any>>(wrapperAdapter) {
 
-    override val mDiffer: Differ<PagedList<Any>> by lazy {
+    override val differ: Differ<PagedList<Any>> by lazy {
         PagedListDiffer(this)
     }
 
     override fun submitList(pagedList: PagedList<Any>) {
-        mDiffer.submitList(pagedList)
+        differ.submitList(pagedList)
     }
 
 }

@@ -7,7 +7,7 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author linzheng
  */
 class ListDiffer(
-        private val mAdapter: MultiTypeAdapter
+        private val adapter: MultiTypeAdapter
 ) : SimpleDiffer<List<Any>>() {
 
     override fun submitList(newList: List<Any>, callback: Runnable) {
@@ -15,7 +15,7 @@ class ListDiffer(
     }
 
     private val mAsyncListDiffer: AsyncListDiffer<Any> by lazy {
-        AsyncListDiffer(mAdapter, MultiTypeDiffCallback(mAdapter))
+        AsyncListDiffer(adapter, MultiTypeDiffCallback(adapter))
     }
 
     override fun submitList(newList: List<Any>) {

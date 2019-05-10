@@ -8,7 +8,7 @@ import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
  * LoadMoreAdapterDelegate
  * @author linzheng
  */
-interface LoadMoreAdapterDelegate: LoadMore {
+interface LoadMoreAdapterDelegate : LoadMore {
 
     var loadMoreStatus: LoadMoreStatus?
 
@@ -24,5 +24,5 @@ interface LoadMoreAdapterDelegate: LoadMore {
 
     fun isLoadMoreItemPosition(position: Int): Boolean
 
-    fun getItemCount():Int
+    fun getItemCount(): Int
 }

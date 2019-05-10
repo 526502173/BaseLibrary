@@ -22,12 +22,12 @@ class StickyHeaderItemDecoration<T : StickyHeader>(
     /**
      * Header 的绘制范围
      */
-    private val mHeaderRect by lazy { Rect() }
+    private val headerRect by lazy { Rect() }
 
     /**
      * 用于存储文字的参数
      */
-    private val mTextRect: Rect by lazy { Rect() }
+    private val textRect: Rect by lazy { Rect() }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         parent.children.forEachIndexed { index, child ->
@@ -35,8 +35,8 @@ class StickyHeaderItemDecoration<T : StickyHeader>(
             if (isLastItemDiff(position)) {
                 val stickyValue = dataSource[position].stickyShowValue
                 setHeaderRect(child, parent)
-                headerPaint.getTextBounds(stickyValue, 0, stickyValue.length, mTextRect)
-                drawHeader(c, mHeaderRect, mTextRect, dataSource[position])
+                headerPaint.getTextBounds(stickyValue, 0, stickyValue.length, textRect)
+                drawHeader(c, headerRect, textRect, dataSource[position])
             } else baseItemDecoration?.drawDivider(c, child, index)
         }
     }
@@ -57,7 +57,7 @@ class StickyHeaderItemDecoration<T : StickyHeader>(
                 c.translate(0f, dy)
             }
             setHeaderRect(firstChild, parent, true)
-            drawHeader(c, mHeaderRect, mTextRect, dataSource[firstPosition])
+            drawHeader(c, headerRect, textRect, dataSource[firstPosition])
             if (flag) c.restore()
         }
     }
@@ -76,7 +76,7 @@ class StickyHeaderItemDecoration<T : StickyHeader>(
     }
 
     /**
-     * 设置 mHeaderRect 中的值
+     * 设置 headerRect 中的值
      */
     private fun setHeaderRect(child: View, parent: RecyclerView, isCover: Boolean = false) {
         val params = child.layoutParams as RecyclerView.LayoutParams
@@ -84,7 +84,7 @@ class StickyHeaderItemDecoration<T : StickyHeader>(
         val right = parent.width - parent.paddingRight
         val top = if (isCover) parent.top else child.top - params.topMargin - headerHeight
         val bottom = if (isCover) parent.top + headerHeight else child.top - params.topMargin
-        mHeaderRect.set(left, top, right, bottom)
+        headerRect.set(left, top, right, bottom)
     }
 
     /**

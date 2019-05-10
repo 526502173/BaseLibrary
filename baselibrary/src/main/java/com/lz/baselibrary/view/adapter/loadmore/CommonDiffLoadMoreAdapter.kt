@@ -1,7 +1,6 @@
 package com.lz.baselibrary.view.adapter.loadmore
 
 import androidx.recyclerview.widget.RecyclerView
-import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
 import com.lz.baselibrary.view.adapter.CommonDiffAdapter
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
@@ -12,20 +11,19 @@ import me.drakeet.multitype.MultiTypeAdapter
 /**
  * @author linzheng
  */
+//todo 将 delegate 声明在 构造函数中，然后使用 by 关键字，减少方法的调用
 abstract class CommonDiffLoadMoreAdapter<T>(
-        override val mWrapperAdapter: MultiTypeAdapter,
-        open val mListener: LoadMoreListener,
-        open val mRetry: () -> Unit
-) : CommonDiffAdapter<T>(mWrapperAdapter), LoadMore {
+        override val wrapperAdapter: MultiTypeAdapter,
+        open val listener: LoadMoreListener,
+        open val retry: () -> Unit
+) : CommonDiffAdapter<T>(wrapperAdapter), LoadMore {
 
     private val mDelegate: LoadMoreAdapterDelegate by lazy {
         DefaultLoadMoreAdapterDelegate.create(
                 this,
-                LibraryLoadMoreInitialize.sLoadMoreAdapterFactory,
-                mListener,
-                { mDiffer.getItem(it) },
-                { mDiffer.getItemCount() },
-                mRetry
+                listener,
+                this,
+                retry
         )
     }
 
@@ -60,11 +58,21 @@ abstract class CommonDiffLoadMoreAdapter<T>(
     }
 
     override fun submitList(list: T) {
-        mDiffer.submitList(list)
+        differ.submitList(list)
     }
 
     override fun submitList(list: T, callback: Runnable) {
-        mDiffer.submitList(list, callback)
+        differ.submitList(list, callback)
+    }
+
+    companion object {
+        fun create(
+                wrapperAdapter: MultiTypeAdapter,
+                listener: LoadMoreListener,
+                retry: () -> Unit,
+                delegate: LoadMoreAdapterDelegate
+        ) {
+        }
     }
 
 }

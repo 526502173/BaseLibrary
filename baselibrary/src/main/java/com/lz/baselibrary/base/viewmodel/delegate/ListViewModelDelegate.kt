@@ -16,8 +16,6 @@ interface ListViewModelDelegate {
 
     val loadMoreStatus: LiveData<LoadMoreStatus>
 
-    fun refresh()
-
     fun retry()
 
 }

@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.lz.baselibrary.base.BaseViewHolder
 import com.lz.baselibrary.network.status.LoadMoreStatus
+import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.adapter.LoadMoreAdapter
-import com.lz.baselibrary.view.loadmore.adapter.factory.LoadMoreAdapterFactory
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
 import me.drakeet.multitype.ItemViewBinder
 import timber.log.Timber
@@ -16,16 +16,15 @@ import timber.log.Timber
  * @author linzheng
  */
 class LoadMoreItemViewBinder(
-        private val mFactory: LoadMoreAdapterFactory,
-        private val mListener: LoadMoreListener,
-        private val mLoadMoreAdapterDelegate: LoadMoreAdapterDelegate,
-        private val mRetry: () -> Unit
+        private val listener: LoadMoreListener,
+        private val loadMoreAdapterDelegate: LoadMoreAdapterDelegate,
+        private val retry: () -> Unit
 ) : ItemViewBinder<LoadMoreStatus, LoadMoreItemViewBinder.LoadMoreViewHolder>() {
 
     override fun onBindViewHolder(holder: LoadMoreViewHolder, item: LoadMoreStatus) = holder.bind(item)
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): LoadMoreViewHolder =
-            LoadMoreViewHolder(mFactory.create(parent.context, mRetry), mLoadMoreAdapterDelegate, mListener)
+            LoadMoreViewHolder(LibraryLoadMoreInitialize.sLoadMoreAdapterFactory.create(parent.context, retry), loadMoreAdapterDelegate, listener)
 
     /*
      * LoadMoreViewHolder

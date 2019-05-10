@@ -13,57 +13,57 @@ abstract class LibraryBaseListActivity : LibraryBaseActivity(), ListView {
     /**
      * Refresh
      */
-    protected open lateinit var mRefresh: Refresh
+    protected open lateinit var refresh: Refresh
 
     /**
      * LoadMore
      */
-    protected open lateinit var mLoadMore: LoadMore
+    protected open lateinit var loadMore: LoadMore
 
     /**
      * Delegate
      */
-    private val mListViewDelegate: ListViewDelegate by lazy {
-        val delegate = ListViewDelegate(mDelegate)
-        if (this::mRefresh.isInitialized) delegate.refresh = mRefresh
-        if (this::mLoadMore.isInitialized) delegate.loadMore = mLoadMore
+    private val listViewDelegate: ListViewDelegate by lazy {
+        val delegate = ListViewDelegate(baseViewDelegate)
+        if (this::refresh.isInitialized) delegate.refresh = refresh
+        if (this::loadMore.isInitialized) delegate.loadMore = loadMore
         delegate
     }
 
     /**
      * Adapter
      */
-    protected val mAdapter: MultiTypeAdapter by lazy(LazyThreadSafetyMode.NONE) {
+    protected val adapter: MultiTypeAdapter by lazy(LazyThreadSafetyMode.NONE) {
         val adapter = MultiTypeAdapter()
         adapter
     }
 
     override fun refreshComplete() {
-        mListViewDelegate.refreshComplete()
+        listViewDelegate.refreshComplete()
     }
 
     override fun refreshing() {
-        mListViewDelegate.refreshing()
+        listViewDelegate.refreshing()
     }
 
     override fun loadMoreFail(code: Int) {
-        mListViewDelegate.loadMoreFail(code)
+        listViewDelegate.loadMoreFail(code)
     }
 
     override fun loadMoreNoMore() {
-        mListViewDelegate.loadMoreNoMore()
+        listViewDelegate.loadMoreNoMore()
     }
 
     override fun disableLoadMore() {
-        mListViewDelegate.disableLoadMore()
+        listViewDelegate.disableLoadMore()
     }
 
     override fun loadingMore() {
-        mListViewDelegate.loadingMore()
+        listViewDelegate.loadingMore()
     }
 
     override fun loadMoreReady() {
-        mListViewDelegate.loadMoreReady()
+        listViewDelegate.loadMoreReady()
     }
 
 }

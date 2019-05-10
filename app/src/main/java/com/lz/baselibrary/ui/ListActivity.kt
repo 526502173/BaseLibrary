@@ -35,19 +35,19 @@ class ListActivity : LibraryBaseListActivity() {
 
     //Diff + MultiType
     private val mDiffListAdapter: DiffListAdapter by lazy {
-        DiffListAdapter(mAdapter)
+        DiffListAdapter(adapter)
     }
 
     //LoadMore + MultiType
     private val mLoadMoreAdapter: LoadMoreAdapter by lazy {
-        LoadMoreAdapter(mAdapter, mViewModel) {
+        LoadMoreAdapter(adapter, mViewModel) {
             //retry
         }
     }
 
     //LoadMore + MultiType + Diff
     private val mDiffLoadMoreAdapter: DiffListLoadMoreAdapter by lazy {
-        DiffListLoadMoreAdapter(mAdapter, mViewModel) {
+        DiffListLoadMoreAdapter(adapter, mViewModel) {
             //retry
         }
     }
@@ -72,9 +72,9 @@ class ListActivity : LibraryBaseListActivity() {
         }))
         srl_list.setOnRefreshListener(mViewModel)
 
-        mRefresh = srl_list
-        mLoadMore = realAdapter
-        mAdapter.register(Article::class, ArticleItemViewBinder())
+        refresh = srl_list
+        loadMore = realAdapter
+        adapter.register(Article::class, ArticleItemViewBinder())
         showLoading()
         bindViewModel()
         mViewModel.bindPage(this)

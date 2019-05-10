@@ -14,37 +14,37 @@ open class LibraryBaseActivity : AppCompatActivity(), BaseView {
     /**
      * 用于给 RxJava 绑定 Activity 的生命周期
      */
-    protected val mScopeProvider: AndroidLifecycleScopeProvider by lazy {
+    protected val scopeProvider: AndroidLifecycleScopeProvider by lazy {
         AndroidLifecycleScopeProvider.from(this)
     }
 
     /**
      * BaseView 的委托
      */
-    protected val mDelegate: BaseViewDelegate by lazy {
+    protected val baseViewDelegate: BaseViewDelegate by lazy {
         val delegate = BaseViewDelegate()
         delegate.holder = Gloading.getDefault().wrap(this).withRetry { retry() }
         delegate
     }
 
     override fun showLoading() {
-        mDelegate.showLoading()
+        baseViewDelegate.showLoading()
     }
 
     override fun showSuccess() {
-        mDelegate.showSuccess()
+        baseViewDelegate.showSuccess()
     }
 
     override fun showLoadFailed(status: Int) {
-        mDelegate.showLoadFailed(status)
+        baseViewDelegate.showLoadFailed(status)
     }
 
     override fun showEmpty() {
-        mDelegate.showEmpty()
+        baseViewDelegate.showEmpty()
     }
 
     override fun retry() {
-        mDelegate.retry()
+        baseViewDelegate.retry()
     }
 
 }

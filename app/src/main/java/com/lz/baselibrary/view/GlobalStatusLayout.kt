@@ -19,12 +19,12 @@ class GlobalStatusLayout(context: Context, retry: Runnable) : LibraryGlobalStatu
         //用于拦截事件，防止事件传递给底层 View
         isClickable = true
         setBackgroundColor(Color.WHITE)
-        mStatus2ViewBinderArray.put(LibraryGlobalStatusLayout.GLOADING_STATUS_NETWORK_ERROR, NetworkErrorViewBinder())
-        mStatus2ViewBinderArray.put(LibraryGlobalStatusLayout.GLOADING_STATUS_INTERFACE_ERROR, InterfaceErrorViewBinder())
-        mStatus2ViewBinderArray.put(LibraryGlobalStatusLayout.GLOADING_STATUS_HTTP_ERROR, HttpErrorViewBinder())
-        mStatus2ViewBinderArray.put(Gloading.STATUS_EMPTY_DATA, EmptyDataViewBinder())
-        mStatus2ViewBinderArray.put(Gloading.STATUS_LOADING, LoadingViewBinder())
-        mStatus2ViewBinderArray.put(Gloading.STATUS_LOAD_FAILED, LoadFailedViewBinder())
+        status2ViewBinderArray.put(LibraryGlobalStatusLayout.GLOADING_STATUS_NETWORK_ERROR, NetworkErrorViewBinder())
+        status2ViewBinderArray.put(LibraryGlobalStatusLayout.GLOADING_STATUS_INTERFACE_ERROR, InterfaceErrorViewBinder())
+        status2ViewBinderArray.put(LibraryGlobalStatusLayout.GLOADING_STATUS_HTTP_ERROR, HttpErrorViewBinder())
+        status2ViewBinderArray.put(Gloading.STATUS_EMPTY_DATA, EmptyDataViewBinder())
+        status2ViewBinderArray.put(Gloading.STATUS_LOADING, LoadingViewBinder())
+        status2ViewBinderArray.put(Gloading.STATUS_LOAD_FAILED, LoadFailedViewBinder())
     }
 
     override fun resetAllView() {

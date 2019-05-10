@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
  * @author linzheng
  */
 open class BaseItemDecoration private constructor(
-        open val mPadding: Rect = Rect(),
-        open val mColor: Int = Color.GRAY,
-        open val mDirectionList: List<DividerDirection> = emptyList(),
-        open val mIsDrawDivider: (direction: DividerDirection, position: Int) -> Boolean = { _, _ -> true }
+        open val padding: Rect = Rect(),
+        open val color: Int = Color.GRAY,
+        open val directionList: List<DividerDirection> = emptyList(),
+        open val isDrawDivider: (direction: DividerDirection, position: Int) -> Boolean = { _, _ -> true }
 ) : RecyclerView.ItemDecoration() {
 
     /**
@@ -24,7 +24,7 @@ open class BaseItemDecoration private constructor(
      */
     protected val mPaint: Paint by lazy(LazyThreadSafetyMode.NONE) {
         val paint = Paint()
-        paint.color = mColor
+        paint.color = color
         paint
     }
 
@@ -32,8 +32,8 @@ open class BaseItemDecoration private constructor(
      * 绘制 Divider
      */
     fun drawDivider(canvas: Canvas, childView: View, index: Int) {
-        mDirectionList.forEach {
-            if (mIsDrawDivider(it, index)) canvas.drawRect(createDividerRect(it, childView, mPadding), mPaint)
+        directionList.forEach {
+            if (isDrawDivider(it, index)) canvas.drawRect(createDividerRect(it, childView, padding), mPaint)
         }
     }
 
@@ -48,12 +48,12 @@ open class BaseItemDecoration private constructor(
     }
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        mDirectionList.forEach {
+        directionList.forEach {
             when (it) {
-                is Top -> outRect.set(0, mPadding.top, 0, 0)
-                is Bottom -> outRect.set(0, 0, 0, mPadding.bottom)
-                is Right -> outRect.set(0, 0, mPadding.right, 0)
-                is Left -> outRect.set(mPadding.left, 0, 0, 0)
+                is Top -> outRect.set(0, padding.top, 0, 0)
+                is Bottom -> outRect.set(0, 0, 0, padding.bottom)
+                is Right -> outRect.set(0, 0, padding.right, 0)
+                is Left -> outRect.set(padding.left, 0, 0, 0)
             }
         }
     }
@@ -70,30 +70,30 @@ open class BaseItemDecoration private constructor(
          * 创建一个只有 Top 的 BaseItemDecoration
          */
         fun createFromTop(padding: Int, color: Int, isDrawDivider: (direction: DividerDirection, position: Int) -> Boolean = { _, _ -> true }) = BaseItemDecoration(
-                mPadding = Rect(0, padding, 0, 0),
-                mColor = color,
-                mDirectionList = listOf(Top),
-                mIsDrawDivider = isDrawDivider
+                padding = Rect(0, padding, 0, 0),
+                color = color,
+                directionList = listOf(Top),
+                isDrawDivider = isDrawDivider
         )
 
         /**
          * 创建一个只有 Bottom 的 BaseItemDecoration
          */
         fun createFromBottom(padding: Int, color: Int, isDrawDivider: (direction: DividerDirection, position: Int) -> Boolean = { _, _ -> true }) = BaseItemDecoration(
-                mPadding = Rect(0, 0, 0, padding),
-                mColor = color,
-                mDirectionList = listOf(Bottom),
-                mIsDrawDivider = isDrawDivider
+                padding = Rect(0, 0, 0, padding),
+                color = color,
+                directionList = listOf(Bottom),
+                isDrawDivider = isDrawDivider
         )
 
         /**
          * 创建一个只有 Left 的 BaseItemDecoration
          */
         fun createFromLeft(padding: Int, color: Int, isDrawDivider: (direction: DividerDirection, position: Int) -> Boolean = { _, _ -> true }) = BaseItemDecoration(
-                mPadding = Rect(padding, 0, 0, 0),
-                mColor = color,
-                mDirectionList = listOf(Left),
-                mIsDrawDivider = isDrawDivider
+                padding = Rect(padding, 0, 0, 0),
+                color = color,
+                directionList = listOf(Left),
+                isDrawDivider = isDrawDivider
         )
 
 
@@ -101,10 +101,10 @@ open class BaseItemDecoration private constructor(
          * 创建一个只有 Right 的 BaseItemDecoration
          */
         fun createFromRight(padding: Int, color: Int, isDrawDivider: (direction: DividerDirection, position: Int) -> Boolean = { _, _ -> true }) = BaseItemDecoration(
-                mPadding = Rect(0, 0, padding, 0),
-                mColor = color,
-                mDirectionList = listOf(Right),
-                mIsDrawDivider = isDrawDivider
+                padding = Rect(0, 0, padding, 0),
+                color = color,
+                directionList = listOf(Right),
+                isDrawDivider = isDrawDivider
         )
 
     }

@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.LoadMoreItemViewBinder
-import com.lz.baselibrary.view.loadmore.adapter.factory.LoadMoreAdapterFactory
 import me.drakeet.multitype.ItemViewBinder
 import me.drakeet.multitype.MultiTypeAdapter
 import timber.log.Timber
@@ -13,20 +12,18 @@ import timber.log.Timber
  * DefaultLoadMoreAdapterDelegate
  * @author linzheng
  */
-//todo 优化参数
-class DefaultLoadMoreAdapterDelegate private constructor(
-        loadMoreAdapterFactory: LoadMoreAdapterFactory,
+//todo 优化参数 1.1
+class DefaultLoadMoreAdapterDelegate(
         listener: LoadMoreListener,
         retry: () -> Unit,
         private val adapter: MultiTypeAdapter,
-        private val getDataItem: (position: Int) -> Any?,
-        private val getDataItemCount: () -> Int
-) : LoadMoreAdapterDelegate {
+        private val callback: LoadMoreDelegateCallback
+        ) : LoadMoreAdapterDelegate {
     init {
-        adapter.register(LoadMoreStatus::class, LoadMoreItemViewBinder(loadMoreAdapterFactory, listener, this, retry))
+        adapter.register(LoadMoreStatus::class, LoadMoreItemViewBinder(listener, this, retry))
     }
 
-    override fun getItemCount() = getDataItemCount() + if (hasLoadMoreItem()) 1 else 0
+    override fun getItemCount() = callback.getDataItemCount() + if (hasLoadMoreItem()) 1 else 0
 
     override fun getItemId(position: Int): Long {
         val itemViewType = getItemViewType(position)
@@ -54,7 +51,7 @@ class DefaultLoadMoreAdapterDelegate private constructor(
         val previousHasLoadMoreItem = hasLoadMoreItem()
         this.loadMoreStatus = newStatus
         val hasLoadMoreItem = hasLoadMoreItem()
-        val dataItemCount = getDataItemCount()
+        val dataItemCount = callback.getDataItemCount()
         if (previousHasLoadMoreItem != hasLoadMoreItem) {
             if (previousHasLoadMoreItem) {
                 Timber.d("LoadMore => removed()")
@@ -102,26 +99,22 @@ class DefaultLoadMoreAdapterDelegate private constructor(
 
     private fun getItem(position: Int): Any? {
         return if (isLoadMoreItemPosition(position)) loadMoreStatus
-        else getDataItem(position)
+        else callback.getDataItem(position)
     }
 
-    override fun isLoadMoreItemPosition(position: Int) = hasLoadMoreItem() && position == getDataItemCount()
+    override fun isLoadMoreItemPosition(position: Int) = hasLoadMoreItem() && position == callback.getDataItemCount()
 
     companion object {
         fun create(
                 adapter: MultiTypeAdapter,
-                loadMoreAdapterFactory: LoadMoreAdapterFactory,
                 listener: LoadMoreListener,
-                getItem: (position: Int) -> Any?,
-                getItemCount: () -> Int,
+                callback: LoadMoreDelegateCallback,
                 retry: () -> Unit
         ): LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(
-                loadMoreAdapterFactory,
                 listener,
                 retry,
                 adapter,
-                getItem,
-                getItemCount
+                callback
         )
     }
 

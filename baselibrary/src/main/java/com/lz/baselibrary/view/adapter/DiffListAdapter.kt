@@ -8,10 +8,10 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author linzheng
  */
 class DiffListAdapter(
-        override val mWrapperAdapter: MultiTypeAdapter
-) : CommonDiffAdapter<List<Any>>(mWrapperAdapter) {
+        override val wrapperAdapter: MultiTypeAdapter
+) : CommonDiffAdapter<List<Any>>(wrapperAdapter) {
 
-    override val mDiffer: Differ<List<Any>> by lazy {
+    override val differ: Differ<List<Any>> by lazy {
         ListDiffer(this)
     }
 

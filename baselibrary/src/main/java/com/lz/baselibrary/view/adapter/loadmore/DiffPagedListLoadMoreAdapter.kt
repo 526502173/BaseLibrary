@@ -11,18 +11,18 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author linzheng
  */
 class DiffPagedListLoadMoreAdapter(
-        override val mWrapperAdapter: MultiTypeAdapter,
-        override val mRetry: () -> Unit
+        override val wrapperAdapter: MultiTypeAdapter,
+        override val retry: () -> Unit
 ) : CommonDiffLoadMoreAdapter<PagedList<Any>>(
-        mWrapperAdapter,
+        wrapperAdapter,
         object : LoadMoreListener {
             override fun onLoadMore(view: View) {
                 //ignore...
             }
         },
-        mRetry
+        retry
 ) {
-    override val mDiffer: Differ<PagedList<Any>> by lazy {
+    override val differ: Differ<PagedList<Any>> by lazy {
         PagedListDiffer(this)
     }
 }

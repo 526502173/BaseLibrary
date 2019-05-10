@@ -3,6 +3,7 @@ package com.lz.baselibrary.view.adapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.view.adapter.diff.Differ
 import com.lz.baselibrary.view.adapter.submit.SubmitDelegate
+import com.lz.baselibrary.view.loadmore.delegate.LoadMoreDelegateCallback
 import me.drakeet.multitype.ItemViewBinder
 import me.drakeet.multitype.MultiTypeAdapter
 
@@ -10,27 +11,27 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author linzheng
  */
 abstract class CommonDiffAdapter<T>(
-        override val mWrapperAdapter: MultiTypeAdapter
-) : BaseAdapter(mWrapperAdapter), SubmitDelegate<T> {
+        override val wrapperAdapter: MultiTypeAdapter
+) : BaseAdapter(wrapperAdapter), SubmitDelegate<T>, LoadMoreDelegateCallback {
 
-    abstract val mDiffer: Differ<T>
+    abstract val differ: Differ<T>
 
     override var items: List<Any>
-        get() = mDiffer.currentList
+        get() = differ.currentList
         set(value) {
             //Diff 的 Adapter 不需要指定 items，只需要调用 submitList() 方法即可
         }
 
     override fun getItemCount(): Int {
-        return mDiffer.getItemCount()
+        return differ.getItemCount()
     }
 
     override fun submitList(list: T) {
-        mDiffer.submitList(list)
+        differ.submitList(list)
     }
 
     override fun submitList(list: T, callback: Runnable) {
-        mDiffer.submitList(list, callback)
+        differ.submitList(list, callback)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
@@ -46,7 +47,11 @@ abstract class CommonDiffAdapter<T>(
     }
 
     //此方法只会在 Diff 中需要用到
-    open fun getItem(position: Int) = mDiffer.getItem(position)
+    open fun getItem(position: Int) = differ.getItem(position)
+
+    override fun getDataItem(position: Int) = getItem(position)
+
+    override fun getDataItemCount() = itemCount
 
 
 }

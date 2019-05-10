@@ -16,7 +16,7 @@ import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
  */
 class SimpleLoadMoreView(
         context: Context,
-        private val mRetry: () -> Unit
+        private val retry: () -> Unit
 ) : ConstraintLayout(context), LoadMore {
 
     /**
@@ -83,7 +83,7 @@ class SimpleLoadMoreView(
             }
             text = "点我点我"
             setOnClickListener {
-                mRetry.invoke()
+                retry.invoke()
             }
         }
     }
