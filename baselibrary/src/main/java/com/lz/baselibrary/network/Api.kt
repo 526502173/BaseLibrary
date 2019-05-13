@@ -5,7 +5,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.util.concurrent.TimeUnit
-import kotlin.reflect.KClass
 
 /**
  * Retrofit 的封装类
@@ -41,12 +40,12 @@ object Api {
     /**
      * 异步 Retrofit 对象，用于异步执行请求
      */
-    private val ASYNC_RETROFIT by lazy { buildRetrofit() }
+    val ASYNC_RETROFIT: Retrofit by lazy { buildRetrofit() }
 
     /**
      * 同步 Retrofit 对象，用于同步执行请求
      */
-    private val SYNC_RETROFIT by lazy { buildRetrofit(true) }
+    val SYNC_RETROFIT: Retrofit by lazy { buildRetrofit(true) }
 
     /**
      * 构建 Retrofit 对象
@@ -63,15 +62,4 @@ object Api {
                 .addConverterFactory(converterFactory)
                 .build()
     }
-
-    /**
-     * 将 Retrofit 中的 create() 转换到 Kotlin 中
-     */
-    fun <T : Any> createApi(clazz: KClass<out T>) = ASYNC_RETROFIT.create(clazz.java)!!
-
-    /**
-     * 通过同步 Retrofit 创建 Api 对象
-     */
-    fun <T : Any> createSyncApi(clazz: KClass<out T>) = SYNC_RETROFIT.create(clazz.java)!!
-
 }

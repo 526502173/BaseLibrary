@@ -8,7 +8,7 @@ import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
  * LoadMoreItemView
  * @author linzheng
  */
-abstract class LoadMoreAdapter(
+abstract class LoadMoreItemViewAdapter(
         open val context: Context,
         open val retry: () -> Unit
 ) : LoadMore {

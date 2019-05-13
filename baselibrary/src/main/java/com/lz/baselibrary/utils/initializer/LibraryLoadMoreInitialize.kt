@@ -2,8 +2,8 @@ package com.lz.baselibrary.utils.initializer
 
 import android.content.Context
 import com.lz.baselibrary.view.loadmore.SimpleLoadMoreViewConfig
-import com.lz.baselibrary.view.loadmore.adapter.factory.LoadMoreAdapterFactory
-import com.lz.baselibrary.view.loadmore.adapter.factory.SimpleLoadMoreAdapterFactory
+import com.lz.baselibrary.view.loadmore.adapter.factory.DefaultLoadMoreItemViewAdapterFactory
+import com.lz.baselibrary.view.loadmore.adapter.factory.LoadMoreItemViewAdapterFactory
 
 /**
  * LoadMore 功能的初始化
@@ -22,15 +22,15 @@ class LibraryLoadMoreInitialize : SimpleInitialize() {
     open fun createDefaultLoadMoreViewConfig() = SimpleLoadMoreViewConfig()
 
     /**
-     * 创建默认的 [SimpleLoadMoreAdapterFactory] 对象
+     * 创建默认的 [DefaultLoadMoreItemViewAdapterFactory] 对象
      */
-    open fun createDefaultFactory() = SimpleLoadMoreAdapterFactory()
+    open fun createDefaultFactory() = DefaultLoadMoreItemViewAdapterFactory()
 
     companion object {
         /**
          * LoadMoreAdapterFactory
          */
-        lateinit var sLoadMoreAdapterFactory: LoadMoreAdapterFactory
+        lateinit var sLoadMoreAdapterFactory: LoadMoreItemViewAdapterFactory
 
         /**
          * LoadMoreViewConfig

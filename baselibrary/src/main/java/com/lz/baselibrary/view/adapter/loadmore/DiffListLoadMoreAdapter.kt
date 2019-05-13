@@ -1,21 +1,15 @@
 package com.lz.baselibrary.view.adapter.loadmore
 
 import com.lz.baselibrary.view.adapter.diff.Differ
-import com.lz.baselibrary.view.adapter.diff.ListDiffer
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
+import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
 import me.drakeet.multitype.MultiTypeAdapter
 
 /**
+ * Diff + LoadMore + MultiType
  * @author linzheng
  */
 class DiffListLoadMoreAdapter(
-        override val wrapperAdapter: MultiTypeAdapter,
-        override val listener: LoadMoreListener,
-        override val retry: () -> Unit
-) : CommonDiffLoadMoreAdapter<List<Any>>(wrapperAdapter, listener, retry) {
-
-    override val differ: Differ<List<Any>> by lazy {
-        ListDiffer(this)
-    }
-
-}
+        wrapperAdapter: MultiTypeAdapter,
+        delegate: LoadMoreAdapterDelegate,
+        differ: Differ<List<Any>>
+) : CommonDiffLoadMoreAdapter<List<Any>>(wrapperAdapter, delegate, differ)

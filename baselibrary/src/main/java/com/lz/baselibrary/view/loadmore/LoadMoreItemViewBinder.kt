@@ -6,7 +6,7 @@ import com.lz.baselibrary.base.BaseViewHolder
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
-import com.lz.baselibrary.view.loadmore.adapter.LoadMoreAdapter
+import com.lz.baselibrary.view.loadmore.adapter.LoadMoreItemViewAdapter
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
 import me.drakeet.multitype.ItemViewBinder
 import timber.log.Timber
@@ -30,7 +30,7 @@ class LoadMoreItemViewBinder(
      * LoadMoreViewHolder
      */
     class LoadMoreViewHolder(
-            private val mAdapter: LoadMoreAdapter,
+            private val mAdapter: LoadMoreItemViewAdapter,
             private val mLoadMoreAdapterDelegate: LoadMoreAdapterDelegate,
             private val mLoadMoreListener: LoadMoreListener
     ) : BaseViewHolder<LoadMoreStatus>(mAdapter.mItemView) {

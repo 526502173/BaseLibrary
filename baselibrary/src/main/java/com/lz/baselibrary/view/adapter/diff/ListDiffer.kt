@@ -1,14 +1,11 @@
 package com.lz.baselibrary.view.adapter.diff
 
 import androidx.recyclerview.widget.AsyncListDiffer
-import me.drakeet.multitype.MultiTypeAdapter
 
 /**
  * @author linzheng
  */
-class ListDiffer(
-        private val adapter: MultiTypeAdapter
-) : SimpleDiffer<List<Any>>() {
+class ListDiffer : SimpleDiffer<List<Any>>() {
 
     override fun submitList(newList: List<Any>, callback: Runnable) {
         mAsyncListDiffer.submitList(newList, callback)

@@ -14,6 +14,7 @@ import com.lz.baselibrary.bindUIStatus
 import com.lz.baselibrary.dp2px
 import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
+import com.lz.baselibrary.view.adapter.factory.AdapterFactory
 import com.lz.baselibrary.view.adapter.DiffListAdapter
 import com.lz.baselibrary.view.adapter.loadmore.DiffListLoadMoreAdapter
 import com.lz.baselibrary.view.adapter.loadmore.LoadMoreAdapter
@@ -35,19 +36,19 @@ class ListActivity : LibraryBaseListActivity() {
 
     //Diff + MultiType
     private val mDiffListAdapter: DiffListAdapter by lazy {
-        DiffListAdapter(adapter)
+        AdapterFactory.createDiffListAdapter(adapter)
     }
 
     //LoadMore + MultiType
     private val mLoadMoreAdapter: LoadMoreAdapter by lazy {
-        LoadMoreAdapter(adapter, mViewModel) {
+        AdapterFactory.createLoadMoreAdapter(adapter, mViewModel) {
             //retry
         }
     }
 
     //LoadMore + MultiType + Diff
     private val mDiffLoadMoreAdapter: DiffListLoadMoreAdapter by lazy {
-        DiffListLoadMoreAdapter(adapter, mViewModel) {
+        AdapterFactory.createDiffListLoadMoreAdapter(adapter, mViewModel) {
             //retry
         }
     }

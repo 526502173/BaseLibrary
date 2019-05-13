@@ -9,10 +9,10 @@ import com.lz.baselibrary.view.itemdecoration.loadmore.SimpleLoadMoreView
  * SimpleLoadMoreAdapter
  * @author linzheng
  */
-class SimpleLoadMoreAdapter(
+class DefaultLoadMoreItemViewAdapter(
         override val context: Context,
         override val retry: () -> Unit
-) : LoadMoreAdapter(context, retry) {
+) : LoadMoreItemViewAdapter(context, retry) {
 
     override val mItemView: View by lazy {
         SimpleLoadMoreView.create(context, retry)

@@ -6,6 +6,8 @@ import com.lz.baselibrary.R
 import com.lz.baselibrary.base.LibraryBaseActivity
 import com.lz.baselibrary.view.wrapper.CustomWrapperView
 import org.jetbrains.anko.startActivity
+import retrofit2.Retrofit
+import java.io.IOException
 
 
 class MainActivity : LibraryBaseActivity() {

@@ -61,6 +61,7 @@ class ArticleDataSource(
                         uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_NO_MORE)
                         callback.onResult(it, null, null)
                     } else {
+                        uiStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_READY)
                         callback.onResult(it, null, 2)
                     }
                 }, LibraryLoadMoreApiConsumer(uiStatusData))

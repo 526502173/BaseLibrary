@@ -14,16 +14,20 @@ import timber.log.Timber
  */
 //todo 优化参数 1.1
 class DefaultLoadMoreAdapterDelegate(
-        listener: LoadMoreListener,
-        retry: () -> Unit,
         private val adapter: MultiTypeAdapter,
-        private val callback: LoadMoreDelegateCallback
-        ) : LoadMoreAdapterDelegate {
+        listener: LoadMoreListener,
+        retry: () -> Unit
+) : LoadMoreAdapterDelegate {
+
+    override lateinit var callback: LoadMoreDelegateCallback
+
     init {
         adapter.register(LoadMoreStatus::class, LoadMoreItemViewBinder(listener, this, retry))
     }
 
-    override fun getItemCount() = callback.getDataItemCount() + if (hasLoadMoreItem()) 1 else 0
+    override fun getItemCount() = if (this::callback.isInitialized) {
+        callback.getDataItemCount() + if (hasLoadMoreItem()) 1 else 0
+    } else 0
 
     override fun getItemId(position: Int): Long {
         val itemViewType = getItemViewType(position)
@@ -46,6 +50,7 @@ class DefaultLoadMoreAdapterDelegate(
     override fun hasLoadMoreItem() = loadMoreStatus != null && loadMoreStatus != LoadMoreStatus.LOAD_MORE_DISABLE
 
     override fun bindLoadMoreStatus(newStatus: LoadMoreStatus) {
+        if (!this::callback.isInitialized) return
         Timber.d("LoadMore => newStatus = $newStatus oldStatus = $loadMoreStatus")
         val previousStatus = loadMoreStatus
         val previousHasLoadMoreItem = hasLoadMoreItem()
@@ -93,28 +98,32 @@ class DefaultLoadMoreAdapterDelegate(
         bindLoadMoreStatus(LoadMoreStatus.LOAD_MORE_READY)
     }
 
+    /**
+     * 此方法来之 MultiTypeAdapter 中，用于从 Types 中获取到对应的 ItemViewBinder 对象
+     */
     private fun getOutBinderByViewHolder(holder: RecyclerView.ViewHolder): ItemViewBinder<Any, RecyclerView.ViewHolder> {
         return adapter.types.getType<Any>(holder.itemViewType).binder as ItemViewBinder<Any, RecyclerView.ViewHolder>
     }
 
     private fun getItem(position: Int): Any? {
-        return if (isLoadMoreItemPosition(position)) loadMoreStatus
-        else callback.getDataItem(position)
+        return if (this::callback.isInitialized) {
+            if (isLoadMoreItemPosition(position)) loadMoreStatus
+            else callback.getDataItem(position)
+        } else throw IllegalArgumentException("callback is not initialized!")
     }
 
     override fun isLoadMoreItemPosition(position: Int) = hasLoadMoreItem() && position == callback.getDataItemCount()
+
 
     companion object {
         fun create(
                 adapter: MultiTypeAdapter,
                 listener: LoadMoreListener,
-                callback: LoadMoreDelegateCallback,
                 retry: () -> Unit
         ): LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(
-                listener,
-                retry,
                 adapter,
-                callback
+                listener,
+                retry
         )
     }
 

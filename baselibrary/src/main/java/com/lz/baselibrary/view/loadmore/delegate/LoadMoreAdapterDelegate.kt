@@ -12,6 +12,8 @@ interface LoadMoreAdapterDelegate : LoadMore {
 
     var loadMoreStatus: LoadMoreStatus?
 
+    var callback: LoadMoreDelegateCallback
+
     fun getItemViewType(position: Int): Int
 
     fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>)

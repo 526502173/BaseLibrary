@@ -13,8 +13,7 @@ import com.lz.baselibrary.bindPagedListAdapter
 import com.lz.baselibrary.dp2px
 import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
-import com.lz.baselibrary.view.adapter.DiffPagedListAdapter
-import com.lz.baselibrary.view.adapter.loadmore.DiffPagedListLoadMoreAdapter
+import com.lz.baselibrary.view.adapter.factory.AdapterFactory
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
 import com.lz.baselibrary.viewmodel.ArticlePagingViewModel
 import com.lz.baselibrary.viewmodel.PagingViewModelFactory
@@ -27,14 +26,14 @@ class PagingActivity : LibraryBaseListActivity() {
     }
 
     //Paging + MultiType
-    private val mAdapterWrapper by lazy {
-        DiffPagedListAdapter(adapter)
+    private val mDiffAdapter by lazy {
+        AdapterFactory.createDiffPagedListAdapter(adapter)
     }
 
     //Paging + MultiType + LoadMore
     private val mLoadMoreAdapterWrapper by lazy {
-        DiffPagedListLoadMoreAdapter(adapter) {
-            mViewModel.retry()
+        AdapterFactory.createDiffPagedLoadMoreAdapter(adapter) {
+
         }
     }
 

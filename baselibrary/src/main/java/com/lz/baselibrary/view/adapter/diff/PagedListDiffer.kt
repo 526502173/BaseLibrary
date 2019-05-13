@@ -2,20 +2,18 @@ package com.lz.baselibrary.view.adapter.diff
 
 import androidx.paging.AsyncPagedListDiffer
 import androidx.paging.PagedList
-import me.drakeet.multitype.MultiTypeAdapter
 
 /**
  * @author linzheng
  */
-class PagedListDiffer(
-        private val adapter: MultiTypeAdapter
-) : SimpleDiffer<PagedList<Any>>() {
+class PagedListDiffer : SimpleDiffer<PagedList<Any>>() {
 
     override fun submitList(newList: PagedList<Any>, callback: Runnable) {
         mAsyncPagedListDiffer.submitList(newList, callback)
     }
 
     private val mAsyncPagedListDiffer: AsyncPagedListDiffer<Any> by lazy {
+        if (adapter == null) throw IllegalArgumentException("adapter is not initialized!")
         AsyncPagedListDiffer(adapter, MultiTypeDiffCallback(adapter))
     }
 
