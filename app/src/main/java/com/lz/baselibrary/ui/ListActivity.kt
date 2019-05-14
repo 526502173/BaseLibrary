@@ -19,6 +19,7 @@ import com.lz.baselibrary.view.adapter.DiffListAdapter
 import com.lz.baselibrary.view.adapter.loadmore.DiffListLoadMoreAdapter
 import com.lz.baselibrary.view.adapter.loadmore.LoadMoreAdapter
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
+import com.lz.baselibrary.view.loadmore.RetryListener
 import com.lz.baselibrary.view.recyclerview.RecyclerViewItemClickListener
 import com.lz.baselibrary.view.recyclerview.SimpleOnItemClickListener
 import com.lz.baselibrary.viewmodel.ArticleListViewModel
@@ -41,16 +42,12 @@ class ListActivity : LibraryBaseListActivity() {
 
     //LoadMore + MultiType
     private val mLoadMoreAdapter: LoadMoreAdapter by lazy {
-        AdapterFactory.createLoadMoreAdapter(adapter, mViewModel) {
-            //retry
-        }
+        AdapterFactory.createLoadMoreAdapter(adapter, mViewModel, mViewModel)
     }
 
     //LoadMore + MultiType + Diff
     private val mDiffLoadMoreAdapter: DiffListLoadMoreAdapter by lazy {
-        AdapterFactory.createDiffListLoadMoreAdapter(adapter, mViewModel) {
-            //retry
-        }
+        AdapterFactory.createDiffListLoadMoreAdapter(adapter, mViewModel, mViewModel)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,5 +85,4 @@ class ListActivity : LibraryBaseListActivity() {
 //        mViewModel.list.bindLoadMoreAdapter(this,mLoadMoreAdapter)
 //        mViewModel.list.bindDiffListAdapter(this,mDiffListAdapter)
     }
-
 }

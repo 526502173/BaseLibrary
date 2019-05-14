@@ -2,6 +2,7 @@ package com.lz.baselibrary.view.adapter
 
 import com.lz.baselibrary.view.adapter.diff.Differ
 import com.lz.baselibrary.view.adapter.submit.SubmitDelegate
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreDelegateCallback
 import me.drakeet.multitype.MultiTypeAdapter
 
@@ -26,5 +27,9 @@ open class CommonDiffAdapter<T>(
     override fun getDataItem(position: Int) = differ.getItem(position)
 
     override fun getDataItemCount() = differ.getItemCount()
+
+    override fun setLoadMoreListener(listener: LoadMoreListener) {
+        //no thing...
+    }
 
 }

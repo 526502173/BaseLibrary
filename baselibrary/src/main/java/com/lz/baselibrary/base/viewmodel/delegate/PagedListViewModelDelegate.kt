@@ -9,6 +9,7 @@ import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.network.status.NetworkStatus
 import com.lz.baselibrary.network.status.RefreshStatus
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
+import com.lz.baselibrary.view.loadmore.RetryListener
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 
@@ -18,7 +19,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class PagedListViewModelDelegate(
         private val pagingData: LiveData<PagingData>
-) : ListViewModelDelegate, SwipeRefreshLayout.OnRefreshListener, LoadMoreListener {
+) : ListViewModelDelegate, SwipeRefreshLayout.OnRefreshListener, LoadMoreListener, RetryListener {
 
     override fun onRefresh() {
         pagingData.value?.refresh?.invoke()
@@ -45,11 +46,12 @@ class PagedListViewModelDelegate(
         }
     }
 
-    override fun retry() {
+    override fun onRetry() {
         Completable.create {
             pagingData.value?.retry?.invoke()
             it.onComplete()
         }.subscribeOn(Schedulers.io()).subscribe()
     }
+
 
 }

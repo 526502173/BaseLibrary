@@ -6,15 +6,19 @@ import androidx.paging.PagedList
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lz.baselibrary.base.viewmodel.delegate.PagedListViewModelDelegate
 import com.lz.baselibrary.network.data.PagingData
+import com.lz.baselibrary.view.loadmore.RetryListener
 
 /**
  * LibraryBasePagingViewModel
  * @author linzheng
  */
-abstract class LibraryBasePagedListViewModel(
+open class LibraryBasePagedListViewModel(
         pagingData: LiveData<PagingData>,
         delegate: PagedListViewModelDelegate = PagedListViewModelDelegate(pagingData)
-) : CommonListViewModel(delegate), SwipeRefreshLayout.OnRefreshListener by delegate {
+) : CommonListViewModel(delegate),
+        SwipeRefreshLayout.OnRefreshListener by delegate,
+        RetryListener by delegate {
+
     val pagedList: LiveData<PagedList<Any>> by lazy {
         Transformations.switchMap(pagingData) {
             it.pagedList

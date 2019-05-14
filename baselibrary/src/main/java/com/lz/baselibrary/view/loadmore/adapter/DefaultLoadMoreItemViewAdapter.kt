@@ -4,15 +4,16 @@ import android.content.Context
 import android.view.View
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 import com.lz.baselibrary.view.itemdecoration.loadmore.SimpleLoadMoreView
+import com.lz.baselibrary.view.loadmore.RetryListener
 
 /**
  * SimpleLoadMoreAdapter
  * @author linzheng
  */
 class DefaultLoadMoreItemViewAdapter(
-        override val context: Context,
-        override val retry: () -> Unit
-) : LoadMoreItemViewAdapter(context, retry) {
+          context: Context,
+          retryListener: RetryListener?
+) : LoadMoreItemViewAdapter(context, retryListener) {
 
     override val mItemView: View by lazy {
         SimpleLoadMoreView.create(context, retry)
@@ -34,8 +35,8 @@ class DefaultLoadMoreItemViewAdapter(
         (mItemView as LoadMore).fail(code)
     }
 
-    override fun readly() {
-        (mItemView as LoadMore).readly()
+    override fun ready() {
+        (mItemView as LoadMore).ready()
     }
 
 }

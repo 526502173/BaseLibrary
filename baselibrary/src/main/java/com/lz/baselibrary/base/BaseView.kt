@@ -27,9 +27,4 @@ interface BaseView {
      */
     fun showEmpty()
 
-    /**
-     * 重试
-     */
-    fun retry()
-
 }

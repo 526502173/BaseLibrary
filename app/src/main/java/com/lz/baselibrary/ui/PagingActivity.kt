@@ -3,6 +3,7 @@ package com.lz.baselibrary.ui
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import androidx.core.os.postDelayed
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
 import com.lz.baselibrary.view.adapter.factory.AdapterFactory
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
+import com.lz.baselibrary.view.loadmore.RetryListener
 import com.lz.baselibrary.viewmodel.ArticlePagingViewModel
 import com.lz.baselibrary.viewmodel.PagingViewModelFactory
 import kotlinx.android.synthetic.main.activity_paging.*
@@ -32,9 +34,7 @@ class PagingActivity : LibraryBaseListActivity() {
 
     //Paging + MultiType + LoadMore
     private val mLoadMoreAdapterWrapper by lazy {
-        AdapterFactory.createDiffPagedLoadMoreAdapter(adapter) {
-
-        }
+        AdapterFactory.createDiffPagedLoadMoreAdapter(adapter, mViewModel)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,10 +65,12 @@ class PagingActivity : LibraryBaseListActivity() {
         mViewModel.pagedList.bindPagedListAdapter(this, mLoadMoreAdapterWrapper)
     }
 
-    override fun retry() {
-        super.retry()
+
+    override fun onRetry() {
+        super.onRetry()
+        //todo 仿照 RefreshLayout 和 LoadMore 的方式，将 RetryListener 声明成成员变量
         Handler().postDelayed(2000) {
-            mViewModel.retry()
+            mViewModel.onRetry()
         }
     }
 

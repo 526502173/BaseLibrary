@@ -18,7 +18,8 @@ open class LibraryLoadInitialApiConsumer(
     override fun accept(t: Throwable) {
         //如果出现异常，需要将 LoadMore 功能禁用，不然重新后去数据后，会出现 LoadMore 先触发的情况
         //只用在第一次加载的时候调用即可
-         mUIStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_DISABLE)
+        //todo 在触发异常后的LoadMore在下拉刷新会崩溃，老 BUG
+        mUIStatusData.postLoadMoreStatus(LoadMoreStatus.LOAD_MORE_DISABLE)
         when (t) {
             is EmptyDataException -> {
                 postFailedUIStatus(Gloading.STATUS_EMPTY_DATA)

@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.billy.android.loading.Gloading
 import com.lz.baselibrary.base.delegate.BaseViewDelegate
+import com.lz.baselibrary.view.loadmore.RetryListener
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 
 /**
  * LibraryBaseFragment
  * @author linzheng
  */
-open abstract class LibraryBaseFragment : Fragment(), BaseView {
+open abstract class LibraryBaseFragment : Fragment(), BaseView, RetryListener {
 
     /**
      * AutoDispose
@@ -52,13 +53,13 @@ open abstract class LibraryBaseFragment : Fragment(), BaseView {
         mDelegate.showSuccess()
     }
 
-    override fun retry() {
-        mDelegate.retry()
+    override fun onRetry() {
+        mDelegate.onRetry()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mHolder = Gloading.getDefault().wrap(onCreateContentView(inflater, container)).withRetry {
-            retry()
+            onRetry()
         }
         return mHolder.wrapper
     }

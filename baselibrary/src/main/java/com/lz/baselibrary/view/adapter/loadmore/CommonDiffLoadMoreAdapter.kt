@@ -8,6 +8,7 @@ import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
 import me.drakeet.multitype.MultiTypeAdapter
 
 /**
+ * CommonDiffLoadMoreAdapter
  * @author linzheng
  */
 abstract class CommonDiffLoadMoreAdapter<T>(

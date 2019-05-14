@@ -31,7 +31,7 @@ class ArticleDataSource(
                         loadAfter(params, callback)
                     }
                 }
-                .delay(3, TimeUnit.SECONDS)
+                .delay(2, TimeUnit.SECONDS)
                 .subscribe(Consumer {
                     retry = null
                     if (it.size < 20) {
@@ -47,8 +47,7 @@ class ArticleDataSource(
                 .map { it.data.datas }
                 .doOnNext {
                     if (it.isEmpty()) throw EmptyDataException()
-                }
-                .doFinally {
+                }.doFinally {
                     uiStatusData.postRefreshStatus(RefreshStatus.REFRESH_COMPLETE)
                 }.doOnError {
                     retry = {

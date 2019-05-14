@@ -19,14 +19,12 @@ open class LibraryLoadAfterApiConsumer(
         private val mUIStatusData: UIStatusData
 ) : Consumer<Throwable> {
     override fun accept(t: Throwable) {
-        Thread.sleep(3000)
         val failCode = when (t) {
             is ConnectException, is UnknownHostException -> LOAD_MORE_FAIL_CODE_NOT_NETWORK
             is HttpException -> LOAD_MORE_FAIL_CODE_HTTP
             else -> LOAD_MORE_FAIL_CODE_OTHER
         }
         mUIStatusData.postLoadMoreStatus(LoadMoreStatus.code(failCode))
-
     }
 
 }

@@ -40,10 +40,6 @@ class ListViewDelegate(
         baseViewDelegate.showEmpty()
     }
 
-    override fun retry() {
-        baseViewDelegate.retry()
-    }
-
     override fun loadMoreFail(code: Int) {
         if (this::loadMore.isInitialized) loadMore.fail(code)
     }
@@ -61,7 +57,7 @@ class ListViewDelegate(
     }
 
     override fun loadMoreReady() {
-        if (this::loadMore.isInitialized) loadMore.readly()
+        if (this::loadMore.isInitialized) loadMore.ready()
     }
 
 }

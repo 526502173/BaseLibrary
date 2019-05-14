@@ -1,6 +1,5 @@
 package com.lz.baselibrary.view.adapter.factory
 
-import android.view.View
 import androidx.paging.PagedList
 import com.lz.baselibrary.view.adapter.CommonDiffAdapter
 import com.lz.baselibrary.view.adapter.DiffListAdapter
@@ -12,6 +11,7 @@ import com.lz.baselibrary.view.adapter.loadmore.DiffListLoadMoreAdapter
 import com.lz.baselibrary.view.adapter.loadmore.DiffPagedListLoadMoreAdapter
 import com.lz.baselibrary.view.adapter.loadmore.LoadMoreAdapter
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
+import com.lz.baselibrary.view.loadmore.RetryListener
 import com.lz.baselibrary.view.loadmore.delegate.DefaultLoadMoreAdapterDelegate
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
 import me.drakeet.multitype.MultiTypeAdapter
@@ -23,50 +23,48 @@ import me.drakeet.multitype.MultiTypeAdapter
 object AdapterFactory {
 
     fun createDiffListAdapter(wrapperAdapter: MultiTypeAdapter): DiffListAdapter {
-        return create(wrapperAdapter, false)
+        return create(wrapperAdapter, isPagedList = false, isLoadMore = false)
     }
 
     fun createDiffPagedListAdapter(wrapperAdapter: MultiTypeAdapter): DiffPagedListAdapter {
-        return create(wrapperAdapter, true)
+        return create(wrapperAdapter, isPagedList = true, isLoadMore = false)
     }
 
     fun createDiffListLoadMoreAdapter(
             wrapperAdapter: MultiTypeAdapter,
-            listener: LoadMoreListener,
-            retry: () -> Unit
+            loadMoreListener: LoadMoreListener?,
+            retryListener: RetryListener?
     ): DiffListLoadMoreAdapter {
-        return create(wrapperAdapter, false, retry, listener)
+        return create(wrapperAdapter, false, true, loadMoreListener, retryListener)
     }
 
     fun createDiffPagedLoadMoreAdapter(
             wrapperAdapter: MultiTypeAdapter,
-            retry: () -> Unit
+            retryListener: RetryListener?
     ): DiffPagedListLoadMoreAdapter {
-        //todo 消除这个空白的 LoadMoreListener
-        return create(wrapperAdapter, true, retry, object : LoadMoreListener {
-            override fun onLoadMore(view: View) {
-                // DiffPagedList 不需要使用此回调
-            }
-        })
+        return create(wrapperAdapter, isPagedList = true, isLoadMore = true, retryListener = retryListener)
     }
 
     fun createLoadMoreAdapter(
             wrapperAdapter: MultiTypeAdapter,
-            listener: LoadMoreListener,
-            retry: () -> Unit
+            loadMoreListener: LoadMoreListener?,
+            retryListener: RetryListener?
     ): LoadMoreAdapter {
-        return create(wrapperAdapter, false, retry, listener)
+        return create(wrapperAdapter, false, true, loadMoreListener, retryListener)
     }
 
     fun <T> create(
             wrapperAdapter: MultiTypeAdapter,
             isPagedList: Boolean,
-            retry: (() -> Unit)? = null,
-            listener: LoadMoreListener? = null
+            isLoadMore: Boolean,
+            loadMoreListener: LoadMoreListener? = null,
+            retryListener: RetryListener? = null
     ): T {
         val differ = if (isPagedList) PagedListDiffer() else ListDiffer()
-        val adapter = if (retry != null && listener != null) {
-            val delegate: LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate.create(wrapperAdapter, listener, retry)
+        val adapter = if (isLoadMore) {
+            val delegate: LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate.create(wrapperAdapter)
+            delegate.loadMoreListener = loadMoreListener
+            delegate.retryListener = retryListener
             val adapter = if (isPagedList) DiffPagedListLoadMoreAdapter(wrapperAdapter, delegate, differ as Differ<PagedList<Any>>)
             else DiffListLoadMoreAdapter(wrapperAdapter, delegate, differ as Differ<List<Any>>)
             delegate.callback = adapter

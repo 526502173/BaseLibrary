@@ -1,13 +1,15 @@
 package com.lz.baselibrary.base.delegate
 
+import android.view.View
 import com.billy.android.loading.Gloading
 import com.lz.baselibrary.base.BaseView
+import com.lz.baselibrary.view.loadmore.RetryListener
 
 /**
  * BaseView 的委托
  * @author linzheng
  */
-class BaseViewDelegate: BaseView {
+class BaseViewDelegate: BaseView,RetryListener {
 
     lateinit var holder: Gloading.Holder
 
@@ -27,7 +29,8 @@ class BaseViewDelegate: BaseView {
         if (this::holder.isInitialized) holder.showEmpty()
     }
 
-    override fun retry() {
+    override fun onRetry() {
         showLoading()
     }
+
 }

@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.LoadMoreItemViewBinder
+import com.lz.baselibrary.view.loadmore.RetryListener
 import me.drakeet.multitype.ItemViewBinder
 import me.drakeet.multitype.MultiTypeAdapter
 import timber.log.Timber
@@ -14,15 +15,16 @@ import timber.log.Timber
  */
 //todo 优化参数 1.1
 class DefaultLoadMoreAdapterDelegate(
-        private val adapter: MultiTypeAdapter,
-        listener: LoadMoreListener,
-        retry: () -> Unit
+        private val adapter: MultiTypeAdapter
 ) : LoadMoreAdapterDelegate {
+
+    override var loadMoreListener: LoadMoreListener? = null
+    override var retryListener: RetryListener? = null
 
     override lateinit var callback: LoadMoreDelegateCallback
 
     init {
-        adapter.register(LoadMoreStatus::class, LoadMoreItemViewBinder(listener, this, retry))
+        adapter.register(LoadMoreStatus::class, LoadMoreItemViewBinder(this))
     }
 
     override fun getItemCount() = if (this::callback.isInitialized) {
@@ -94,7 +96,7 @@ class DefaultLoadMoreAdapterDelegate(
         bindLoadMoreStatus(LoadMoreStatus.code(code))
     }
 
-    override fun readly() {
+    override fun ready() {
         bindLoadMoreStatus(LoadMoreStatus.LOAD_MORE_READY)
     }
 
@@ -114,17 +116,8 @@ class DefaultLoadMoreAdapterDelegate(
 
     override fun isLoadMoreItemPosition(position: Int) = hasLoadMoreItem() && position == callback.getDataItemCount()
 
-
     companion object {
-        fun create(
-                adapter: MultiTypeAdapter,
-                listener: LoadMoreListener,
-                retry: () -> Unit
-        ): LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(
-                adapter,
-                listener,
-                retry
-        )
+        fun create(adapter: MultiTypeAdapter): LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(adapter)
     }
 
 }

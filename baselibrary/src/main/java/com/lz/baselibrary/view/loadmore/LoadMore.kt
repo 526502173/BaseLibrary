@@ -17,14 +17,14 @@ interface LoadMore {
     fun loading()
 
     /**
-     * 普通状态
+     * 禁用加载更多
      */
     fun disable()
 
     /**
      * 准备就绪
      */
-    fun readly()
+    fun ready()
 
     /**
      * 加载失败

@@ -5,6 +5,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lz.baselibrary.base.viewmodel.delegate.SimpleListViewModelDelegate
 import com.lz.baselibrary.network.data.ListData
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
+import com.lz.baselibrary.view.loadmore.RetryListener
 
 /**
  * LibraryBaseListViewModel
@@ -17,7 +18,11 @@ open class LibraryBaseListViewModel(
             it.list
         },
         delegate: SimpleListViewModelDelegate = SimpleListViewModelDelegate(page, listData)
-) : CommonListViewModel(delegate), SwipeRefreshLayout.OnRefreshListener by delegate, LoadMoreListener by delegate {
+) : CommonListViewModel(delegate),
+        SwipeRefreshLayout.OnRefreshListener by delegate,
+        LoadMoreListener by delegate ,
+        RetryListener by delegate
+{
 
     open fun bindPage(lifecycleOwner: LifecycleOwner) {
         page.observe(lifecycleOwner, Observer {

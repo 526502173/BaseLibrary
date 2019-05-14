@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.lz.baselibrary.dp2px
 import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
+import com.lz.baselibrary.view.loadmore.RetryListener
 
 /**
  * 实现 LoadMore 接口的自定义 Layout
@@ -16,7 +17,7 @@ import com.lz.baselibrary.utils.initializer.LibraryLoadMoreInitialize
  */
 class SimpleLoadMoreView(
         context: Context,
-        private val retry: () -> Unit
+        private val retryListener: RetryListener?
 ) : ConstraintLayout(context), LoadMore {
 
     /**
@@ -83,7 +84,7 @@ class SimpleLoadMoreView(
             }
             text = "点我点我"
             setOnClickListener {
-                retry.invoke()
+                retryListener?.onRetry()
             }
         }
     }
@@ -114,7 +115,7 @@ class SimpleLoadMoreView(
         //一般情况下，触发这个状态的时候，该 Item 都是不可见的，所以不用改变 UI
     }
 
-    override fun readly() {
+    override fun ready() {
         //noting
     }
 
@@ -139,8 +140,8 @@ class SimpleLoadMoreView(
          */
         fun create(
                 context: Context,
-                retry: () -> Unit
-        ) = SimpleLoadMoreView(context, retry).apply {
+                loadMoreListener: RetryListener?
+        ) = SimpleLoadMoreView(context, loadMoreListener).apply {
             layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, mConfig.layoutHeight.dp2px(context))
             addView(mProgressBar)
             addView(mTextView)

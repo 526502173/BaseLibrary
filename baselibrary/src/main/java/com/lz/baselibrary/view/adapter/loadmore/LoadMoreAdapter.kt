@@ -3,6 +3,7 @@ package com.lz.baselibrary.view.adapter.loadmore
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.view.adapter.BaseAdapter
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreDelegateCallback
 import me.drakeet.multitype.MultiTypeAdapter
@@ -15,6 +16,9 @@ class LoadMoreAdapter(
         private val wrapperAdapter: MultiTypeAdapter,
         private val delegate: LoadMoreAdapterDelegate
 ) : BaseAdapter(wrapperAdapter), LoadMore by delegate, LoadMoreDelegateCallback {
+
+    override fun setLoadMoreListener(listener: LoadMoreListener) {
+    }
 
     override var items: List<Any>
         get() = wrapperAdapter.items
@@ -33,5 +37,6 @@ class LoadMoreAdapter(
     override fun getDataItem(position: Int) = items[position]
 
     override fun getDataItemCount() = items.size
+
 
 }

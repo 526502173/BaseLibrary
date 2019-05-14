@@ -10,15 +10,20 @@ import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.network.status.NetworkStatus
 import com.lz.baselibrary.network.status.RefreshStatus
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
+import com.lz.baselibrary.view.loadmore.RetryListener
 
 /**
  * MutableListDelegate
  * @author linzheng
  */
 class SimpleListViewModelDelegate(
-        private val page : MutableLiveData<Int>,
+        private val page: MutableLiveData<Int>,
         private val listData: LiveData<ListData>
-) : ListViewModelDelegate,SwipeRefreshLayout.OnRefreshListener,LoadMoreListener {
+) : ListViewModelDelegate, SwipeRefreshLayout.OnRefreshListener, LoadMoreListener, RetryListener {
+
+    override fun onRetry() {
+        listData.value?.retry?.invoke()
+    }
 
     override fun onRefresh() {
         page.value = 1
@@ -43,10 +48,6 @@ class SimpleListViewModelDelegate(
         Transformations.switchMap(listData) {
             it.uiStatus.loadMoreStatus
         }
-    }
-
-    override fun retry() {
-        listData.value?.retry?.invoke()
     }
 
 }

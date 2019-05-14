@@ -3,6 +3,8 @@ package com.lz.baselibrary.view.loadmore.delegate
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.network.status.LoadMoreStatus
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
+import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
+import com.lz.baselibrary.view.loadmore.RetryListener
 
 /**
  * LoadMoreAdapterDelegate
@@ -11,6 +13,10 @@ import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
 interface LoadMoreAdapterDelegate : LoadMore {
 
     var loadMoreStatus: LoadMoreStatus?
+
+    var loadMoreListener: LoadMoreListener?
+
+    var retryListener: RetryListener?
 
     var callback: LoadMoreDelegateCallback
 
