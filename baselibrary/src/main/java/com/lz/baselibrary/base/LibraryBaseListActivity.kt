@@ -66,4 +66,8 @@ abstract class LibraryBaseListActivity : LibraryBaseActivity(), ListView {
         listViewDelegate.loadMoreReady()
     }
 
+    override fun onRetry() {
+        listViewDelegate.onRetry()
+    }
+
 }

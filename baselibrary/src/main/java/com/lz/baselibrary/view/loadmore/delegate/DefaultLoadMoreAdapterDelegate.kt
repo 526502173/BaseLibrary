@@ -2,34 +2,30 @@ package com.lz.baselibrary.view.loadmore.delegate
 
 import androidx.recyclerview.widget.RecyclerView
 import com.lz.baselibrary.network.status.LoadMoreStatus
+import com.lz.baselibrary.view.adapter.loadmore.CommonLoadMoreAdapter
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
-import com.lz.baselibrary.view.loadmore.LoadMoreItemViewBinder
 import com.lz.baselibrary.view.loadmore.RetryListener
 import me.drakeet.multitype.ItemViewBinder
-import me.drakeet.multitype.MultiTypeAdapter
 import timber.log.Timber
 
 /**
  * DefaultLoadMoreAdapterDelegate
+ *
+ * 这个方法汇总的 getCount 之所以需要使用 Callback 接口回调的原因是
+ * 如果直接在这里使用 adapter 的 getItemCount 就会出现下面的情况:
+ *
+ * adapter -> delegate
+ * delegate -> adapter
+ * ....如此反复
  * @author linzheng
  */
-//todo 优化参数 1.1
-class DefaultLoadMoreAdapterDelegate(
-        private val adapter: MultiTypeAdapter
-) : LoadMoreAdapterDelegate {
+class DefaultLoadMoreAdapterDelegate : LoadMoreAdapterDelegate {
 
+    override lateinit var adapter: CommonLoadMoreAdapter
     override var loadMoreListener: LoadMoreListener? = null
     override var retryListener: RetryListener? = null
 
-    override lateinit var callback: LoadMoreDelegateCallback
-
-    init {
-        adapter.register(LoadMoreStatus::class, LoadMoreItemViewBinder(this))
-    }
-
-    override fun getItemCount() = if (this::callback.isInitialized) {
-        callback.getDataItemCount() + if (hasLoadMoreItem()) 1 else 0
-    } else 0
+    override fun getItemCount() = adapter.getDataItemCount() + if (hasLoadMoreItem()) 1 else 0
 
     override fun getItemId(position: Int): Long {
         val itemViewType = getItemViewType(position)
@@ -52,16 +48,16 @@ class DefaultLoadMoreAdapterDelegate(
     override fun hasLoadMoreItem() = loadMoreStatus != null && loadMoreStatus != LoadMoreStatus.LOAD_MORE_DISABLE
 
     override fun bindLoadMoreStatus(newStatus: LoadMoreStatus) {
-        if (!this::callback.isInitialized) return
+        if (!this::adapter.isInitialized) return
         Timber.d("LoadMore => newStatus = $newStatus oldStatus = $loadMoreStatus")
         val previousStatus = loadMoreStatus
         val previousHasLoadMoreItem = hasLoadMoreItem()
         this.loadMoreStatus = newStatus
         val hasLoadMoreItem = hasLoadMoreItem()
-        val dataItemCount = callback.getDataItemCount()
+        val dataItemCount = adapter.getDataItemCount()
         if (previousHasLoadMoreItem != hasLoadMoreItem) {
             if (previousHasLoadMoreItem) {
-                Timber.d("LoadMore => removed()")
+                Timber.d("LoadMore => removed() dataItemCount = $dataItemCount")
                 adapter.notifyItemRemoved(dataItemCount)
             } else {
                 Timber.d("LoadMore => inserted()")
@@ -71,6 +67,7 @@ class DefaultLoadMoreAdapterDelegate(
             Timber.d("LoadMore => changed()")
             adapter.notifyItemChanged(dataItemCount)
         }
+        Timber.d("LoadMore => dataItemCount = $dataItemCount itemCount = ${getItemCount()}")
     }
 
     override var loadMoreStatus: LoadMoreStatus? = null
@@ -107,17 +104,15 @@ class DefaultLoadMoreAdapterDelegate(
         return adapter.types.getType<Any>(holder.itemViewType).binder as ItemViewBinder<Any, RecyclerView.ViewHolder>
     }
 
-    private fun getItem(position: Int): Any? {
-        return if (this::callback.isInitialized) {
-            if (isLoadMoreItemPosition(position)) loadMoreStatus
-            else callback.getDataItem(position)
-        } else throw IllegalArgumentException("callback is not initialized!")
-    }
+    private fun getItem(position: Int): Any? =
+            if (this::adapter.isInitialized) {
+                if (isLoadMoreItemPosition(position)) loadMoreStatus
+                else adapter.getDataItem(position)
+            } else throw IllegalArgumentException("adapter is not initialized!")
 
-    override fun isLoadMoreItemPosition(position: Int) = hasLoadMoreItem() && position == callback.getDataItemCount()
-
-    companion object {
-        fun create(adapter: MultiTypeAdapter): LoadMoreAdapterDelegate = DefaultLoadMoreAdapterDelegate(adapter)
-    }
+    override fun isLoadMoreItemPosition(position: Int) =
+            if (this::adapter.isInitialized)
+                hasLoadMoreItem() && position == adapter.getDataItemCount()
+            else throw IllegalArgumentException("adapter is not initialized!")
 
 }

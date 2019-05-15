@@ -107,8 +107,8 @@ inline fun LiveData<LoadMoreStatus>.bindLoadMoreStatus(baseActivity: LibraryBase
 /**
  * 在使用 DiffPagedListAdapter 和 DiffPagedListLoadMoreAdapter 的时候使用此方法绑定 LiveData
  */
-inline fun <T> LiveData<PagedList<T>>.bindPagedListAdapter(owner: LifecycleOwner, adapter: SubmitDelegate<PagedList<T>>) {
-    observe(owner, Observer {
+inline fun <T> LiveData<PagedList<T>>.bindPagedListAdapter(baseActivity: LibraryBaseListActivity, adapter: SubmitDelegate<PagedList<T>>) {
+    observe(baseActivity, Observer {
         adapter.submitList(it)
     })
 }

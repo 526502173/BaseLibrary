@@ -2,6 +2,7 @@ package com.lz.baselibrary.base.delegate
 
 import com.lz.baselibrary.base.ListView
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
+import com.lz.baselibrary.view.loadmore.RetryListener
 import com.lz.baselibrary.view.refresh.Refresh
 
 /**
@@ -10,7 +11,7 @@ import com.lz.baselibrary.view.refresh.Refresh
  */
 class ListViewDelegate(
         private val baseViewDelegate: BaseViewDelegate
-) : ListView {
+) : ListView, RetryListener {
 
     lateinit var refresh: Refresh
 
@@ -38,6 +39,10 @@ class ListViewDelegate(
 
     override fun showEmpty() {
         baseViewDelegate.showEmpty()
+    }
+
+    override fun onRetry() {
+        baseViewDelegate.onRetry()
     }
 
     override fun loadMoreFail(code: Int) {

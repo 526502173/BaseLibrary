@@ -1,11 +1,7 @@
 package com.lz.baselibrary.view.adapter.loadmore
 
-import androidx.recyclerview.widget.RecyclerView
-import com.lz.baselibrary.view.adapter.BaseAdapter
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMore
-import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
 import com.lz.baselibrary.view.loadmore.delegate.LoadMoreAdapterDelegate
-import com.lz.baselibrary.view.loadmore.delegate.LoadMoreDelegateCallback
 import me.drakeet.multitype.MultiTypeAdapter
 
 /**
@@ -14,10 +10,11 @@ import me.drakeet.multitype.MultiTypeAdapter
  */
 class LoadMoreAdapter(
         private val wrapperAdapter: MultiTypeAdapter,
-        private val delegate: LoadMoreAdapterDelegate
-) : BaseAdapter(wrapperAdapter), LoadMore by delegate, LoadMoreDelegateCallback {
+        delegate: LoadMoreAdapterDelegate
+) : CommonLoadMoreAdapter(wrapperAdapter, delegate), LoadMore by delegate {
 
-    override fun setLoadMoreListener(listener: LoadMoreListener) {
+    init {
+        delegate.adapter = this
     }
 
     override var items: List<Any>
@@ -25,14 +22,6 @@ class LoadMoreAdapter(
         set(value) {
             wrapperAdapter.items = value
         }
-
-    override fun getItemCount() = delegate.getItemCount()
-
-    override fun getItemViewType(position: Int) = delegate.getItemViewType(position)
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
-        delegate.onBindViewHolder(holder, position, payloads)
-    }
 
     override fun getDataItem(position: Int) = items[position]
 

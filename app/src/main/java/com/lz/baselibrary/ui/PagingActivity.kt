@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.os.postDelayed
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lz.baselibrary.R
 import com.lz.baselibrary.base.LibraryBaseListActivity
 import com.lz.baselibrary.bindUIStatus
@@ -16,7 +17,6 @@ import com.lz.baselibrary.model.wanandroid.Article
 import com.lz.baselibrary.ui.multitype.ArticleItemViewBinder
 import com.lz.baselibrary.view.adapter.factory.AdapterFactory
 import com.lz.baselibrary.view.itemdecoration.BaseItemDecoration
-import com.lz.baselibrary.view.loadmore.RetryListener
 import com.lz.baselibrary.viewmodel.ArticlePagingViewModel
 import com.lz.baselibrary.viewmodel.PagingViewModelFactory
 import kotlinx.android.synthetic.main.activity_paging.*
@@ -68,7 +68,6 @@ class PagingActivity : LibraryBaseListActivity() {
 
     override fun onRetry() {
         super.onRetry()
-        //todo 仿照 RefreshLayout 和 LoadMore 的方式，将 RetryListener 声明成成员变量
         Handler().postDelayed(2000) {
             mViewModel.onRetry()
         }

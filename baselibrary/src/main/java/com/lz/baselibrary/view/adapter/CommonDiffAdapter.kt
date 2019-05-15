@@ -3,7 +3,6 @@ package com.lz.baselibrary.view.adapter
 import com.lz.baselibrary.view.adapter.diff.Differ
 import com.lz.baselibrary.view.adapter.submit.SubmitDelegate
 import com.lz.baselibrary.view.itemdecoration.loadmore.LoadMoreListener
-import com.lz.baselibrary.view.loadmore.delegate.LoadMoreDelegateCallback
 import me.drakeet.multitype.MultiTypeAdapter
 
 /**
@@ -12,7 +11,7 @@ import me.drakeet.multitype.MultiTypeAdapter
 open class CommonDiffAdapter<T>(
         wrapperAdapter: MultiTypeAdapter,
         private val differ: Differ<T>
-) : BaseAdapter(wrapperAdapter), SubmitDelegate<T> by differ, LoadMoreDelegateCallback {
+) : BaseAdapter(wrapperAdapter), SubmitDelegate<T> by differ {
 
     override var items: List<Any>
         get() = differ.currentList
@@ -23,10 +22,6 @@ open class CommonDiffAdapter<T>(
     override fun getItemCount(): Int {
         return differ.getItemCount()
     }
-
-    override fun getDataItem(position: Int) = differ.getItem(position)
-
-    override fun getDataItemCount() = differ.getItemCount()
 
     override fun setLoadMoreListener(listener: LoadMoreListener) {
         //no thing...
